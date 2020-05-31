@@ -53,8 +53,8 @@ void ortho_test(  ) {
     y1 = a[2] - 1.1*a[2];
     y2 = b[2] + 1.1*b[2];
 
-    cout << "x1 = " << x1 << "\tx2 = " << x2 << endl;
-    cout << "y1 = " << y1 << "\ty2 = " << y2 << endl;
+    // cout << "x1 = " << x1 << "\tx2 = " << x2 << endl;
+    // cout << "y1 = " << y1 << "\ty2 = " << y2 << endl;
     TCanvas * c0 = new TCanvas("c0", "c0", 600, 500);
     c0->cd();
     h0 = new TH1D("h0", "", 100, x1, x2);
