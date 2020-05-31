@@ -13,6 +13,8 @@ void ortho_test(  ) {
     double b[3 + 1];
     int i, j;
 
+    cout << "\nInput vector coordinates: " << endl;
+
     for (i = 1; i<=3; i++) {
         cout << " a[" << i << "] = ";
         cin >> a[i];
@@ -26,8 +28,12 @@ void ortho_test(  ) {
     double a_dot_b = 0.;
     for (i=1; i<=3; i++) a_dot_b += a[i] * b[i];
 
-    if (a_dot_b == 0.) cout << "Vectors are orthogonal" << endl;
-
-    cout << "test complete: prgram has run" << endl;
+    if (a_dot_b == 0.) {
+        cout << "Vectors are orthogonal" << endl;
+    }
+    else {
+        cout << "Vectors are not orthogonal" << endl;
+        cout << "Dot product = " << a_dot_b << endl;
+    }
 
 }
