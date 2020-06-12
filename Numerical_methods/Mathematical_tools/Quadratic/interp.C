@@ -1,10 +1,10 @@
 // interp.C
 // Uses Lagrange polynomials to fit quadratic function to three data points
 
-# include "math.h"
 # include "Matrix.h"
 # include "TCanvas.h"
 # include "TGraphErrors.h"
+# include "math.h"
 
 # include <assert.h>
 # include <iostream>
