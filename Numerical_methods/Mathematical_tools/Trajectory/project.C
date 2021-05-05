@@ -3,7 +3,6 @@
 // A basic program for calculating the trajectory of a projectile under constant acceleration.
 // Assumes no wind resistance or aerodynamic effects (will add those soon.)
 
-//# include "NumMeth.h"
 # include "TCanvas.h"
 # include "TGraph.h"
 # include "TH1.h"
