@@ -5,12 +5,16 @@
 
 //# include "NumMeth.h"
 # include "TCanvas.h"
+# include "TGraph.h"
 # include "TH1.h"
+# include "TLegend.h"
 # include "TMath.h"
 
 # include <cmath>
 # include <fstream>
 # include <iostream>
+
+# include "style.h"
 
 using namespace std;
 
@@ -60,6 +64,7 @@ void project() {
     yNoAir = new double [maxStep];
 
     // main loop
+    int cnt = 0;
     for (iStep = 0; iStep<maxStep; iStep++) {
         xplot[iStep] = r[0];
         yplot[iStep] = r[1];
@@ -83,41 +88,47 @@ void project() {
             yplot[iStep] = r[1];
             break;
         }
+        cnt++;
     }
     cout << "Maximum range = " << r[0] << " meters" << endl;
     cout << "Time of flight = " << iStep*tau << " seconds" << endl;
 
-    ofstream xplotOut("xplot.txt");
-    ofstream yplotOut("yplot.txt");
-    ofstream xNoAirOut("xNoAir.txt");
-    ofstream yNoAirOut("yNoAir.txt");
-
-    xplotOut << "Initial height (m): " << y << endl;
-    xplotOut << "Initial speed (m/s): " << speed << endl;
-    xplotOut << "Initial angle (degrees): " << theta << endl;
-    xplotOut << "Timestep : " << tau << "\n" << endl;
-
-    yplotOut << "Initial height (m): " << y << endl;
-    yplotOut << "Initial speed (m/s): " << speed << endl;
-    yplotOut << "Initial angle (degrees): " << theta << endl;
-    yplotOut << "Timestep : " << tau << "\n" << endl;
-
-    xNoAirOut << "Initial height (m): " << y << endl;
-    xNoAirOut << "Initial speed (m/s): " << speed << endl;
-    xNoAirOut << "Initial angle (degrees): " << theta << endl;
-    xNoAirOut << "Timestep : " << tau << "\n" << endl;
-
-    yNoAirOut << "Initial height (m): " << y << endl;
-    yNoAirOut << "Initial speed (m/s): " << speed << endl;
-    yNoAirOut << "Initial angle (degrees): " << theta << endl;
-    yNoAirOut << "Timestep : " << tau << "\n" << endl;
+    ofstream dataOut("data.txt");
+    dataOut << "Initial height (m): " << y << endl;
+    dataOut << "Initial speed (m/s): " << speed << endl;
+    dataOut << "Initial angle (degrees): " << theta << endl;
+    dataOut << "Timestep : " << tau << "\n" << endl;
+    dataOut << "Maximum range = " << r[0] << " meters" << endl;
+    dataOut << "Time of flight = " << iStep*tau << " seconds\n" << endl;
+    dataOut << "xplot \t yplot \t xNoAir \t yNoAir" << endl;
 
     for (int i = 0; i<iStep; i++) {
-        xplotOut << xplot[i] << endl;
-        yplotOut << yplot[i] << endl;
-        xNoAirOut << xNoAir[i] << endl;
-        yNoAirOut << yNoAir[i] << endl;
+        dataOut << xplot[i] << "\t " << yplot[i] << "\t " << xNoAir[i] << "\t " << yNoAir[i] << endl;
     }
+
+    // plotting
+    TCanvas * c0 = new TCanvas("c0", "c0", 600, 500);
+    c0->cd();
+    TGraph * g0 = new TGraph(cnt, xplot, yplot);
+    g0->GetXaxis()->SetTitle("Range (m)");
+    g0->GetYaxis()->SetTitle("Height (m)");
+    g0->SetMarkerStyle(21);
+    g0->SetMarkerSize(1.3);
+    g0->SetMarkerColor(kBlue);
+    g0->SetLineColor(kBlue);
+    g0->Draw("APL");
+    TGraph * g1 = new TGraph(cnt, xNoAir, yNoAir);
+    g1->SetMarkerStyle(20);
+    g1->SetMarkerSize(1.4);
+    g1->SetMarkerColor(kRed);
+    g1->SetLineColor(kRed);
+    g1->Draw("same PL");
+    TLegend * leg0 = new TLegend(0.44, 0.19, 0.69, 0.32);
+    SetLegend(leg0, 21);
+    leg0->AddEntry(g0, "No air", "lp");
+    leg0->AddEntry(g1, "Air resistance", "lp");
+    leg0->Draw();
+    c0->Print("plot.pdf","pdf");
 
     delete[] xplot, yplot, xNoAir, yNoAir;
 
