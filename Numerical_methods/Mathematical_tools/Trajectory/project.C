@@ -52,7 +52,7 @@ void project() {
     double air_const = -0.5*Cd*rho*area/mass;
     double tau;
     cout << "Timestep (seconds): "; cin >> tau;
-    int iStep, maxStep = 1000;
+    int iStep, maxStep = 1e5;
     double *xplot, *yplot, *xNoAir, *yNoAir;
     xplot  = new double [maxStep];
     yplot  = new double [maxStep];
@@ -73,6 +73,52 @@ void project() {
         a[1] = air_const*normV*v[1];
         a[1] -= grav;
 
+        // Euler method
+        r[0] += tau*v[0];
+        r[1] += tau*v[1];
+        v[0] += tau*tau*a[0];
+        v[1] += tau*tau*a[1];
+        if (r[1] < 0) {
+            xplot[iStep] = r[0];
+            yplot[iStep] = r[1];
+            break;
+        }
     }
+    cout << "Maximum range = " << r[0] << " meters" << endl;
+    cout << "Time of flight = " << iStep*tau << " seconds" << endl;
+
+    ofstream xplotOut("xplot.txt");
+    ofstream yplotOut("yplot.txt");
+    ofstream xNoAirOut("xNoAir.txt");
+    ofstream yNoAirOut("yNoAir.txt");
+
+    xplotOut << "Initial height (m): " << y << endl;
+    xplotOut << "Initial speed (m/s): " << speed << endl;
+    xplotOut << "Initial angle (degrees): " << theta << endl;
+    xplotOut << "Timestep : " << tau << "\n" << endl;
+
+    yplotOut << "Initial height (m): " << y << endl;
+    yplotOut << "Initial speed (m/s): " << speed << endl;
+    yplotOut << "Initial angle (degrees): " << theta << endl;
+    yplotOut << "Timestep : " << tau << "\n" << endl;
+
+    xNoAirOut << "Initial height (m): " << y << endl;
+    xNoAirOut << "Initial speed (m/s): " << speed << endl;
+    xNoAirOut << "Initial angle (degrees): " << theta << endl;
+    xNoAirOut << "Timestep : " << tau << "\n" << endl;
+
+    yNoAirOut << "Initial height (m): " << y << endl;
+    yNoAirOut << "Initial speed (m/s): " << speed << endl;
+    yNoAirOut << "Initial angle (degrees): " << theta << endl;
+    yNoAirOut << "Timestep : " << tau << "\n" << endl;
+
+    for (int i = 0; i<iStep; i++) {
+        xplotOut << xplot[i] << endl;
+        yplotOut << yplot[i] << endl;
+        xNoAirOut << xNoAir[i] << endl;
+        yNoAirOut << yNoAir[i] << endl;
+    }
+
+    delete[] xplot, yplot, xNoAir, yNoAir;
 
 }
