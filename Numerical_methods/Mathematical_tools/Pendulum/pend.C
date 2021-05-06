@@ -2,6 +2,7 @@
 // Computes motion using either the Euler or Verlet methods.
 // Adaptation from A. Garcia's "Numerical Methods for Physics".
 
+# include "TAxis.h"
 # include "TCanvas.h"
 # include "TGraph.h"
 # include "TGraphErrors.h"
@@ -92,7 +93,14 @@ void pend() {
     TCanvas * c0 = new TCanvas("c0", "c0", 600, 500);
     c0->cd();
     TGraph * g0 = new TGraph(rev, t_plot, th_plot);
+    g0->GetXaxis()->SetTitle("Time [s]");
+    g0->GetYaxis()->SetTitle("#theta [degrees]");
+    g0->SetMarkerStyle(20);
+    g0->SetMarkerSize(1.1);
+    g0->SetMarkerColor(kBlue);
+    g0->SetLineColor(kBlue);
     g0->Draw("APL");
+    c0->Print("plot.pdf", "pdf");
 
     delete[] t_plot, th_plot, T;
 
