@@ -86,15 +86,6 @@ public:
         otHours = 0;
         otPay = 0;
         grossPay = regPay;
-        // if (hours > 40) {
-        //     otHours = (hours - 40);
-        //     otPay = (otHours*hourlyRate);
-        //     grossPay = (regPay + otPay);
-        // } else if (hours <= 40) {
-        //     otHours = 0;
-        //     otPay = 0;
-        //     grossPay = regPay;
-        // }
         return grossPay;
     }
 };
@@ -132,7 +123,7 @@ void payroll() {
     employee * employee[100];
 
     while (employeeCounter<totalEmployeeCount) {
-        cout << "Is employee " << employeeCounter+1 << " hourly or salary? (enter 1 for hourly, 2 for salary):";
+        cout << "Is employee " << employeeCounter+1 << " hourly, salary, or salary with OT? (enter 1 for hourly, 2 for salary, 3 for salary with OT):";
         cin >> stat;
 
         if (stat == 1) {
@@ -156,7 +147,7 @@ void payroll() {
             employee[employeeCounter]->calculateNetPay();
             employeeCounter++;
             cout << "\n" << endl;
-        } else {
+        } else if (stat == 2) {
              cout << "Initializing a SALARY employee object in herited from base class employee" << endl << endl;
 
              cout << "Enter employee's ID: ";
@@ -171,6 +162,27 @@ void payroll() {
              cin >> hrs;
 
              employee[employeeCounter] = new employeeSalary();
+             employee[employeeCounter]->setVariables( empID, fName, lName, stat, rate, hrs );
+             employee[employeeCounter]->calculateGrossPay();
+             employee[employeeCounter]->calculateTaxAmount();
+             employee[employeeCounter]->calculateNetPay();
+             employeeCounter++;
+             cout << "\n" << endl;
+         } else {
+             cout << "Initializing a SALARY  with OT employee object in herited from base class employee" << endl << endl;
+
+             cout << "Enter employee's ID: ";
+             cin >> empID;
+             cout << "Employee's first name: ";
+             cin >> fName;
+             cout << "Employee's last name: ";
+             cin >> lName;
+             cout << "Employeer's annual salary: ";
+             cin >> rate;
+             cout << "Employee's hours: ";
+             cin >> hrs;
+
+             employee[employeeCounter] = new employeeSalaryOT();
              employee[employeeCounter]->setVariables( empID, fName, lName, stat, rate, hrs );
              employee[employeeCounter]->calculateGrossPay();
              employee[employeeCounter]->calculateTaxAmount();
