@@ -54,8 +54,8 @@ public:
         // cout << firstName << " " << setw(6) << lastName << setw(6) << employeeID << setw(10) << hours << setw(3)
         //      << otHours << setw(8) << grossPay << setw(8) << netPay << setw(8) << otPay << endl;
         //-------------
-        cout << firstName << " " << lastName << "\t" << employeeID << "\t" << hours << "\t"
-        << otHours << "\t" << grossPay << "\t" << netPay << "\t" << otPay << endl;
+        cout << firstName << " " << lastName << "\t" << employeeID << "\t" << hours << "\t "
+        << otHours << "\t " << grossPay << "\t " << netPay << "\t " << otPay << endl;
     }
 
 };
@@ -81,8 +81,8 @@ public:
 class employeeSalary : public employee {
 public:
     double calculateGrossPay() {
+        double hourlyRate = ((salary/52.)/40.);
         double regPay = hours*hourlyRate;
-        double hourlyRate = ((salary/52)/40);
         otHours = 0;
         otPay = 0;
         grossPay = regPay;
@@ -93,8 +93,8 @@ public:
 class employeeSalaryOT : public employee {
 public:
     double calculateGrossPay() {
-        double regPay = hours*hourlyRate;
         double hourlyRate = ((salary/52)/40);
+        double regPay = hours*hourlyRate;
         if (hours > 40) {
             otHours = (hours - 40);
             otPay = (otHours*hourlyRate);
@@ -125,6 +125,11 @@ void payroll() {
     while (employeeCounter<totalEmployeeCount) {
         cout << "Is employee " << employeeCounter+1 << " hourly, salary, or salary with OT? (enter 1 for hourly, 2 for salary, 3 for salary with OT):";
         cin >> stat;
+        while (stat<1 || stat>3) {
+            cout << "Incorrect input format!!! " << endl;
+            cout << "Is employee " << employeeCounter+1 << " hourly, salary, or salary with OT? (enter 1 for hourly, 2 for salary, 3 for salary with OT):";
+            cin >> stat;
+        }
 
         if (stat == 1) {
             cout << "Initializing an HOURLY employee object inherited from base class employee" << endl << endl;
@@ -191,8 +196,10 @@ void payroll() {
              cout << "\n" << endl;
          }
     }
+
+    string header = "Name             Emp ID       Hours    Hours OT    Gross pay    Net pay    OT pay";
     cout << "----------------------------------\n";
-    cout << "Name             Emp ID       Hours   Hours OT   Gross pay   Net pay   OT pay" << endl;
+    cout << header << endl;
     for (int i = 0; i<employeeCounter; i++) {
         employee[i]->printData();
     }
