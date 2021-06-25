@@ -60,24 +60,6 @@ public:
 
 };
 
-class employeeSalary : public employee {
-public:
-    double calculateGrossPay() {
-        double regPay = hours*hourlyRate;
-        double hourlyRate = ((salary/52)/40);
-        if (hours > 40) {
-            otHours = (hours - 40);
-            otPay = (otHours*hourlyRate);
-            grossPay = (regPay + otPay);
-        } else if (hours <= 40) {
-            otHours = 0;
-            otPay = 0;
-            grossPay = regPay;
-        }
-        return grossPay;
-    }
-};
-
 class employeeHourly : public employee {
 public:
     double calculateGrossPay()
@@ -88,6 +70,45 @@ public:
             otPay = (otHours * hourlyRate * 1.5);
             grossPay = (regPay + otPay);
         } else {
+            otHours = 0;
+            otPay = 0;
+            grossPay = regPay;
+        }
+        return grossPay;
+    }
+};
+
+class employeeSalary : public employee {
+public:
+    double calculateGrossPay() {
+        double regPay = hours*hourlyRate;
+        double hourlyRate = ((salary/52)/40);
+        otHours = 0;
+        otPay = 0;
+        grossPay = regPay;
+        // if (hours > 40) {
+        //     otHours = (hours - 40);
+        //     otPay = (otHours*hourlyRate);
+        //     grossPay = (regPay + otPay);
+        // } else if (hours <= 40) {
+        //     otHours = 0;
+        //     otPay = 0;
+        //     grossPay = regPay;
+        // }
+        return grossPay;
+    }
+};
+
+class employeeSalaryOT : public employee {
+public:
+    double calculateGrossPay() {
+        double regPay = hours*hourlyRate;
+        double hourlyRate = ((salary/52)/40);
+        if (hours > 40) {
+            otHours = (hours - 40);
+            otPay = (otHours*hourlyRate);
+            grossPay = (regPay + otPay);
+        } else if (hours <= 40) {
             otHours = 0;
             otPay = 0;
             grossPay = regPay;
@@ -133,11 +154,30 @@ void payroll() {
             employee[employeeCounter]->calculateGrossPay();
             employee[employeeCounter]->calculateTaxAmount();
             employee[employeeCounter]->calculateNetPay();
-            cout << "\n" << endl;
             employeeCounter++;
+            cout << "\n" << endl;
         } else {
              cout << "Initializing a SALARY employee object in herited from base class employee" << endl << endl;
 
+             cout << "Enter employee's ID: ";
+             cin >> empID;
+             cout << "Employee's first name: ";
+             cin >> fName;
+             cout << "Employee's last name: ";
+             cin >> lName;
+             cout << "Employeer's annual salary: ";
+             cin >> rate;
+             cout << "Employee's hours: ";
+             cin >> hrs;
+
+             employee[employeeCounter] = new employeeSalary();
+             employee[employeeCounter]->setVariables( empID, fName, lName, stat, rate, hrs );
+             employee[employeeCounter]->calculateGrossPay();
+             employee[employeeCounter]->calculateTaxAmount();
+             employee[employeeCounter]->calculateNetPay();
+             employeeCounter++;
+             cout << "\n" << endl;
+         }
     }
     cout << "----------------------------------\n";
     cout << "Name             Emp ID       Hours   Hours OT   Gross pay   Net pay   OT pay" << endl;
@@ -146,5 +186,5 @@ void payroll() {
     }
     cout << "----------------------------------\n";
 
-    //return 0;
+    return;
 }
