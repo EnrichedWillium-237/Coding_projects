@@ -19,8 +19,8 @@ print(label_0.value, "\t", label_1.value, "\t", label_2.value, "\t", label_3.val
 
 Nrow = sheet.max_row
 Nrow = Nrow - 1 # offset from spreadsheet
-#print("Nrows =",Nrow)
 
+# hours per category
 hrsUnarmed = 0
 hrsArmed = 0
 hrsAdmin = 0
@@ -28,6 +28,52 @@ hrsOT = 0
 hrsTrain = 0
 hrsSick = 0
 hrsCOVID = 0
+
+# hours per payrate
+hrs_rate1_unarm = 0
+hrs_rate1_arm = 0
+hrs_rate1_admin = 0
+hrs_rate1_ot = 0
+hrs_rate1_reim = 0
+hrs_rate1_sick = 0
+hrs_rate1_covid = 0
+
+hrs_rate2_unarm = 0
+hrs_rate2_arm = 0
+hrs_rate2_admin = 0
+hrs_rate2_ot = 0
+hrs_rate2_reim = 0
+hrs_rate2_sick = 0
+hrs_rate2_covid = 0
+
+hrs_rate3_unarm = 0
+hrs_rate3_arm = 0
+hrs_rate3_admin = 0
+hrs_rate3_ot = 0
+hrs_rate3_reim = 0
+hrs_rate3_sick = 0
+hrs_rate3_covid = 0
+
+hrs_rate4_unarm = 0
+hrs_rate4_arm = 0
+hrs_rate4_admin = 0
+hrs_rate4_ot = 0
+hrs_rate4_reim = 0
+hrs_rate4_sick = 0
+hrs_rate4_covid = 0
+
+hrs_rate5_unarm = 0
+hrs_rate5_arm = 0
+hrs_rate5_admin = 0
+hrs_rate5_ot = 0
+hrs_rate5_reim = 0
+hrs_rate5_sick = 0
+hrs_rate5_covid = 0
+
+Net = 0 # total pay per employee
+GrandTot = 0 # total payroll
+GrandReim = 0 # total reimbursement
+GrandNet = 0 # total payout: total + reimbursement
 
 for i in range (2, Nrow):
 #for i in range(173, 188):
@@ -47,9 +93,16 @@ for i in range (2, Nrow):
     Reim = valReim.value
     if Reim is None:
         Reim = 0
-    Net = Tot + Reim # calculate reimbursements
+#    Net = Tot + Reim # calculate reimbursements
+    valNet = valNet.value
+    Net += valNet
     Tot_nxt = Tot
 
+    GrandTot += Tot
+    GrandReim += Reim
+    GrandNet += valNet
+
+    # Sort by category
     if Cat.__contains__("Un") and not Cat.__contains__("OT"):
         hrsUnarmed += Hours
     elif Cat.__contains__("Armed") and not Cat.__contains__("OT"):
@@ -82,13 +135,34 @@ for i in range (2, Nrow):
     Reim_nxt = Reim_nxt.value
     Net_nxt = Net_nxt.value
 
+    # Sort by payrate
+    rate1 = Rate
+    if Rate_nxt != rate1:
+        rate2 = Rate
+    if Rate_nxt != rate2:
+        rate3 = Rate
+    if Rate_nxt != rate1:
+        rate4 = Rate
+    if Rate_nxt != rate1:
+        rate5 = Rate
+    hrs_rate1_unarm = 0
+    hrs_rate1_arm = 0
+    hrs_rate1_admin = 0
+    hrs_rate1_ot = 0
+    hrs_rate1_reim = 0
+    hrs_rate1_sick = 0
+    hrs_rate1_covid = 0
+
     # Reset values for new employee name
     if Name_nxt is None:
-        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID)
+        Net = str(round(Net, 2))
+        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total pay:",Net)
         break
     if Name_nxt not in Name:
-        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID)
+        Net = str(round(Net, 2))
+        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total pay:",Net)
         Name = Name_nxt # next employee
+        Net = 0
         hrsUnarmed = 0
         hrsArmed = 0
         hrsAdmin = 0
@@ -97,6 +171,12 @@ for i in range (2, Nrow):
         hrsSick = 0
         hrsCOVID = 0
 
+GrandTot = str(round(GrandTot, 2))
+GrandReim = str(round(GrandReim, 2))
+GrandNet = str(round(GrandNet, 2))
+
+print()
+print("Total payroll:",GrandTot,"Total reimbursements:",GrandReim,"Total net payroll:",GrandNet)
 print()
 print("Done")
     #print(i,Name,Tot,Tot_nxt)
