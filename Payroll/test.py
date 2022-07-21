@@ -2,6 +2,7 @@
 
 # Source files
 import openpyxl
+import array as arr
 from openpyxl import load_workbook
 
 # Payroll file location
@@ -28,55 +29,20 @@ hrsOT = 0
 hrsTrain = 0
 hrsSick = 0
 hrsCOVID = 0
+hrsTotal = 0
 
 # hours per payrate
-hrs_rate1_unarm = 0
-hrs_rate1_arm = 0
-hrs_rate1_admin = 0
-hrs_rate1_ot = 0
-hrs_rate1_reim = 0
-hrs_rate1_sick = 0
-hrs_rate1_covid = 0
-
-hrs_rate2_unarm = 0
-hrs_rate2_arm = 0
-hrs_rate2_admin = 0
-hrs_rate2_ot = 0
-hrs_rate2_reim = 0
-hrs_rate2_sick = 0
-hrs_rate2_covid = 0
-
-hrs_rate3_unarm = 0
-hrs_rate3_arm = 0
-hrs_rate3_admin = 0
-hrs_rate3_ot = 0
-hrs_rate3_reim = 0
-hrs_rate3_sick = 0
-hrs_rate3_covid = 0
-
-hrs_rate4_unarm = 0
-hrs_rate4_arm = 0
-hrs_rate4_admin = 0
-hrs_rate4_ot = 0
-hrs_rate4_reim = 0
-hrs_rate4_sick = 0
-hrs_rate4_covid = 0
-
-hrs_rate5_unarm = 0
-hrs_rate5_arm = 0
-hrs_rate5_admin = 0
-hrs_rate5_ot = 0
-hrs_rate5_reim = 0
-hrs_rate5_sick = 0
-hrs_rate5_covid = 0
+hrs_rate = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+rate_arr = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 Net = 0 # total pay per employee
+GrandHrs = 0 # total number of hours
 GrandTot = 0 # total payroll
 GrandReim = 0 # total reimbursement
 GrandNet = 0 # total payout: total + reimbursement
 
-for i in range (2, Nrow):
-#for i in range(173, 188):
+#for i in range (2, Nrow):
+for i in range(2, 12):
     valName = sheet.cell(row=i,column=1)
     valCat = sheet.cell(row=i,column=2)
     valHours = sheet.cell(row=i,column=3)
@@ -98,6 +64,7 @@ for i in range (2, Nrow):
     Net += valNet
     Tot_nxt = Tot
 
+    GrandHrs += Hours
     GrandTot += Tot
     GrandReim += Reim
     GrandNet += valNet
@@ -119,6 +86,7 @@ for i in range (2, Nrow):
         hrsCOVID += Hours
     else:
         print("Unknown category for hours!")
+    hrsTotal += Hours
 
     Name_nxt = sheet.cell(row=i+1,column=1)
     Cat_nxt = sheet.cell(row=i+1,column=2)
@@ -136,32 +104,35 @@ for i in range (2, Nrow):
     Net_nxt = Net_nxt.value
 
     # Sort by payrate
-    rate1 = Rate
-    if Rate_nxt != rate1:
-        rate2 = Rate
-    if Rate_nxt != rate2:
-        rate3 = Rate
-    if Rate_nxt != rate1:
-        rate4 = Rate
-    if Rate_nxt != rate1:
-        rate5 = Rate
-    hrs_rate1_unarm = 0
-    hrs_rate1_arm = 0
-    hrs_rate1_admin = 0
-    hrs_rate1_ot = 0
-    hrs_rate1_reim = 0
-    hrs_rate1_sick = 0
-    hrs_rate1_covid = 0
+    k = 0
+    for j in range(0, 10):
+        nameNxt = sheet.cell(row=(i+j),column=1)
+        nameNxt = nameNxt.value
+        if nameNxt not in Name:
+            break
+        k += 1
+    for j in range(0, k):
+        nameNxt = sheet.cell(row=(i+j),column=1)
+        nameNxt = nameNxt.value
+        ratehrs = sheet.cell(row=(i+j),column=3)
+        ratehrs = ratehrs.value
+        rate1 = sheet.cell(row=(i+j),column=4)
+        rate1 = rate1.value
+        print(Name,nameNxt,i,j,k,rate1,ratehrs)
 
     # Reset values for new employee name
     if Name_nxt is None:
+        hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
-        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total pay:",Net)
+        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total hours:",hrsTotal,"Total pay:",Net)
         break
     if Name_nxt not in Name:
+        hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
-        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total pay:",Net)
+        print("Employee:",Name," Hours unarmed: ",hrsUnarmed,"armed:",hrsArmed,"admin:",hrsAdmin,"OT:",hrsOT,"training:",hrsTrain,"sick pay:",hrsSick,"COVID:",hrsCOVID,"Total hours:",hrsTotal,"Total pay:",Net)
         Name = Name_nxt # next employee
+        hrs_rate = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) # clear payrate array
+        rate_arr = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) # clear payrate array
         Net = 0
         hrsUnarmed = 0
         hrsArmed = 0
@@ -171,12 +142,13 @@ for i in range (2, Nrow):
         hrsSick = 0
         hrsCOVID = 0
 
+GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
 GrandReim = str(round(GrandReim, 2))
 GrandNet = str(round(GrandNet, 2))
 
 print()
-print("Total payroll:",GrandTot,"Total reimbursements:",GrandReim,"Total net payroll:",GrandNet)
+print("Total hours:",GrandHrs,"Total payroll:",GrandTot,"Total reimbursements:",GrandReim,"Total net payroll:",GrandNet)
 print()
 print("Done")
     #print(i,Name,Tot,Tot_nxt)
