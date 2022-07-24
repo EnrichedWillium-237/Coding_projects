@@ -24,6 +24,7 @@ print(label_0.value, "\t", label_1.value, "\t", label_2.value, "\t", label_3.val
 
 Nrow = sheet.max_row
 Nrow = Nrow - 1 # offset from spreadsheet
+Ncell = 1 # index for excel output
 
 # hours per category
 hrsUnarmed = 0
@@ -52,6 +53,27 @@ GrandHrs = 0 # total number of hours
 GrandTot = 0 # total payroll
 GrandReim = 0 # total reimbursement
 GrandNet = 0 # total payout: total + reimbursement
+
+c0 = newsheet.cell(row = 1, column = 1)
+c0.value = "Employee name"
+c0 = newsheet.cell(row = 1, column = 2)
+c0.value = "Unarmed"
+c0 = newsheet.cell(row = 1, column = 3)
+c0.value = "Armed"
+c0 = newsheet.cell(row = 1, column = 4)
+c0.value = "Admin"
+c0 = newsheet.cell(row = 1, column = 5)
+c0.value = "OT"
+c0 = newsheet.cell(row = 1, column = 6)
+c0.value = "Training"
+c0 = newsheet.cell(row = 1, column = 7)
+c0.value = "Sick"
+c0 = newsheet.cell(row = 1, column = 8)
+c0.value = "COVID"
+c0 = newsheet.cell(row = 1, column = 9)
+c0.value = "Total hours"
+c0 = newsheet.cell(row = 1, column = 10)
+c0.value = "Net pay"
 
 for i in range (2, Nrow):
 #for i in range(2, 12):
@@ -145,50 +167,52 @@ for i in range (2, Nrow):
     if Name_nxt is None:
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
-        c1 = newsheet.cell(row = i, column = 1)
+        Ncell += 1
+        c1 = newsheet.cell(row = Ncell, column = 1)
         c1.value = Name
-        c2 = newsheet.cell(row = i, column = 2)
+        c2 = newsheet.cell(row = Ncell, column = 2)
         c2.value = hrsUnarmed
-        c3 = newsheet.cell(row = i, column = 3)
+        c3 = newsheet.cell(row = Ncell, column = 3)
         c3.value = hrsArmed
-        c4 = newsheet.cell(row = i, column = 4)
+        c4 = newsheet.cell(row = Ncell, column = 4)
         c4.value = hrsAdmin
-        c5 = newsheet.cell(row = i, column = 5)
+        c5 = newsheet.cell(row = Ncell, column = 5)
         c5.value = hrsOT
-        c6 = newsheet.cell(row = i, column = 6)
+        c6 = newsheet.cell(row = Ncell, column = 6)
         c6.value = hrsTrain
-        c7 = newsheet.cell(row = i, column = 7)
+        c7 = newsheet.cell(row = Ncell, column = 7)
         c7.value = hrsSick
-        c8 = newsheet.cell(row = i, column = 8)
+        c8 = newsheet.cell(row = Ncell, column = 8)
         c8.value = hrsCOVID
-        c9 = newsheet.cell(row = i, column = 9)
+        c9 = newsheet.cell(row = Ncell, column = 9)
         c9.value = hrsTotal
-        c10 = newsheet.cell(row = i, column = 10)
+        c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
         break
     if Name_nxt not in Name:
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
-        c1 = newsheet.cell(row = i, column = 1)
+        Ncell += 1
+        c1 = newsheet.cell(row = Ncell, column = 1)
         c1.value = Name
-        c2 = newsheet.cell(row = i, column = 2)
+        c2 = newsheet.cell(row = Ncell, column = 2)
         c2.value = hrsUnarmed
-        c3 = newsheet.cell(row = i, column = 3)
+        c3 = newsheet.cell(row = Ncell, column = 3)
         c3.value = hrsArmed
-        c4 = newsheet.cell(row = i, column = 4)
+        c4 = newsheet.cell(row = Ncell, column = 4)
         c4.value = hrsAdmin
-        c5 = newsheet.cell(row = i, column = 5)
+        c5 = newsheet.cell(row = Ncell, column = 5)
         c5.value = hrsOT
-        c6 = newsheet.cell(row = i, column = 6)
+        c6 = newsheet.cell(row = Ncell, column = 6)
         c6.value = hrsTrain
-        c7 = newsheet.cell(row = i, column = 7)
+        c7 = newsheet.cell(row = Ncell, column = 7)
         c7.value = hrsSick
-        c8 = newsheet.cell(row = i, column = 8)
+        c8 = newsheet.cell(row = Ncell, column = 8)
         c8.value = hrsCOVID
-        c9 = newsheet.cell(row = i, column = 9)
+        c9 = newsheet.cell(row = Ncell, column = 9)
         c9.value = hrsTotal
-        c10 = newsheet.cell(row = i, column = 10)
+        c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
         Name = Name_nxt # next employee
@@ -209,29 +233,54 @@ GrandTot = str(round(GrandTot, 2))
 GrandReim = str(round(GrandReim, 2))
 GrandNet = str(round(GrandNet, 2))
 
-cGrandHrs = newsheet.cell(row = Nrow+2, column = 1)
+c0 = newsheet.cell(row = Ncell+2, column = 1)
+c0.value = "Total hours ($)"
+c0 = newsheet.cell(row = Ncell+2, column = 2)
+c0.value = "Total pay ($)"
+c0 = newsheet.cell(row = Ncell+2, column = 3)
+c0.value = "Reimbursement ($)"
+c0 = newsheet.cell(row = Ncell+2, column = 4)
+c0.value = "Net pay ($)"
+
+cGrandHrs = newsheet.cell(row = Ncell+3, column = 1)
 cGrandHrs.value = GrandHrs
-cGrandTot = newsheet.cell(row = Nrow+2, column = 2)
+cGrandTot = newsheet.cell(row = Ncell+3, column = 2)
 cGrandTot.value = GrandTot
-cGrandReim = newsheet.cell(row = Nrow+2, column = 3)
+cGrandReim = newsheet.cell(row = Ncell+3, column = 3)
 cGrandReim.value = GrandReim
-cGrandNet = newsheet.cell(row = Nrow+2, column = 4)
+cGrandNet = newsheet.cell(row = Ncell+3, column = 4)
 cGrandNet.value = GrandNet
 
-cGrandUnarmed = newsheet.cell(row = Nrow+3, column = 1)
+c0 = newsheet.cell(row = Ncell+5, column = 1)
+c0.value = "Total unarmed"
+c0 = newsheet.cell(row = Ncell+5, column = 2)
+c0.value = "Armed"
+c0 = newsheet.cell(row = Ncell+5, column = 3)
+c0.value = "Admin"
+c0 = newsheet.cell(row = Ncell+5, column = 4)
+c0.value = "OT"
+c0 = newsheet.cell(row = Ncell+5, column = 5)
+c0.value = "Training"
+c0 = newsheet.cell(row = Ncell+5, column = 6)
+c0.value = "Sick pay"
+c0 = newsheet.cell(row = Ncell+5, column = 7)
+c0.value = "COVID"
+
+cGrandUnarmed = newsheet.cell(row = Ncell+6, column = 1)
 cGrandUnarmed.value = GrandUnarmed
-cGrandArmed = newsheet.cell(row = Nrow+3, column = 2)
+cGrandArmed = newsheet.cell(row = Ncell+6, column = 2)
 cGrandArmed.value = GrandArmed
-cGrandAdmin = newsheet.cell(row = Nrow+3, column = 3)
+cGrandAdmin = newsheet.cell(row = Ncell+6, column = 3)
 cGrandAdmin.value = GrandAdmin
-cGrandOT = newsheet.cell(row = Nrow+3, column = 4)
+cGrandOT = newsheet.cell(row = Ncell+6, column = 4)
 cGrandOT.value = GrandOT
-cGrandTrain = newsheet.cell(row = Nrow+3, column = 5)
+cGrandTrain = newsheet.cell(row = Ncell+6, column = 5)
 cGrandTrain.value = GrandTrain
-cGrandSick = newsheet.cell(row = Nrow+3, column = 6)
+cGrandSick = newsheet.cell(row = Ncell+6, column = 6)
 cGrandSick.value = GrandSick
-cGrandCovid = newsheet.cell(row = Nrow+3, column = 7)
+cGrandCovid = newsheet.cell(row = Ncell+6, column = 7)
 cGrandCovid.value = GrandCovid
+
 newbook.save("/mnt/c/Users/Jacob/macros/test/output.xlsx")
 
 print()
