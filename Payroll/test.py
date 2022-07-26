@@ -97,8 +97,8 @@ rate10hrs = 0
 rate11hrs = 0
 rate12hrs = 0
 
-#for i in range (2, Nrow):
-for i in range(2, 25):
+for i in range (2, Nrow):
+#for i in range(2, 25):
     valName = sheet.cell(row=i,column=1)
     valCat = sheet.cell(row=i,column=2)
     valHours = sheet.cell(row=i,column=3)
@@ -176,38 +176,180 @@ for i in range(2, 25):
                 rate1hrs += Hours_tmp
             if l == 2:
                 rate2 = Rate
-                rate2hrs += Hours_tmp
+                if rate2 == rate1:
+                    rate1hrs += Hours_tmp
+                else:
+                    rate2hrs += Hours_tmp
             if l == 3:
                 rate3 = Rate
-                rate3hrs += Hours_tmp
+                if rate3 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate3 == rate2:
+                    rate2hrs += Hours_tmp
+                else:
+                    rate3hrs += Hours_tmp
             if l == 4:
                 rate4 = Rate
-                rate4hrs += Hours_tmp
+                if rate4 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate4 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate4 == rate3:
+                    rate3hrs += Hours_tmp
+                else:
+                    rate4hrs += Hours_tmp
             if l == 5:
                 rate5 = Rate
-                rate5hrs += Hours_tmp
+                if rate5 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate5 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate5 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate5 == rate4:
+                    rate4hrs += Hours_tmp
+                else:
+                    rate5hrs += Hours_tmp
             if l == 6:
                 rate6 = Rate
-                rate6hrs += Hours_tmp
+                if rate6 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate6 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate6 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate6 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate6 == rate5:
+                    rate5hrs += Hours_tmp
+                else:
+                    rate6hrs += Hours_tmp
             if l == 7:
                 rate7 = Rate
-                rate7hrs += Hours_tmp
+                if rate7 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate7 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate7 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate7 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate7 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate7 == rate6:
+                    rate6hrs += Hours_tmp
+                else:
+                    rate7hrs += Hours_tmp
             if l == 8:
                 rate8 = Rate
-                rate8hrs += Hours_tmp
+                if rate8 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate8 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate8 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate8 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate8 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate8 == rate6:
+                    rate6hrs += Hours_tmp
+                elif rate8 == rate7:
+                    rate7hrs += Hours_tmp
+                else:
+                    rate8hrs += Hours_tmp
             if l == 9:
                 rate9 = Rate
-                rate9hrs += Hours_tmp
+                if rate9 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate9 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate9 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate9 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate9 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate9 == rate6:
+                    rate6hrs += Hours_tmp
+                elif rate9 == rate7:
+                    rate7hrs += Hours_tmp
+                elif rate9 == rate8:
+                    rate8hrs += Hours_tmp
+                else:
+                    rate9hrs += Hours_tmp
             if l == 10:
                 rate10 = Rate
-                rate10hrs += Hours_tmp
+                if rate10 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate10 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate10 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate10 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate10 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate10 == rate6:
+                    rate6hrs += Hours_tmp
+                elif rate10 == rate7:
+                    rate7hrs += Hours_tmp
+                elif rate10 == rate8:
+                    rate8hrs += Hours_tmp
+                elif rate10 == rate9:
+                    rate9hrs += Hours_tmp
+                else:
+                    rate10hrs += Hours_tmp
             if l == 11:
                 rate11 = Rate
-                rate11hrs += Hours_tmp
+                if rate11 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate11 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate11 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate11 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate11 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate11 == rate6:
+                    rate6hrs += Hours_tmp
+                elif rate11 == rate7:
+                    rate7hrs += Hours_tmp
+                elif rate11 == rate8:
+                    rate8hrs += Hours_tmp
+                elif rate11 == rate9:
+                    rate9hrs += Hours_tmp
+                elif rate11 == rate10:
+                    rate10hrs += Hours_tmp
+                else:
+                    rate11hrs += Hours_tmp
             if l == 12:
                 rate12 = Rate
-                rate12hrs += Hours_tmp
-
+                if rate12 == rate1:
+                    rate1hrs += Hours_tmp
+                elif rate12 == rate2:
+                    rate2hrs += Hours_tmp
+                elif rate12 == rate3:
+                    rate3hrs += Hours_tmp
+                elif rate12 == rate4:
+                    rate4hrs += Hours_tmp
+                elif rate12 == rate5:
+                    rate5hrs += Hours_tmp
+                elif rate12 == rate6:
+                    rate6hrs += Hours_tmp
+                elif rate12 == rate7:
+                    rate7hrs += Hours_tmp
+                elif rate12 == rate8:
+                    rate8hrs += Hours_tmp
+                elif rate12 == rate9:
+                    rate9hrs += Hours_tmp
+                elif rate12 == rate10:
+                    rate10hrs += Hours_tmp
+                elif rate12 == rate11:
+                    rate11hrs += Hours_tmp
+                else:
+                    rate12hrs += Hours_tmp
     # End messiness
 
 
@@ -237,7 +379,7 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        print("rate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs)
+        print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
         break
     if Name_nxt not in Name:
         hrsTotal = float(round(hrsTotal,2))
@@ -264,7 +406,7 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        print("rate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs)
+        print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
 
         # Clear values for next employee
         Name = Name_nxt # next employee
