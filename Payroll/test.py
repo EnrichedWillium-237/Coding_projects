@@ -44,10 +44,6 @@ GrandTrain = 0
 GrandSick = 0
 GrandCovid = 0
 
-# hours per payrate
-hrs_rate = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-rate_arr = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-
 Net = 0 # total pay per employee
 GrandHrs = 0 # total number of hours
 GrandTot = 0 # total payroll
@@ -149,6 +145,7 @@ for i in range(2, 25):
     Tot_nxt = Tot_nxt.value
 
     # Sort by pay rate
+    # The following is messy as heck. Need to fix at a later time.
     rate1 = Rate
     if  Name_nxt in Name:
         Rate_nxt = sheet.cell(row=i+1,column=4)
@@ -167,7 +164,6 @@ for i in range(2, 25):
         Rate_nxt = Rate_nxt.value
         rate6 = Rate_nxt
 
-        # The following is messy as heck. Need to fix at a later time.
         if rate1 is not rate2 or rate3 or rate4 or rate5 or rate6:
             rate1hrs += Hours
         if rate2 is not rate1:
@@ -215,7 +211,7 @@ for i in range(2, 25):
         rate1hrs += Hours
     # End messiness
 
-    print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
+    # print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
     nrowsEmp_final = 0
     if Name_nxt in Name:
         nrowsEmp += 1
@@ -279,9 +275,10 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
+        print("rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5," rate6:",rate6)
+
+        # Clear values for next employee
         Name = Name_nxt # next employee
-        hrs_rate = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) # clear payrate array
-        rate_arr = arr.array("d",[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) # clear payrate array
         Net = 0
         hrsUnarmed = 0
         hrsArmed = 0
