@@ -147,79 +147,93 @@ for i in range(2, 25):
     # Sort by pay rate
     # The following is messy as heck. Need to fix at a later time.
     rate1 = Rate
-    if  Name_nxt in Name:
+    nametmp = Name_nxt
+    if  nametmp in Name:
         Rate_nxt = sheet.cell(row=i+1,column=4)
         Rate_nxt = Rate_nxt.value
         rate2 = Rate_nxt
+    nametmp = sheet.cell(row=i+2,column=1)
+    nametmp = nametmp.value
+    if nametmp in Name:
         Rate_nxt = sheet.cell(row=i+2,column=4)
         Rate_nxt = Rate_nxt.value
         rate3 = Rate_nxt
+    nametmp = sheet.cell(row=i+3,column=1)
+    nametmp = nametmp.value
+    if nametmp in Name:
         Rate_nxt = sheet.cell(row=i+3,column=4)
         Rate_nxt = Rate_nxt.value
         rate4 = Rate_nxt
+    nametmp = sheet.cell(row=i+4,column=1)
+    nametmp = nametmp.value
+    if nametmp in Name:
         Rate_nxt = sheet.cell(row=i+4,column=4)
         Rate_nxt = Rate_nxt.value
         rate5 = Rate_nxt
+    nametmp = sheet.cell(row=i+5,column=1)
+    nametmp = nametmp.value
+    if nametmp in Name:
         Rate_nxt = sheet.cell(row=i+5,column=4)
         Rate_nxt = Rate_nxt.value
         rate6 = Rate_nxt
 
-        if rate1 is not rate2 or rate3 or rate4 or rate5 or rate6:
-            rate1hrs += Hours
-        if rate2 is not rate1:
-            rate2hrs += Hours
-        if rate3 is not rate1 or rate2:
-            rate3hrs += Hours
-        if rate4 is not rate1 or rate2 or rate3:
-            rate4hrs += Hours
-        if rate5 is not rate1 or rate2 or rate3 or rate4:
-            rate5hrs += Hours
-        if rate6 is not rate1 or rate2 or rate3 or rate4 or rate5:
-            rate6hrs += Hours
+    if rate1 is not rate2 or rate3 or rate4 or rate5 or rate6:
+        rate1hrs += Hours
+        print(rate1hrs,Hours)
+    if rate2 is not rate1 and not 0:
+        rate2hrs += Hours
+        print(rate1hrs,Hours)
+    if rate3 is not rate1 or rate2 and not 0:
+        rate3hrs += Hours
+    if rate4 is not rate1 or rate2 or rate3 and not 0:
+        rate4hrs += Hours
+    if rate5 is not rate1 or rate2 or rate3 or rate4 and not 0:
+        rate5hrs += Hours
+    if rate6 is not rate1 or rate2 or rate3 or rate4 or rate5 and not 0:
+        rate6hrs += Hours
 
-        if rate3 is rate1:
-            rate1hrs += Hours
-        if rate3 is rate2:
-            rate2hrs += Hours
-        if rate4 is rate1:
-            rate1hrs += Hours
-        if rate4 is rate2:
-            rate2hrs += Hours
-        if rate4 is rate3:
-            rate3hrs += Hours
+    if rate3 is rate1 and not 0:
+        rate1hrs += Hours
+    if rate3 is rate2 and not 0:
+        rate2hrs += Hours
+    if rate4 is rate1 and not 0:
+        rate1hrs += Hours
+    if rate4 is rate2 and not 0:
+        rate2hrs += Hours
+    if rate4 is rate3 and not 0:
+        rate3hrs += Hours
 
-        if rate5 is rate1:
-            rate1hrs += Hours
-        if rate5 is rate2:
-            rate2hrs += Hours
-        if rate5 is rate3:
-            rate3hrs += Hours
-        if rate5 is rate4:
-            rate4hrs += Hours
+    if rate5 is rate1 and not 0:
+        rate1hrs += Hours
+    if rate5 is rate2 and not 0:
+        rate2hrs += Hours
+    if rate5 is rate3 and not 0:
+        rate3hrs += Hours
+    if rate5 is rate4 and not 0:
+        rate4hrs += Hours
 
-        if rate6 is rate1:
-            rate1hrs += Hours
-        if rate6 is rate2:
-            rate2hrs += Hours
-        if rate6 is rate3:
-            rate3hrs += Hours
-        if rate6 is rate4:
+    if rate6 is rate1 and not 0:
+        rate1hrs += Hours
+    if rate6 is rate2 and not 0:
+        rate2hrs += Hours
+    if rate6 is rate3 and not 0:
+        rate3hrs += Hours
+    if rate6 is rate4 and not 0:
             rate4hrs += Hours
-        if rate6 is rate4:
-            rate5hrs += Hours
-    else:
+    if rate6 is rate4 and not 0:
+        rate5hrs += Hours
+
+    if Name_nxt not in Name:
         rate1hrs += Hours
     # End messiness
+    #print(Hours,rate1,rate1hrs,rate2,rate2hrs,rate3hrs,rate3hrs)
 
-    # print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
     nrowsEmp_final = 0
     if Name_nxt in Name:
         nrowsEmp += 1
-        #print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
     if Name_nxt not in Name:
         nrowsEmp += 1
         nrowsEmp_final = nrowsEmp
-        #print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
         nrowsEmp = 0
         nrowsEmp_final = 0
 
@@ -275,7 +289,26 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        print("rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5," rate6:",rate6)
+        """
+        if rate2 != 0:
+            print("\t rate1:",rate1)
+            print("\t hrs1:",rate1hrs)
+        if rate2 != 0and rate3 == 0:
+            print("\t rate1:",rate1," rate2:",rate2)
+            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs)
+        if rate3 != 0 and rate4 == 0:
+            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3)
+            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs)
+        if rate4 != 0 and rate5 == 0:
+            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4)
+            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs)
+        if rate5 != 0 and rate6 == 0:
+            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5)
+            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs," hrs5:",rate5hrs)
+        if rate6 != 0:
+            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5," rate6:",rate6)
+            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs," hrs5:",rate5hrs," hrs6:",rate6hrs)
+        """
 
         # Clear values for next employee
         Name = Name_nxt # next employee
