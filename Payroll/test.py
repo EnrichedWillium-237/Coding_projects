@@ -173,31 +173,29 @@ for i in range(2, 25):
             l += 1
             if l == 1:
                 rate1 = Rate
-                rate1hrs += Hours
+                rate1hrs += Hours_tmp
             if l == 2:
                 rate2 = Rate
-                rate2hrs += Hours
+                rate2hrs += Hours_tmp
             if l == 3:
                 rate3 = Rate
-                rate3hrs += Hours
-        print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs)
+                rate3hrs += Hours_tmp
+            if l == 4:
+                rate4 = Rate
+                rate4hrs += Hours_tmp
+            if l == 5:
+                rate5 = Rate
+                rate5hrs += Hours_tmp
+            if l == 6:
+                rate6 = Rate
+                rate6hrs += Hours_tmp
+            if l == 7:
+                rate7 = Rate
+                rate7hrs += Hours_tmp
+        print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs,rate4,rate4hrs,rate5,rate5hrs,rate6,rate6hrs,rate7,rate7hrs)
+
+        #print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs)
         #print(i-k+1, i)
-        '''
-        j = 0
-        for j in range(i-k+1, i):
-            #print(i,j,k,i-k)
-            print(i-k+1)
-            valRate = sheet.cell(row=j,column=4)
-            rate1 = valRate.value
-            print(j,j+1,j+2,j+3)
-            valRate = sheet.cell(row=j+1,column=4)
-            rate2 = valRate.value
-            valRate = sheet.cell(row=j+2,column=4)
-            rate3 = valRate.value
-            valRate = sheet.cell(row=j+3,column=4)
-            rate4 = valRate.value
-        print(j,rate1,j+1,rate2,j+2,rate3,j+3,rate4,j+4,rate5,j+5,rate6)
-        '''
 
 
     #print(rate1,rate1hrs,rate2,rate2hrs,Hours)
