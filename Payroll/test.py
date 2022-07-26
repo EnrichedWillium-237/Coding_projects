@@ -78,12 +78,24 @@ rate3 = 0
 rate4 = 0
 rate5 = 0
 rate6 = 0
+rate7 = 0
+rate8 = 0
+rate9 = 0
+rate10 = 0
+rate11 = 0
+rate12 = 0
 rate1hrs = 0
 rate2hrs = 0
 rate3hrs = 0
 rate4hrs = 0
 rate5hrs = 0
 rate6hrs = 0
+rate7hrs = 0
+rate8hrs = 0
+rate9hrs = 0
+rate10hrs = 0
+rate11hrs = 0
+rate12hrs = 0
 
 #for i in range (2, Nrow):
 for i in range(2, 25):
@@ -144,98 +156,53 @@ for i in range(2, 25):
     Name_nxt = Name_nxt.value
     Tot_nxt = Tot_nxt.value
 
+    nrowsEmp += 1
+
     # Sort by pay rate
     # The following is messy as heck. Need to fix at a later time.
-    rate1 = Rate
-    nametmp = Name_nxt
-    if  nametmp in Name:
-        Rate_nxt = sheet.cell(row=i+1,column=4)
-        Rate_nxt = Rate_nxt.value
-        rate2 = Rate_nxt
-    nametmp = sheet.cell(row=i+2,column=1)
-    nametmp = nametmp.value
-    if nametmp in Name:
-        Rate_nxt = sheet.cell(row=i+2,column=4)
-        Rate_nxt = Rate_nxt.value
-        rate3 = Rate_nxt
-    nametmp = sheet.cell(row=i+3,column=1)
-    nametmp = nametmp.value
-    if nametmp in Name:
-        Rate_nxt = sheet.cell(row=i+3,column=4)
-        Rate_nxt = Rate_nxt.value
-        rate4 = Rate_nxt
-    nametmp = sheet.cell(row=i+4,column=1)
-    nametmp = nametmp.value
-    if nametmp in Name:
-        Rate_nxt = sheet.cell(row=i+4,column=4)
-        Rate_nxt = Rate_nxt.value
-        rate5 = Rate_nxt
-    nametmp = sheet.cell(row=i+5,column=1)
-    nametmp = nametmp.value
-    if nametmp in Name:
-        Rate_nxt = sheet.cell(row=i+5,column=4)
-        Rate_nxt = Rate_nxt.value
-        rate6 = Rate_nxt
+    if Name_nxt is not Name:
+        k = nrowsEmp
+        #print(k,i,i-k+1)
+        l = 0
+        for j in range(i-k+1, i+1):
+            valRate = sheet.cell(row=j,column=4)
+            Rate = valRate.value
+            valHours_tmp = sheet.cell(row=j,column=3)
+            Hours_tmp = valHours_tmp.value
+            print(i-k+1,j,i+1,Rate,Hours_tmp)
+            l += 1
+            if l == 1:
+                rate1 = Rate
+                rate1hrs += Hours
+            if l == 2:
+                rate2 = Rate
+                rate2hrs += Hours
+            if l == 3:
+                rate3 = Rate
+                rate3hrs += Hours
+        print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs)
+        #print(i-k+1, i)
+        '''
+        j = 0
+        for j in range(i-k+1, i):
+            #print(i,j,k,i-k)
+            print(i-k+1)
+            valRate = sheet.cell(row=j,column=4)
+            rate1 = valRate.value
+            print(j,j+1,j+2,j+3)
+            valRate = sheet.cell(row=j+1,column=4)
+            rate2 = valRate.value
+            valRate = sheet.cell(row=j+2,column=4)
+            rate3 = valRate.value
+            valRate = sheet.cell(row=j+3,column=4)
+            rate4 = valRate.value
+        print(j,rate1,j+1,rate2,j+2,rate3,j+3,rate4,j+4,rate5,j+5,rate6)
+        '''
 
-    if rate1 is not rate2 or rate3 or rate4 or rate5 or rate6:
-        rate1hrs += Hours
-        print(rate1hrs,Hours)
-    if rate2 is not rate1 and not 0:
-        rate2hrs += Hours
-        print(rate1hrs,Hours)
-    if rate3 is not rate1 or rate2 and not 0:
-        rate3hrs += Hours
-    if rate4 is not rate1 or rate2 or rate3 and not 0:
-        rate4hrs += Hours
-    if rate5 is not rate1 or rate2 or rate3 or rate4 and not 0:
-        rate5hrs += Hours
-    if rate6 is not rate1 or rate2 or rate3 or rate4 or rate5 and not 0:
-        rate6hrs += Hours
 
-    if rate3 is rate1 and not 0:
-        rate1hrs += Hours
-    if rate3 is rate2 and not 0:
-        rate2hrs += Hours
-    if rate4 is rate1 and not 0:
-        rate1hrs += Hours
-    if rate4 is rate2 and not 0:
-        rate2hrs += Hours
-    if rate4 is rate3 and not 0:
-        rate3hrs += Hours
-
-    if rate5 is rate1 and not 0:
-        rate1hrs += Hours
-    if rate5 is rate2 and not 0:
-        rate2hrs += Hours
-    if rate5 is rate3 and not 0:
-        rate3hrs += Hours
-    if rate5 is rate4 and not 0:
-        rate4hrs += Hours
-
-    if rate6 is rate1 and not 0:
-        rate1hrs += Hours
-    if rate6 is rate2 and not 0:
-        rate2hrs += Hours
-    if rate6 is rate3 and not 0:
-        rate3hrs += Hours
-    if rate6 is rate4 and not 0:
-            rate4hrs += Hours
-    if rate6 is rate4 and not 0:
-        rate5hrs += Hours
-
-    if Name_nxt not in Name:
-        rate1hrs += Hours
+    #print(rate1,rate1hrs,rate2,rate2hrs,Hours)
     # End messiness
     #print(Hours,rate1,rate1hrs,rate2,rate2hrs,rate3hrs,rate3hrs)
-
-    nrowsEmp_final = 0
-    if Name_nxt in Name:
-        nrowsEmp += 1
-    if Name_nxt not in Name:
-        nrowsEmp += 1
-        nrowsEmp_final = nrowsEmp
-        nrowsEmp = 0
-        nrowsEmp_final = 0
 
     # Reset values for new employee name
     if Name_nxt is None:
@@ -321,18 +288,31 @@ for i in range(2, 25):
         hrsSick = 0
         hrsCOVID = 0
         hrsTotal = 0
+        nrowsEmp = 0
         rate1 = 0
         rate2 = 0
         rate3 = 0
         rate4 = 0
         rate5 = 0
         rate6 = 0
+        rate7 = 0
+        rate8 = 0
+        rate9 = 0
+        rate10 = 0
+        rate11 = 0
+        rate12 = 0
         rate1hrs = 0
         rate2hrs = 0
         rate3hrs = 0
         rate4hrs = 0
         rate5hrs = 0
         rate6hrs = 0
+        rate7hrs = 0
+        rate8hrs = 0
+        rate9hrs = 0
+        rate10hrs = 0
+        rate11hrs = 0
+        rate12hrs = 0
 
 GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
