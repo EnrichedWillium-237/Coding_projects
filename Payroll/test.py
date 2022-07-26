@@ -75,8 +75,22 @@ c0.value = "Total hours"
 c0 = newsheet.cell(row = 1, column = 10)
 c0.value = "Net pay"
 
-for i in range (2, Nrow):
-#for i in range(2, 12):
+nrowsEmp = 0 # number of rows per employee
+rate1 = 0
+rate2 = 0
+rate3 = 0
+rate4 = 0
+rate5 = 0
+rate6 = 0
+rate1hrs = 0
+rate2hrs = 0
+rate3hrs = 0
+rate4hrs = 0
+rate5hrs = 0
+rate6hrs = 0
+
+#for i in range (2, Nrow):
+for i in range(2, 25):
     valName = sheet.cell(row=i,column=1)
     valCat = sheet.cell(row=i,column=2)
     valHours = sheet.cell(row=i,column=3)
@@ -130,38 +144,88 @@ for i in range (2, Nrow):
     hrsTotal += Hours
 
     Name_nxt = sheet.cell(row=i+1,column=1)
-    Cat_nxt = sheet.cell(row=i+1,column=2)
-    Hours_nxt = sheet.cell(row=i+1,column=3)
-    Rate_nxt = sheet.cell(row=i+1,column=4)
     Tot_nxt = sheet.cell(row=i+1,column=5)
-    Reim_nxt = sheet.cell(row=i+1,column=6)
-    Net_nxt = sheet.cell(row=i+1,column=7)
     Name_nxt = Name_nxt.value
-    Cat_nxt = Cat_nxt.value
-    Hours_nxt = Hours_nxt.value
-    Rate_nxt = Rate_nxt.value
     Tot_nxt = Tot_nxt.value
-    Reim_nxt = Reim_nxt.value
-    Net_nxt = Net_nxt.value
 
-    # Sort by payrate
-    """
-    k = 0
-    for j in range(0, 10):
-        nameNxt = sheet.cell(row=(i+j),column=1)
-        nameNxt = nameNxt.value
-        if nameNxt not in Name:
-            break
-        k += 1
-    for j in range(0, k):
-        nameNxt = sheet.cell(row=(i+j),column=1)
-        nameNxt = nameNxt.value
-        ratehrs = sheet.cell(row=(i+j),column=3)
-        ratehrs = ratehrs.value
-        rate1 = sheet.cell(row=(i+j),column=4)
-        rate1 = rate1.value
- #       print(Name,nameNxt,i,j,k,rate1,ratehrs)
-    """
+    # Sort by pay rate
+    rate1 = Rate
+    if  Name_nxt in Name:
+        Rate_nxt = sheet.cell(row=i+1,column=4)
+        Rate_nxt = Rate_nxt.value
+        rate2 = Rate_nxt
+        Rate_nxt = sheet.cell(row=i+2,column=4)
+        Rate_nxt = Rate_nxt.value
+        rate3 = Rate_nxt
+        Rate_nxt = sheet.cell(row=i+3,column=4)
+        Rate_nxt = Rate_nxt.value
+        rate4 = Rate_nxt
+        Rate_nxt = sheet.cell(row=i+4,column=4)
+        Rate_nxt = Rate_nxt.value
+        rate5 = Rate_nxt
+        Rate_nxt = sheet.cell(row=i+5,column=4)
+        Rate_nxt = Rate_nxt.value
+        rate6 = Rate_nxt
+
+        # The following is messy as heck. Need to fix at a later time.
+        if rate1 is not rate2 or rate3 or rate4 or rate5 or rate6:
+            rate1hrs += Hours
+        if rate2 is not rate1:
+            rate2hrs += Hours
+        if rate3 is not rate1 or rate2:
+            rate3hrs += Hours
+        if rate4 is not rate1 or rate2 or rate3:
+            rate4hrs += Hours
+        if rate5 is not rate1 or rate2 or rate3 or rate4:
+            rate5hrs += Hours
+        if rate6 is not rate1 or rate2 or rate3 or rate4 or rate5:
+            rate6hrs += Hours
+
+        if rate3 is rate1:
+            rate1hrs += Hours
+        if rate3 is rate2:
+            rate2hrs += Hours
+        if rate4 is rate1:
+            rate1hrs += Hours
+        if rate4 is rate2:
+            rate2hrs += Hours
+        if rate4 is rate3:
+            rate3hrs += Hours
+
+        if rate5 is rate1:
+            rate1hrs += Hours
+        if rate5 is rate2:
+            rate2hrs += Hours
+        if rate5 is rate3:
+            rate3hrs += Hours
+        if rate5 is rate4:
+            rate4hrs += Hours
+
+        if rate6 is rate1:
+            rate1hrs += Hours
+        if rate6 is rate2:
+            rate2hrs += Hours
+        if rate6 is rate3:
+            rate3hrs += Hours
+        if rate6 is rate4:
+            rate4hrs += Hours
+        if rate6 is rate4:
+            rate5hrs += Hours
+    else:
+        rate1hrs += Hours
+    # End messiness
+
+    print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
+    nrowsEmp_final = 0
+    if Name_nxt in Name:
+        nrowsEmp += 1
+        #print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
+    if Name_nxt not in Name:
+        nrowsEmp += 1
+        nrowsEmp_final = nrowsEmp
+        #print(Name, "rate1: ",rate1, "rate2: ", rate2, "rate1hrs:", rate1hrs, "rate2hrs:", rate2hrs, nrowsEmp)
+        nrowsEmp = 0
+        nrowsEmp_final = 0
 
     # Reset values for new employee name
     if Name_nxt is None:
@@ -227,6 +291,18 @@ for i in range (2, Nrow):
         hrsSick = 0
         hrsCOVID = 0
         hrsTotal = 0
+        rate1 = 0
+        rate2 = 0
+        rate3 = 0
+        rate4 = 0
+        rate5 = 0
+        rate6 = 0
+        rate1hrs = 0
+        rate2hrs = 0
+        rate3hrs = 0
+        rate4hrs = 0
+        rate5hrs = 0
+        rate6hrs = 0
 
 GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
