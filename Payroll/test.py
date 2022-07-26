@@ -169,7 +169,7 @@ for i in range(2, 25):
             Rate = valRate.value
             valHours_tmp = sheet.cell(row=j,column=3)
             Hours_tmp = valHours_tmp.value
-            print(i-k+1,j,i+1,Rate,Hours_tmp)
+            #print(i-k+1,j,i+1,Rate,Hours_tmp)
             l += 1
             if l == 1:
                 rate1 = Rate
@@ -192,15 +192,24 @@ for i in range(2, 25):
             if l == 7:
                 rate7 = Rate
                 rate7hrs += Hours_tmp
-        print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs,rate4,rate4hrs,rate5,rate5hrs,rate6,rate6hrs,rate7,rate7hrs)
+            if l == 8:
+                rate8 = Rate
+                rate8hrs += Hours_tmp
+            if l == 9:
+                rate9 = Rate
+                rate9hrs += Hours_tmp
+            if l == 10:
+                rate10 = Rate
+                rate10hrs += Hours_tmp
+            if l == 11:
+                rate11 = Rate
+                rate11hrs += Hours_tmp
+            if l == 12:
+                rate12 = Rate
+                rate12hrs += Hours_tmp
 
-        #print(rate1,rate1hrs,rate2,rate2hrs,rate3,rate3hrs)
-        #print(i-k+1, i)
-
-
-    #print(rate1,rate1hrs,rate2,rate2hrs,Hours)
     # End messiness
-    #print(Hours,rate1,rate1hrs,rate2,rate2hrs,rate3hrs,rate3hrs)
+
 
     # Reset values for new employee name
     if Name_nxt is None:
@@ -228,6 +237,7 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
+        print("rate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs)
         break
     if Name_nxt not in Name:
         hrsTotal = float(round(hrsTotal,2))
@@ -254,26 +264,7 @@ for i in range(2, 25):
         c10 = newsheet.cell(row = Ncell, column = 10)
         c10.value = Net
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        """
-        if rate2 != 0:
-            print("\t rate1:",rate1)
-            print("\t hrs1:",rate1hrs)
-        if rate2 != 0and rate3 == 0:
-            print("\t rate1:",rate1," rate2:",rate2)
-            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs)
-        if rate3 != 0 and rate4 == 0:
-            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3)
-            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs)
-        if rate4 != 0 and rate5 == 0:
-            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4)
-            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs)
-        if rate5 != 0 and rate6 == 0:
-            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5)
-            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs," hrs5:",rate5hrs)
-        if rate6 != 0:
-            print("\t rate1:",rate1," rate2:",rate2," rate3:",rate3," rate4:",rate4," rate5:",rate5," rate6:",rate6)
-            print("\t hrs1:",rate1hrs," hrs2:",rate2hrs," hrs3:",rate3hrs," hrs4:",rate4hrs," hrs5:",rate5hrs," hrs6:",rate6hrs)
-        """
+        print("rate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs)
 
         # Clear values for next employee
         Name = Name_nxt # next employee
@@ -376,3 +367,6 @@ print("Done")
 #    if Name_nxt == Name:
 #        print(i,Name,Name_nxt)
     #print(Name,"\t",Cat,"\t",Hours,"\t",Rate,"\t",Tot,"\t",Reim,"\t",Net)
+
+
+### Next iterration of this code will use arrays to make everything simpler, I promise.
