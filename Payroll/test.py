@@ -1,4 +1,5 @@
 ### Code for reading in a payroll spreadsheet and organizing net payments ###
+### This is a work in progress and does things in a brute force fashion. Will be improved later. ###
 
 # Source files
 import openpyxl
@@ -217,8 +218,8 @@ rate10covid = 0
 rate11covid = 0
 rate12covid = 0
 
-#for i in range (2, Nrow):
-for i in range(2, 25):
+for i in range (2, Nrow):
+#for i in range(2, 25):
     valName = sheet.cell(row=i,column=1)
     valCat = sheet.cell(row=i,column=2)
     valHours = sheet.cell(row=i,column=3)
@@ -283,7 +284,6 @@ for i in range(2, 25):
     # Note to self: learn how to use arrays and goto commands in python
     if Name_nxt is not Name:
         k = nrowsEmp
-        #print(k,i,i-k+1)
         l = 0
         for j in range(i-k+1, i+1):
             valRate = sheet.cell(row=j,column=4)
@@ -292,7 +292,6 @@ for i in range(2, 25):
             Hours_tmp = valHours_tmp.value
             valCat_tmp = sheet.cell(row=j,column=2)
             Cat = valCat_tmp.value
-            #print(i-k+1,j,i+1,Rate,Hours_tmp)
             l += 1
             if l == 1:
                 rate1 = Rate
@@ -822,7 +821,7 @@ for i in range(2, 25):
                     elif Cat.__contains__("Admin"):
                         rate1admin += Hours_tmp
                     elif Cat.__contains__("OT"):
-                       rate1OT += Hours_tmp
+                        rate1OT += Hours_tmp
                     elif Cat.__contains__("Train"):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
@@ -1721,6 +1720,8 @@ for i in range(2, 25):
                         rate12covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
+            #print("test0",rate1, rate1hrs, rate1unarmed, rate1armed, rate1OT)
+            #print("test0",rate2, rate2hrs, rate2unarmed, rate2armed, rate2OT)
 
             if rate2hrs == 0:
                 rate2 = 0
@@ -1748,6 +1749,7 @@ for i in range(2, 25):
 
 
     # Reset values for new employee name
+    #print("test1",rate1, rate1hrs, rate1unarmed, rate1armed, rate1OT)
     if Name_nxt is None:
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
@@ -1896,41 +1898,165 @@ for i in range(2, 25):
         if rate6hrs == 0:
             c13.value = None
         '''
+        print("test0",rate1, rate1hrs, rate1unarmed, rate1armed, rate1OT)
+        print("test0",rate2, rate2hrs, rate2unarmed, rate2armed, rate2OT)
+
         c1 = newsheet1.cell(row = Ncell-k+1, column = 1)
         c1.value = Name
+        l = 1
         for j in range(Ncell, Ncell+k):
-            jrow = j-k
-            print(j, Ncell, k,Ncell+k, jrow, rate1,rate1unarmed,rate1armed,rate1admin,rate1OT,"\t",rate2,rate2unarmed,rate2armed,rate2admin,rate2OT)
-            c1 = newsheet1.cell(row = j-k+1, column = 2)
-            c1.value = rate1
+            #print(j, Ncell, k,Ncell+k, jrow, rate1,rate1unarmed,rate1armed,rate1admin,rate1OT,"\t",rate2,rate2unarmed,rate2armed,rate2admin,rate2OT)
             c1 = newsheet1.cell(row = j-k+1, column = 3)
             c1.value = "Unarmed:"
-            c1 = newsheet1.cell(row = j-k+1, column = 4)
-            c1.value = rate1unarmed
             c1 = newsheet1.cell(row = j-k+1, column = 5)
             c1.value = "Armed:"
-            c1 = newsheet1.cell(row = j-k+1, column = 6)
-            c1.value = rate1armed
             c1 = newsheet1.cell(row = j-k+1, column = 7)
             c1.value = "Admin:"
-            c1 = newsheet1.cell(row = j-k+1, column = 8)
-            c1.value = rate1admin
             c1 = newsheet1.cell(row = j-k+1, column = 9)
             c1.value = "OT:"
-            c1 = newsheet1.cell(row = j-k+1, column = 10)
-            c1.value = rate1OT
             c1 = newsheet1.cell(row = j-k+1, column = 11)
             c1.value = "Train:"
-            c1 = newsheet1.cell(row = j-k+1, column = 12)
-            c1.value = rate1train
             c1 = newsheet1.cell(row = j-k+1, column = 13)
             c1.value = "Sick:"
-            c1 = newsheet1.cell(row = j-k+1, column = 14)
-            c1.value = rate1sick
             c1 = newsheet1.cell(row = j-k+1, column = 15)
             c1.value = "COVID:"
-            c1 = newsheet1.cell(row = j-k+1, column = 16)
-            c1.value = rate1covid
+            if l == 1:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate1
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate1unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate1armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate1admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate1OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate1train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate1sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate1covid
+            if l == 2:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate2
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate2unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate2armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate2admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate2OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate2train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate2sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate2covid
+            if l == 3:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate3
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate3unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate3armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate3admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate3OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate3train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate3sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate3covid
+            if l == 4:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate4
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate4unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate4armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate4admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate4OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate4train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate4sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate4covid
+            if l == 5:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate5
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate5unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate5armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate5admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate5OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate5train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate5sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate5covid
+            if l == 6:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate6
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate6unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate6armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate6admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate6OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate6train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate6sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate6covid
+            if l == 7:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate7
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate7unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate7armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate7admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate7OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate7train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate7sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate7covid
+            if l == 8:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate8
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate8unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate8armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate8admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate8OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate8train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate8sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate8covid
+            l += 1
 
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
         print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
@@ -2061,6 +2187,7 @@ newsheet0.column_dimensions["A"].width = 25
 for row in newsheet0[2:newsheet0.max_row]:
     cell = row[9]
     cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["A"].width = 25
 '''
 newsheet1.column_dimensions["A"].width = 25
 newsheet1.column_dimensions["B"].width = 10
