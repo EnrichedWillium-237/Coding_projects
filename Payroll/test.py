@@ -13,7 +13,9 @@ workbook = load_workbook('payroll.xlsx')
 
 # Payroll output
 newbook0 = openpyxl.Workbook()
+newbook1 = openpyxl.Workbook()
 newsheet0 = newbook0.active
+newsheet1 = newbook1.active
 
 sheet = workbook.active
 label_0 = sheet.cell(row=1,column=1)
@@ -74,6 +76,37 @@ c0.value = "Total hours"
 c0 = newsheet0.cell(row = 1, column = 10)
 c0.value = "Net pay"
 
+c0 = newsheet1.cell(row = 1, column = 1)
+c0.value = "Employee name"
+c0 = newsheet1.cell(row = 1, column = 2)
+c0.value = "rate 1"
+c0 = newsheet1.cell(row = 1, column = 3)
+c0.value = "rate 1 hrs"
+c0 = newsheet1.cell(row = 1, column = 4)
+c0.value = "rate 2"
+c0 = newsheet1.cell(row = 1, column = 5)
+c0.value = "rate 2 hrs"
+c0 = newsheet1.cell(row = 1, column = 6)
+c0.value = "rate 3"
+c0 = newsheet1.cell(row = 1, column = 7)
+c0.value = "rate 3 hrs"
+c0 = newsheet1.cell(row = 1, column = 8)
+c0.value = "rate 4"
+c0 = newsheet1.cell(row = 1, column = 9)
+c0.value = "rate 4 hrs"
+c0 = newsheet1.cell(row = 1, column = 10)
+c0.value = "rate 5"
+c0 = newsheet1.cell(row = 1, column = 11)
+c0.value = "rate 5 hrs"
+c0 = newsheet1.cell(row = 1, column = 12)
+c0.value = "rate 6"
+c0 = newsheet1.cell(row = 1, column = 13)
+c0.value = "rate 6 hrs"
+c0 = newsheet1.cell(row = 1, column = 14)
+c0.value = "rate 7"
+c0 = newsheet1.cell(row = 1, column = 15)
+c0.value = "rate 7 hrs"
+
 nrowsEmp = 0 # number of rows per employee
 rate1 = 0
 rate2 = 0
@@ -100,8 +133,8 @@ rate10hrs = 0
 rate11hrs = 0
 rate12hrs = 0
 
-#for i in range (2, Nrow):
-for i in range(2, 25):
+for i in range (2, Nrow):
+#for i in range(2, 25):
     valName = sheet.cell(row=i,column=1)
     valCat = sheet.cell(row=i,column=2)
     valHours = sheet.cell(row=i,column=3)
@@ -404,6 +437,54 @@ for i in range(2, 25):
         c9.value = hrsTotal
         c10 = newsheet0.cell(row = Ncell, column = 10)
         c10.value = Net
+
+        c1 = newsheet1.cell(row = Ncell, column = 1)
+        c1.value = Name
+        c2 = newsheet1.cell(row = Ncell, column = 2)
+        c2.value = rate1
+        c3 = newsheet1.cell(row = Ncell, column = 3)
+        c3.value = rate1hrs
+        c4 = newsheet1.cell(row = Ncell, column = 4)
+        c4.value = rate2
+        if rate2 == 0:
+            c4.value = None
+        c5 = newsheet1.cell(row = Ncell, column = 5)
+        c5.value = rate2hrs
+        if rate2hrs == 0:
+            c5.value = None
+        c6 = newsheet1.cell(row = Ncell, column = 6)
+        c6.value = rate3
+        if rate3 == 0:
+            c6.value = None
+        c7 = newsheet1.cell(row = Ncell, column = 7)
+        c7.value = rate3hrs
+        if rate3hrs == 0:
+            c7.value = None
+        c8 = newsheet1.cell(row = Ncell, column = 8)
+        c8.value = rate4
+        if rate4 == 0:
+            c8.value = None
+        c9 = newsheet1.cell(row = Ncell, column = 9)
+        c9.value = rate4hrs
+        if rate4hrs == 0:
+            c9.value = None
+        c10 = newsheet1.cell(row = Ncell, column = 10)
+        c10.value = rate5
+        if rate5 == 0:
+            c10.value = None
+        c11 = newsheet1.cell(row = Ncell, column = 11)
+        c11.value = rate5hrs
+        if rate5hrs == 0:
+            c11.value = None
+        c12 = newsheet1.cell(row = Ncell, column = 12)
+        c12.value = rate6
+        if rate6 == 0:
+            c12.value = None
+        c13 = newsheet1.cell(row = Ncell, column = 13)
+        c13.value = rate6hrs
+        if rate6hrs == 0:
+            c13.value = None
+
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
         print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
         break
@@ -431,6 +512,54 @@ for i in range(2, 25):
         c9.value = hrsTotal
         c10 = newsheet0.cell(row = Ncell, column = 10)
         c10.value = Net
+
+        c1 = newsheet1.cell(row = Ncell, column = 1)
+        c1.value = Name
+        c2 = newsheet1.cell(row = Ncell, column = 2)
+        c2.value = rate1
+        c3 = newsheet1.cell(row = Ncell, column = 3)
+        c3.value = rate1hrs
+        c4 = newsheet1.cell(row = Ncell, column = 4)
+        c4.value = rate2
+        if rate2 == 0:
+            c4.value = None
+        c5 = newsheet1.cell(row = Ncell, column = 5)
+        c5.value = rate2hrs
+        if rate2hrs == 0:
+            c5.value = None
+        c6 = newsheet1.cell(row = Ncell, column = 6)
+        c6.value = rate3
+        if rate3 == 0:
+            c6.value = None
+        c7 = newsheet1.cell(row = Ncell, column = 7)
+        c7.value = rate3hrs
+        if rate3hrs == 0:
+            c7.value = None
+        c8 = newsheet1.cell(row = Ncell, column = 8)
+        c8.value = rate4
+        if rate4 == 0:
+            c8.value = None
+        c9 = newsheet1.cell(row = Ncell, column = 9)
+        c9.value = rate4hrs
+        if rate4hrs == 0:
+            c9.value = None
+        c10 = newsheet1.cell(row = Ncell, column = 10)
+        c10.value = rate5
+        if rate5 == 0:
+            c10.value = None
+        c11 = newsheet1.cell(row = Ncell, column = 11)
+        c11.value = rate5hrs
+        if rate5hrs == 0:
+            c11.value = None
+        c12 = newsheet1.cell(row = Ncell, column = 12)
+        c12.value = rate6
+        if rate6 == 0:
+            c12.value = None
+        c13 = newsheet1.cell(row = Ncell, column = 13)
+        c13.value = rate6hrs
+        if rate6hrs == 0:
+            c13.value = None
+
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
         print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
 
@@ -476,6 +605,26 @@ newsheet0.column_dimensions["A"].width = 25
 for row in newsheet0[2:newsheet0.max_row]:
     cell = row[9]
     cell.alignment = Alignment(horizontal='right')
+
+newsheet1.column_dimensions["A"].width = 25
+newsheet1.column_dimensions["B"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'B{r}'].number_format = '##.## "$/hr"'
+newsheet1.column_dimensions["D"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'D{r}'].number_format = '##.## "$/hr"'
+newsheet1.column_dimensions["F"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'F{r}'].number_format = '##.## "$/hr"'
+newsheet1.column_dimensions["H"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'H{r}'].number_format = '##.## "$/hr"'
+newsheet1.column_dimensions["J"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'J{r}'].number_format = '##.## "$/hr"'
+newsheet1.column_dimensions["L"].width = 10
+for r in range(2, Ncell+1):
+    newsheet1[f'L{r}'].number_format = '##.## "$/hr"'
 
 GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
@@ -531,6 +680,7 @@ cGrandCovid = newsheet0.cell(row = Ncell+6, column = 8)
 cGrandCovid.value = GrandCovid
 
 newbook0.save("/mnt/c/Users/Jacob/macros/test/output.xlsx")
+newbook1.save("/mnt/c/Users/Jacob/macros/test/output_rate.xlsx")
 
 print()
 print("Total hours:",GrandHrs,"\t Total payroll:",GrandTot,"\t Reimbursements:",GrandReim,"\t Total net payroll:",GrandNet)
