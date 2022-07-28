@@ -13,9 +13,7 @@ from openpyxl.styles import Alignment, Border, Side
 workbook = load_workbook('payroll_07_29_22.xlsx')
 
 # Payroll output
-newbook0 = openpyxl.Workbook()
 newbook1 = openpyxl.Workbook()
-newsheet0 = newbook0.active
 newsheet1 = newbook1.active
 
 sheet = workbook.active
@@ -55,27 +53,6 @@ GrandHrs = 0 # total number of hours
 GrandTot = 0 # total payroll
 GrandReim = 0 # total reimbursement
 GrandNet = 0 # total payout: total + reimbursement
-
-c0 = newsheet0.cell(row = 1, column = 1)
-c0.value = "Employee name"
-c0 = newsheet0.cell(row = 1, column = 2)
-c0.value = "Unarmed"
-c0 = newsheet0.cell(row = 1, column = 3)
-c0.value = "Armed"
-c0 = newsheet0.cell(row = 1, column = 4)
-c0.value = "Admin"
-c0 = newsheet0.cell(row = 1, column = 5)
-c0.value = "OT"
-c0 = newsheet0.cell(row = 1, column = 6)
-c0.value = "Training"
-c0 = newsheet0.cell(row = 1, column = 7)
-c0.value = "Sick"
-c0 = newsheet0.cell(row = 1, column = 8)
-c0.value = "COVID"
-c0 = newsheet0.cell(row = 1, column = 9)
-c0.value = "Total hours"
-c0 = newsheet0.cell(row = 1, column = 10)
-c0.value = "Net pay"
 
 c0 = newsheet1.cell(row = 1, column = 1)
 c0.value = "Employee name"
@@ -194,13 +171,15 @@ rate12covid = 0
 
 for i in range (2, Nrow):
 #for i in range(2, 25):
-    valName = sheet.cell(row=i,column=1)
-    valCat = sheet.cell(row=i,column=2)
-    valHours = sheet.cell(row=i,column=3)
-    valRate = sheet.cell(row=i,column=4)
-    valTot = sheet.cell(row=i,column=5)
-    valReim = sheet.cell(row=i,column=6)
-    valNet = sheet.cell(row=i,column=7)
+
+    valName = sheet.cell(row = i, column = 1)
+    valCat = sheet.cell(row = i, column = 2)
+    valHours = sheet.cell(row = i, column = 3)
+    valRate = sheet.cell(row = i, column = 4)
+    valTot = sheet.cell(row = i, column = 5)
+    valReim = sheet.cell(row = i, column = 6)
+    valNet = sheet.cell(row = i, column = 7)
+    valNote = sheet.cell(row = i, column = 8)
 
     Name = valName.value
     Cat = valCat.value
@@ -212,6 +191,7 @@ for i in range (2, Nrow):
         Reim = 0
 #    Net = Tot + Reim # calculate reimbursements
     valNet = valNet.value
+    Note = valNote.value
     Net += valNet
     Tot_nxt = Tot
 
@@ -246,12 +226,14 @@ for i in range (2, Nrow):
         print("Unknown category for hours!")
     hrsTotal += Hours
 
-    Name_nxt = sheet.cell(row=i+1,column=1)
-    Tot_nxt = sheet.cell(row=i+1,column=5)
-    Name_before = sheet.cell(row=i-1,column=1)
+    Name_nxt = sheet.cell(row = i + 1, column = 1)
+    Tot_nxt = sheet.cell(row = i + 1, column = 5)
+    Reim_nxt = sheet.cell(row = i + 1, column = 6)
+    Note_nxt = sheet.cell(row = i +1, column = 7)
     Name_nxt = Name_nxt.value
     Tot_nxt = Tot_nxt.value
-    Name_before = Name_before.value
+    Reim_nxt = Reim_nxt.value
+    Note_nxt = Note_nxt.value
 
     nrowsEmp += 1
 
@@ -1730,27 +1712,6 @@ for i in range (2, Nrow):
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
         Ncell += 1
-        c1 = newsheet0.cell(row = Ncell, column = 1)
-        c1.value = Name
-        c2 = newsheet0.cell(row = Ncell, column = 2)
-        c2.value = hrsUnarmed
-        c3 = newsheet0.cell(row = Ncell, column = 3)
-        c3.value = hrsArmed
-        c4 = newsheet0.cell(row = Ncell, column = 4)
-        c4.value = hrsAdmin
-        c5 = newsheet0.cell(row = Ncell, column = 5)
-        c5.value = hrsOT
-        c6 = newsheet0.cell(row = Ncell, column = 6)
-        c6.value = hrsTrain
-        c7 = newsheet0.cell(row = Ncell, column = 7)
-        c7.value = hrsSick
-        c8 = newsheet0.cell(row = Ncell, column = 8)
-        c8.value = hrsCOVID
-        c9 = newsheet0.cell(row = Ncell, column = 9)
-        c9.value = hrsTotal
-        c10 = newsheet0.cell(row = Ncell, column = 10)
-        c10.value = Net
-
         c1 = newsheet1.cell(row = Ncell, column = 1)
         c1.value = Name
         l = 1
@@ -1968,27 +1929,6 @@ for i in range (2, Nrow):
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
         Ncell += k
-        c1 = newsheet0.cell(row = Ncell, column = 1)
-        c1.value = Name
-        c2 = newsheet0.cell(row = Ncell, column = 2)
-        c2.value = hrsUnarmed
-        c3 = newsheet0.cell(row = Ncell, column = 3)
-        c3.value = hrsArmed
-        c4 = newsheet0.cell(row = Ncell, column = 4)
-        c4.value = hrsAdmin
-        c5 = newsheet0.cell(row = Ncell, column = 5)
-        c5.value = hrsOT
-        c6 = newsheet0.cell(row = Ncell, column = 6)
-        c6.value = hrsTrain
-        c7 = newsheet0.cell(row = Ncell, column = 7)
-        c7.value = hrsSick
-        c8 = newsheet0.cell(row = Ncell, column = 8)
-        c8.value = hrsCOVID
-        c9 = newsheet0.cell(row = Ncell, column = 9)
-        c9.value = hrsTotal
-        c10 = newsheet0.cell(row = Ncell, column = 10)
-        c10.value = Net
-
         c1 = newsheet1.cell(row = Ncell-k+1, column = 1)
         c1.value = Name
         l = 1
@@ -2324,11 +2264,6 @@ for i in range (2, Nrow):
         # end main loop
 
 # Excel spreadhseet options
-newsheet0.column_dimensions["A"].width = 25
-for row in newsheet0[2:newsheet0.max_row]:
-    cell = row[9]
-    cell.alignment = Alignment(horizontal='right')
-
 newsheet1.column_dimensions["A"].width = 25
 newsheet1.column_dimensions["B"].width = 6
 for row in newsheet1[2:newsheet1.max_row]:
@@ -2339,21 +2274,21 @@ for row in newsheet1[2:newsheet1.max_row]:
     cell = row[2]
     cell.alignment = Alignment(horizontal='right')
 newsheet1.column_dimensions["D"].width = 5
-newsheet1.column_dimensions["E"].width = 10
+newsheet1.column_dimensions["E"].width = 8
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[4]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["F"].width = 5
-newsheet1.column_dimensions["G"].width = 10
+newsheet1.column_dimensions["F"].width = 7
+newsheet1.column_dimensions["G"].width = 8
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[6]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["H"].width = 5
+newsheet1.column_dimensions["H"].width = 7
 newsheet1.column_dimensions["I"].width = 6
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[8]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["J"].width = 5
+newsheet1.column_dimensions["J"].width = 7
 newsheet1.column_dimensions["K"].width = 8
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[10]
@@ -2384,7 +2319,7 @@ newsheet1.column_dimensions["S"].width = 9
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[18]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["T"].width = 8
+newsheet1.column_dimensions["T"].width = 9
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[19]
     cell.alignment = Alignment(horizontal='right')
@@ -2402,51 +2337,6 @@ GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
 GrandReim = str(round(GrandReim, 2))
 GrandNet = str(round(GrandNet, 2))
-
-c0 = newsheet0.cell(row = Ncell+2, column = 2)
-c0.value = "Total hours"
-c0 = newsheet0.cell(row = Ncell+2, column = 3)
-c0.value = "Total pay"
-c0 = newsheet0.cell(row = Ncell+2, column = 4)
-c0.value = "Reimb."
-c0 = newsheet0.cell(row = Ncell+2, column = 5)
-c0.value = "Net pay"
-cGrandHrs = newsheet0.cell(row = Ncell+3, column = 2)
-cGrandHrs.value = GrandHrs
-cGrandTot = newsheet0.cell(row = Ncell+3, column = 3)
-cGrandTot.value = GrandTot
-cGrandReim = newsheet0.cell(row = Ncell+3, column = 4)
-cGrandReim.value = GrandReim
-cGrandNet = newsheet0.cell(row = Ncell+3, column = 5)
-cGrandNet.value = GrandNet
-c0 = newsheet0.cell(row = Ncell+5, column = 2)
-c0.value = "Unarmed"
-c0 = newsheet0.cell(row = Ncell+5, column = 3)
-c0.value = "Armed"
-c0 = newsheet0.cell(row = Ncell+5, column = 4)
-c0.value = "Admin"
-c0 = newsheet0.cell(row = Ncell+5, column = 5)
-c0.value = "OT"
-c0 = newsheet0.cell(row = Ncell+5, column = 6)
-c0.value = "Training"
-c0 = newsheet0.cell(row = Ncell+5, column = 7)
-c0.value = "Sick pay"
-c0 = newsheet0.cell(row = Ncell+5, column = 8)
-c0.value = "COVID"
-cGrandUnarmed = newsheet0.cell(row = Ncell+6, column = 2)
-cGrandUnarmed.value = GrandUnarmed
-cGrandArmed = newsheet0.cell(row = Ncell+6, column = 3)
-cGrandArmed.value = GrandArmed
-cGrandAdmin = newsheet0.cell(row = Ncell+6, column = 4)
-cGrandAdmin.value = GrandAdmin
-cGrandOT = newsheet0.cell(row = Ncell+6, column = 5)
-cGrandOT.value = GrandOT
-cGrandTrain = newsheet0.cell(row = Ncell+6, column = 6)
-cGrandTrain.value = GrandTrain
-cGrandSick = newsheet0.cell(row = Ncell+6, column = 7)
-cGrandSick.value = GrandSick
-cGrandCovid = newsheet0.cell(row = Ncell+6, column = 8)
-cGrandCovid.value = GrandCovid
 
 rowmax = newsheet1.max_row
 line1 = Side(border_style="medium", color="000000")
@@ -2535,15 +2425,14 @@ cGrandCovid = newsheet1.cell(row = rowmax+6, column = 14)
 cGrandCovid.value = GrandCovid
 cGrandCovid.alignment = Alignment(horizontal = 'left')
 
-newbook0.save("/mnt/c/Users/Jacob/macros/Payroll/output.xlsx")
-newbook1.save("/mnt/c/Users/Jacob/macros/Payroll/output_rate.xlsx")
+newbook1.save("/mnt/c/Users/Jacob/macros/Payroll/payroll_output.xlsx")
 
 print()
 print("Total hours:",GrandHrs,"\t Total payroll:",GrandTot,"\t Reimbursements:",GrandReim,"\t Total net payroll:",GrandNet)
 print("Total unarmed:",GrandUnarmed,"\t armed:",GrandArmed,"\t admin:",GrandAdmin,"\t OT:",GrandOT,"\t training:",GrandTrain,"\t sicktime:",GrandSick,"\t COVID:",GrandCovid)
 print()
 print()
-print("file output written to /mnt/c/Users/Jacob/macros/Payroll/output_rate.xlsx")
+print("file output written to /mnt/c/Users/Jacob/macros/Payroll/payroll_output.xlsx")
 print()
 print("Done")
     #print(i,Name,Tot,Tot_nxt)
