@@ -10,7 +10,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment
 
 # Payroll file location
-workbook = load_workbook('payroll.xlsx')
+workbook = load_workbook('payroll_07_29_22.xlsx')
 
 # Payroll output
 newbook0 = openpyxl.Workbook()
@@ -76,37 +76,6 @@ c0 = newsheet0.cell(row = 1, column = 9)
 c0.value = "Total hours"
 c0 = newsheet0.cell(row = 1, column = 10)
 c0.value = "Net pay"
-
-c0 = newsheet1.cell(row = 1, column = 1)
-c0.value = "Employee name"
-c0 = newsheet1.cell(row = 1, column = 2)
-c0.value = "rate 1"
-c0 = newsheet1.cell(row = 1, column = 3)
-c0.value = "rate 1 hrs"
-c0 = newsheet1.cell(row = 1, column = 4)
-c0.value = "rate 2"
-c0 = newsheet1.cell(row = 1, column = 5)
-c0.value = "rate 2 hrs"
-c0 = newsheet1.cell(row = 1, column = 6)
-c0.value = "rate 3"
-c0 = newsheet1.cell(row = 1, column = 7)
-c0.value = "rate 3 hrs"
-c0 = newsheet1.cell(row = 1, column = 8)
-c0.value = "rate 4"
-c0 = newsheet1.cell(row = 1, column = 9)
-c0.value = "rate 4 hrs"
-c0 = newsheet1.cell(row = 1, column = 10)
-c0.value = "rate 5"
-c0 = newsheet1.cell(row = 1, column = 11)
-c0.value = "rate 5 hrs"
-c0 = newsheet1.cell(row = 1, column = 12)
-c0.value = "rate 6"
-c0 = newsheet1.cell(row = 1, column = 13)
-c0.value = "rate 6 hrs"
-c0 = newsheet1.cell(row = 1, column = 14)
-c0.value = "rate 7"
-c0 = newsheet1.cell(row = 1, column = 15)
-c0.value = "rate 7 hrs"
 
 nrowsEmp = 0 # number of rows per employee
 rate1 = 0
@@ -265,7 +234,7 @@ for i in range (2, Nrow):
     elif Cat.__contains__("Sick"):
         hrsSick += Hours
         GrandSick += Hours
-    elif Cat.__contains__("Covid"):
+    elif Cat.__contains__("COVID"):
         hrsCOVID += Hours
         GrandCovid += Hours
     else:
@@ -308,7 +277,7 @@ for i in range (2, Nrow):
                     rate1train += Hours_tmp
                 elif Cat.__contains__("Sick"):
                     rate1sick += Hours_tmp
-                elif Cat.__contains__("Covid"):
+                elif Cat.__contains__("COVID"):
                     rate1covid += Hours_tmp
                 else:
                     print("Unknown category for hours!")
@@ -328,7 +297,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -346,7 +315,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -366,7 +335,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -384,7 +353,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -402,7 +371,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -422,7 +391,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -440,7 +409,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -458,7 +427,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -476,7 +445,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -496,7 +465,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -514,7 +483,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -532,7 +501,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -550,7 +519,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -568,7 +537,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -588,7 +557,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -606,7 +575,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -624,7 +593,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -642,7 +611,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -660,7 +629,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -678,7 +647,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -698,7 +667,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -716,7 +685,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -734,7 +703,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -752,7 +721,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -770,7 +739,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -788,7 +757,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -806,7 +775,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -826,7 +795,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -844,7 +813,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -862,7 +831,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -880,7 +849,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -898,7 +867,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -916,7 +885,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -934,7 +903,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -952,7 +921,7 @@ for i in range (2, Nrow):
                         rate8train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate8sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate8covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -972,7 +941,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -990,7 +959,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1008,7 +977,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1026,7 +995,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1044,7 +1013,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1062,7 +1031,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1080,7 +1049,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1098,7 +1067,7 @@ for i in range (2, Nrow):
                         rate8train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate8sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate8covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1116,7 +1085,7 @@ for i in range (2, Nrow):
                         rate9train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate9sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate9covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1136,7 +1105,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1154,7 +1123,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1172,7 +1141,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1190,7 +1159,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1208,7 +1177,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1226,7 +1195,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1244,7 +1213,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1262,7 +1231,7 @@ for i in range (2, Nrow):
                         rate8train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate8sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate8covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1280,7 +1249,7 @@ for i in range (2, Nrow):
                         rate9train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate9sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate9covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1298,7 +1267,7 @@ for i in range (2, Nrow):
                         rate10train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate10sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate10covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1318,7 +1287,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1336,7 +1305,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1354,7 +1323,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1372,7 +1341,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1390,7 +1359,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1408,7 +1377,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1426,7 +1395,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1444,7 +1413,7 @@ for i in range (2, Nrow):
                         rate8train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate8sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate8covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1462,7 +1431,7 @@ for i in range (2, Nrow):
                         rate9train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate9sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate9covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1480,7 +1449,7 @@ for i in range (2, Nrow):
                         rate10train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate10sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate10covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1498,7 +1467,7 @@ for i in range (2, Nrow):
                         rate11train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate11sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate11covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1518,7 +1487,7 @@ for i in range (2, Nrow):
                         rate1train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate1sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate1covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1536,7 +1505,7 @@ for i in range (2, Nrow):
                         rate2train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate2sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate2covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1554,7 +1523,7 @@ for i in range (2, Nrow):
                         rate3train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate3sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate3covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1572,7 +1541,7 @@ for i in range (2, Nrow):
                         rate4train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate4sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate4covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1590,7 +1559,7 @@ for i in range (2, Nrow):
                         rate5train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate5sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate5covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1608,7 +1577,7 @@ for i in range (2, Nrow):
                         rate6train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate6sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate6covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1626,7 +1595,7 @@ for i in range (2, Nrow):
                         rate7train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate7sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate7covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1644,7 +1613,7 @@ for i in range (2, Nrow):
                         rate8train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate8sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate8covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1662,7 +1631,7 @@ for i in range (2, Nrow):
                         rate9train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate9sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate9covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1680,7 +1649,7 @@ for i in range (2, Nrow):
                         rate10train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate10sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate10covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1698,7 +1667,7 @@ for i in range (2, Nrow):
                         rate11train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate11sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate11covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1716,7 +1685,7 @@ for i in range (2, Nrow):
                         rate12train += Hours_tmp
                     elif Cat.__contains__("Sick"):
                         rate12sick += Hours_tmp
-                    elif Cat.__contains__("Covid"):
+                    elif Cat.__contains__("COVID"):
                         rate12covid += Hours_tmp
                     else:
                         print("Unknown category for hours!")
@@ -1777,58 +1746,167 @@ for i in range (2, Nrow):
 
         c1 = newsheet1.cell(row = Ncell, column = 1)
         c1.value = Name
-        c2 = newsheet1.cell(row = Ncell, column = 2)
-        c2.value = rate1
-        c3 = newsheet1.cell(row = Ncell, column = 3)
-        c3.value = rate1hrs
-        c4 = newsheet1.cell(row = Ncell, column = 4)
-        c4.value = rate2
-        if rate2 == 0:
-            c4.value = None
-        c5 = newsheet1.cell(row = Ncell, column = 5)
-        c5.value = rate2hrs
-        if rate2hrs == 0:
-            c5.value = None
-        c6 = newsheet1.cell(row = Ncell, column = 6)
-        c6.value = rate3
-        if rate3 == 0:
-            c6.value = None
-        c7 = newsheet1.cell(row = Ncell, column = 7)
-        c7.value = rate3hrs
-        if rate3hrs == 0:
-            c7.value = None
-        c8 = newsheet1.cell(row = Ncell, column = 8)
-        c8.value = rate4
-        if rate4 == 0:
-            c8.value = None
-        c9 = newsheet1.cell(row = Ncell, column = 9)
-        c9.value = rate4hrs
-        if rate4hrs == 0:
-            c9.value = None
-        c10 = newsheet1.cell(row = Ncell, column = 10)
-        c10.value = rate5
-        if rate5 == 0:
-            c10.value = None
-        c11 = newsheet1.cell(row = Ncell, column = 11)
-        c11.value = rate5hrs
-        if rate5hrs == 0:
-            c11.value = None
-        c12 = newsheet1.cell(row = Ncell, column = 12)
-        c12.value = rate6
-        if rate6 == 0:
-            c12.value = None
-        c13 = newsheet1.cell(row = Ncell, column = 13)
-        c13.value = rate6hrs
-        if rate6hrs == 0:
-            c13.value = None
+        l = 1
+        for j in range(Ncell, Ncell+k):
+            #print(j, Ncell, k,Ncell+k, jrow, rate1,rate1unarmed,rate1armed,rate1admin,rate1OT,"\t",rate2,rate2unarmed,rate2armed,rate2admin,rate2OT)
+            c1 = newsheet1.cell(row = j-k+1, column = 3)
+            c1.value = "Unarmed:"
+            c1 = newsheet1.cell(row = j-k+1, column = 5)
+            c1.value = "Armed:"
+            c1 = newsheet1.cell(row = j-k+1, column = 7)
+            c1.value = "Admin:"
+            c1 = newsheet1.cell(row = j-k+1, column = 9)
+            c1.value = "OT:"
+            c1 = newsheet1.cell(row = j-k+1, column = 11)
+            c1.value = "Train:"
+            c1 = newsheet1.cell(row = j-k+1, column = 13)
+            c1.value = "Sick:"
+            c1 = newsheet1.cell(row = j-k+1, column = 15)
+            c1.value = "COVID:"
+            if l == 1:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate1
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate1unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate1armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate1admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate1OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate1train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate1sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate1covid
+            if l == 2:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate2
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate2unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate2armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate2admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate2OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate2train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate2sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate2covid
+            if l == 3:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate3
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate3unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate3armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate3admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate3OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate3train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate3sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate3covid
+            if l == 4:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate4
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate4unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate4armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate4admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate4OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate4train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate4sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate4covid
+            if l == 5:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate5
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate5unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate5armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate5admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate5OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate5train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate5sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate5covid
+            if l == 6:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate6
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate6unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate6armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate6admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate6OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate6train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate6sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate6covid
+            if l == 7:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate7
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate7unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate7armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate7admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate7OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate7train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate7sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate7covid
+            if l == 8:
+                c1 = newsheet1.cell(row = j-k+1, column = 2)
+                c1.value = rate8
+                c1 = newsheet1.cell(row = j-k+1, column = 4)
+                c1.value = rate8unarmed
+                c1 = newsheet1.cell(row = j-k+1, column = 6)
+                c1.value = rate8armed
+                c1 = newsheet1.cell(row = j-k+1, column = 8)
+                c1.value = rate8admin
+                c1 = newsheet1.cell(row = j-k+1, column = 10)
+                c1.value = rate8OT
+                c1 = newsheet1.cell(row = j-k+1, column = 12)
+                c1.value = rate8train
+                c1 = newsheet1.cell(row = j-k+1, column = 14)
+                c1.value = rate8sick
+                c1 = newsheet1.cell(row = j-k+1, column = 16)
+                c1.value = rate8covid
+            l += 1
 
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
+        #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
         break
     if Name_nxt not in Name:
         hrsTotal = float(round(hrsTotal,2))
         Net = str(round(Net, 2))
-        #Ncell += 1
         Ncell += k
         c1 = newsheet0.cell(row = Ncell, column = 1)
         c1.value = Name
@@ -1850,56 +1928,6 @@ for i in range (2, Nrow):
         c9.value = hrsTotal
         c10 = newsheet0.cell(row = Ncell, column = 10)
         c10.value = Net
-        '''
-        c1 = newsheet1.cell(row = Ncell, column = 1)
-        c1.value = Name
-        c2 = newsheet1.cell(row = Ncell, column = 2)
-        c2.value = rate1
-        c3 = newsheet1.cell(row = Ncell, column = 3)
-        c3.value = rate1hrs
-        c4 = newsheet1.cell(row = Ncell, column = 4)
-        c4.value = rate2
-        if rate2 == 0:
-            c4.value = None
-        c5 = newsheet1.cell(row = Ncell, column = 5)
-        c5.value = rate2hrs
-        if rate2hrs == 0:
-            c5.value = None
-        c6 = newsheet1.cell(row = Ncell, column = 6)
-        c6.value = rate3
-        if rate3 == 0:
-            c6.value = None
-        c7 = newsheet1.cell(row = Ncell, column = 7)
-        c7.value = rate3hrs
-        if rate3hrs == 0:
-            c7.value = None
-        c8 = newsheet1.cell(row = Ncell, column = 8)
-        c8.value = rate4
-        if rate4 == 0:
-            c8.value = None
-        c9 = newsheet1.cell(row = Ncell, column = 9)
-        c9.value = rate4hrs
-        if rate4hrs == 0:
-            c9.value = None
-        c10 = newsheet1.cell(row = Ncell, column = 10)
-        c10.value = rate5
-        if rate5 == 0:
-            c10.value = None
-        c11 = newsheet1.cell(row = Ncell, column = 11)
-        c11.value = rate5hrs
-        if rate5hrs == 0:
-            c11.value = None
-        c12 = newsheet1.cell(row = Ncell, column = 12)
-        c12.value = rate6
-        if rate6 == 0:
-            c12.value = None
-        c13 = newsheet1.cell(row = Ncell, column = 13)
-        c13.value = rate6hrs
-        if rate6hrs == 0:
-            c13.value = None
-        '''
-        print("test0",rate1, rate1hrs, rate1unarmed, rate1armed, rate1OT)
-        print("test0",rate2, rate2hrs, rate2unarmed, rate2armed, rate2OT)
 
         c1 = newsheet1.cell(row = Ncell-k+1, column = 1)
         c1.value = Name
@@ -2059,7 +2087,7 @@ for i in range (2, Nrow):
             l += 1
 
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
-        print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
+        #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
 
         # Clear values for next employee
         Name = Name_nxt # next employee
@@ -2181,34 +2209,63 @@ for i in range (2, Nrow):
         rate10covid = 0
         rate11covid = 0
         rate12covid = 0
+        # end main loop
 
 # Excel spreadhseet options
 newsheet0.column_dimensions["A"].width = 25
 for row in newsheet0[2:newsheet0.max_row]:
     cell = row[9]
     cell.alignment = Alignment(horizontal='right')
+
 newsheet1.column_dimensions["A"].width = 25
-'''
-newsheet1.column_dimensions["A"].width = 25
-newsheet1.column_dimensions["B"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'B{r}'].number_format = '##.## "$/hr"'
-newsheet1.column_dimensions["D"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'D{r}'].number_format = '##.## "$/hr"'
-newsheet1.column_dimensions["F"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'F{r}'].number_format = '##.## "$/hr"'
-newsheet1.column_dimensions["H"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'H{r}'].number_format = '##.## "$/hr"'
-newsheet1.column_dimensions["J"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'J{r}'].number_format = '##.## "$/hr"'
-newsheet1.column_dimensions["L"].width = 10
-for r in range(2, Ncell+1):
-    newsheet1[f'L{r}'].number_format = '##.## "$/hr"'
-'''
+newsheet1.column_dimensions["B"].width = 6
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[1]
+    cell.alignment = Alignment(horizontal='left')
+newsheet1.column_dimensions["C"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[2]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["D"].width = 5
+newsheet1.column_dimensions["E"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[4]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["F"].width = 5
+newsheet1.column_dimensions["G"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[6]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["H"].width = 5
+newsheet1.column_dimensions["I"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[8]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["J"].width = 5
+newsheet1.column_dimensions["K"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[10]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["L"].width = 5
+newsheet1.column_dimensions["M"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[12]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["N"].width = 5
+newsheet1.column_dimensions["O"].width = 10
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[14]
+    cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["P"].width = 5
+
+for row in range(2,newsheet1.max_row):
+    c1 = newsheet1.cell(row, column = 2)
+    c1 = c1.value
+    print(row,c1)
+    if c1 == 0:
+        newsheet1.delete_rows(row)
+    if c1 is None:
+        newsheet1.delete_rows(row)
 
 GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
@@ -2220,7 +2277,7 @@ c0.value = "Total hours"
 c0 = newsheet0.cell(row = Ncell+2, column = 3)
 c0.value = "Total pay"
 c0 = newsheet0.cell(row = Ncell+2, column = 4)
-c0.value = "Reimbursement"
+c0.value = "Reimb."
 c0 = newsheet0.cell(row = Ncell+2, column = 5)
 c0.value = "Net pay"
 
