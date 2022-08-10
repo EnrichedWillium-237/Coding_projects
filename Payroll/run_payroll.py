@@ -186,6 +186,8 @@ for i in range (2, Nrow):
     Name = valName.value
     Cat = valCat.value
     Hours = valHours.value
+    if Hours is None:
+        Hours = 0
     Rate = valRate.value
     Tot = valTot.value
     Reim = valReim.value
@@ -203,7 +205,9 @@ for i in range (2, Nrow):
     GrandGross += valGross
 
     # Sort by category
-    if Cat.__contains__("Un") and not Cat.__contains__("OT"):
+    if Cat is None:
+        print("No category given")
+    elif Cat.__contains__("Un") and not Cat.__contains__("OT"):
         hrsUnarmed += Hours
         GrandUnarmed += Hours
     elif Cat.__contains__("Armed") and not Cat.__contains__("OT"):
@@ -1714,7 +1718,7 @@ for i in range (2, Nrow):
         hrsTotal = float(round(hrsTotal,2))
         Gross = str(round(Gross, 2))
         Ncell += 1
-        c1 = newsheet1.cell(row = Ncell, column = 1)
+        c1 = newsheet1.cell(row = Ncell-k+1, column = 1)
         c1.value = Name
         l = 1
         for j in range(Ncell, Ncell+k):
@@ -1788,14 +1792,12 @@ for i in range (2, Nrow):
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 21)
                 c1.border = Border(top = line)
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
                 c1 = newsheet1.cell(row = j-k+1, column = 22)
                 c1.border = Border(top = line)
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1.value = Note
             if l == 2 and rate2 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate2
@@ -1813,12 +1815,12 @@ for i in range (2, Nrow):
                 c1.value = rate2sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate2covid
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 3 and rate3 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate3
@@ -1836,12 +1838,12 @@ for i in range (2, Nrow):
                 c1.value = rate3sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate3covid
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 4 and rate4 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate4
@@ -1859,6 +1861,12 @@ for i in range (2, Nrow):
                 c1.value = rate4sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate4covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 5 and rate5 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate5
@@ -1876,6 +1884,12 @@ for i in range (2, Nrow):
                 c1.value = rate5sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate5covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 6 and rate6 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate6
@@ -1893,6 +1907,12 @@ for i in range (2, Nrow):
                 c1.value = rate6sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate6covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 7 and rate7 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate7
@@ -1910,6 +1930,12 @@ for i in range (2, Nrow):
                 c1.value = rate7sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate7covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 8 and rate8 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate8
@@ -1927,6 +1953,12 @@ for i in range (2, Nrow):
                 c1.value = rate8sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate8covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 9 and rate9 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate9
@@ -1944,6 +1976,12 @@ for i in range (2, Nrow):
                 c1.value = rate9sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate9covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             l += 1
 
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Gross," Reim:",Reim," Note:",Note)
@@ -2026,14 +2064,12 @@ for i in range (2, Nrow):
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 21)
                 c1.border = Border(top = line)
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
                 c1 = newsheet1.cell(row = j-k+1, column = 22)
                 c1.border = Border(top = line)
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1.value = Note
             if l == 2 and rate2 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate2
@@ -2051,12 +2087,12 @@ for i in range (2, Nrow):
                 c1.value = rate2sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate2covid
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 3 and rate3 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate3
@@ -2074,12 +2110,12 @@ for i in range (2, Nrow):
                 c1.value = rate3sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate3covid
-                if Reim != 0:
-                    c1 = newsheet1.cell(row = j-k+1, column = 21)
-                    c1.value = Reim
-                if Note is not None:
-                    c1 = newsheet1.cell(row = j-k+1, column = 22)
-                    c1.value = Note
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 4 and rate4 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate4
@@ -2097,6 +2133,12 @@ for i in range (2, Nrow):
                 c1.value = rate4sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate4covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 5 and rate5 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate5
@@ -2114,6 +2156,12 @@ for i in range (2, Nrow):
                 c1.value = rate5sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate5covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 6 and rate6 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate6
@@ -2131,6 +2179,12 @@ for i in range (2, Nrow):
                 c1.value = rate6sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate6covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 7 and rate7 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate7
@@ -2148,6 +2202,12 @@ for i in range (2, Nrow):
                 c1.value = rate7sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate7covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 8 and rate8 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate8
@@ -2165,6 +2225,12 @@ for i in range (2, Nrow):
                 c1.value = rate8sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate8covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             if l == 9 and rate9 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate9
@@ -2182,6 +2248,12 @@ for i in range (2, Nrow):
                 c1.value = rate9sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate9covid
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.value = Reim
+                if c1.value == 0:
+                    c1.value = None
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.value = Note
             l += 1
 
         print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Gross," Reim:",Reim," Note:",Note)
