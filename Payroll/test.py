@@ -10,7 +10,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Border, Side
 
 # Payroll file location
-workbook = load_workbook('payroll_07_29_22.xlsx')
+workbook = load_workbook('payroll_input.xlsx')
 
 # Payroll output
 newbook1 = openpyxl.Workbook()
@@ -58,6 +58,8 @@ c0 = newsheet1.cell(row = 1, column = 1)
 c0.value = "Employee name"
 c0 = newsheet1.cell(row = 1, column = 2)
 c0.value = "Pay rate"
+c0 = newsheet1.cell(row = 1, column = 21)
+c0.value = "Reimbursement"
 
 nrowsEmp = 0 # number of rows per employee
 rate1 = 0
@@ -1784,6 +1786,16 @@ for i in range (2, Nrow):
                 c1 = newsheet1.cell(row = j-k+1, column = 20)
                 c1.value = Net
                 c1.border = Border(top = line)
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.border = Border(top = line)
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.border = Border(top = line)
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 2 and rate2 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate2
@@ -1801,6 +1813,12 @@ for i in range (2, Nrow):
                 c1.value = rate2sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate2covid
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 3 and rate3 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate3
@@ -1818,6 +1836,12 @@ for i in range (2, Nrow):
                 c1.value = rate3sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate3covid
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 4 and rate4 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate4
@@ -1922,7 +1946,7 @@ for i in range (2, Nrow):
                 c1.value = rate9covid
             l += 1
 
-        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
+        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net," Reim:",Reim," Note:",Note)
         #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
         break
     if Name_nxt not in Name:
@@ -2000,6 +2024,16 @@ for i in range (2, Nrow):
                 c1 = newsheet1.cell(row = j-k+1, column = 20)
                 c1.value = Net
                 c1.border = Border(top = line)
+                c1 = newsheet1.cell(row = j-k+1, column = 21)
+                c1.border = Border(top = line)
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                c1 = newsheet1.cell(row = j-k+1, column = 22)
+                c1.border = Border(top = line)
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 2 and rate2 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate2
@@ -2017,6 +2051,12 @@ for i in range (2, Nrow):
                 c1.value = rate2sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate2covid
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 3 and rate3 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate3
@@ -2034,6 +2074,12 @@ for i in range (2, Nrow):
                 c1.value = rate3sick
                 c1 = newsheet1.cell(row = j-k+1, column = 16)
                 c1.value = rate3covid
+                if Reim != 0:
+                    c1 = newsheet1.cell(row = j-k+1, column = 21)
+                    c1.value = Reim
+                if Note is not None:
+                    c1 = newsheet1.cell(row = j-k+1, column = 22)
+                    c1.value = Note
             if l == 4 and rate4 != 0:
                 c1 = newsheet1.cell(row = j-k+1, column = 2)
                 c1.value = rate4
@@ -2138,7 +2184,7 @@ for i in range (2, Nrow):
                 c1.value = rate9covid
             l += 1
 
-        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net)
+        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net," Reim:",Reim," Note:",Note)
         #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
 
         # Clear values for next employee
@@ -2273,7 +2319,7 @@ newsheet1.column_dimensions["C"].width = 10
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[2]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["D"].width = 5
+newsheet1.column_dimensions["D"].width = 6
 newsheet1.column_dimensions["E"].width = 8
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[4]
@@ -2323,6 +2369,13 @@ newsheet1.column_dimensions["T"].width = 9
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[19]
     cell.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["U"].width = 5
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[20]
+    cell.alignment = Alignment(horizontal='right')
+for row in newsheet1[2:newsheet1.max_row]:
+    cell = row[21]
+    cell.alignment = Alignment(horizontal='left')
 
 for i in range(1, 12): # clean empty rows
     for row in range(2,newsheet1.max_row):
