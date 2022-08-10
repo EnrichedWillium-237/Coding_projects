@@ -1,4 +1,4 @@
-### Code for reading in a payroll spreadsheet and organizing net payments ###
+### Code for reading in a payroll spreadsheet and organizing gross payments ###
 ### This is a work in progress and does things in a brute force fashion. Will be improved later. ###
 
 # Source files
@@ -48,11 +48,11 @@ GrandTrain = 0
 GrandSick = 0
 GrandCovid = 0
 
-Net = 0 # total pay per employee
+Gross = 0 # total pay per employee
 GrandHrs = 0 # total number of hours
 GrandTot = 0 # total payroll
 GrandReim = 0 # total reimbursement
-GrandNet = 0 # total payout: total + reimbursement
+GrandGross = 0 # total payout: total + reimbursement
 
 c0 = newsheet1.cell(row = 1, column = 1)
 c0.value = "Employee name"
@@ -180,7 +180,7 @@ for i in range (2, Nrow):
     valRate = sheet.cell(row = i, column = 4)
     valTot = sheet.cell(row = i, column = 5)
     valReim = sheet.cell(row = i, column = 6)
-    valNet = sheet.cell(row = i, column = 7)
+    valGross = sheet.cell(row = i, column = 7)
     valNote = sheet.cell(row = i, column = 8)
 
     Name = valName.value
@@ -191,16 +191,16 @@ for i in range (2, Nrow):
     Reim = valReim.value
     if Reim is None:
         Reim = 0
-#    Net = Tot + Reim # calculate reimbursements
-    valNet = valNet.value
+#    Gross = Tot + Reim # calculate reimbursements
+    valGross = valGross.value
     Note = valNote.value
-    Net += valNet
+    Gross += valGross
     Tot_nxt = Tot
 
     GrandHrs += Hours
     GrandTot += Tot
     GrandReim += Reim
-    GrandNet += valNet
+    GrandGross += valGross
 
     # Sort by category
     if Cat.__contains__("Un") and not Cat.__contains__("OT"):
@@ -1712,7 +1712,7 @@ for i in range (2, Nrow):
     line = Side(border_style="thin", color="000000")
     if Name_nxt is None:
         hrsTotal = float(round(hrsTotal,2))
-        Net = str(round(Net, 2))
+        Gross = str(round(Gross, 2))
         Ncell += 1
         c1 = newsheet1.cell(row = Ncell, column = 1)
         c1.value = Name
@@ -1781,10 +1781,10 @@ for i in range (2, Nrow):
                 c1.value = hrsTotal
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 19)
-                c1.value = "Net pay:"
+                c1.value = "Gross:"
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 20)
-                c1.value = Net
+                c1.value = Gross
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 21)
                 c1.border = Border(top = line)
@@ -1946,12 +1946,12 @@ for i in range (2, Nrow):
                 c1.value = rate9covid
             l += 1
 
-        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net," Reim:",Reim," Note:",Note)
+        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Gross," Reim:",Reim," Note:",Note)
         #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
         break
     if Name_nxt not in Name:
         hrsTotal = float(round(hrsTotal,2))
-        Net = str(round(Net, 2))
+        Gross = str(round(Gross, 2))
         Ncell += k
         c1 = newsheet1.cell(row = Ncell-k+1, column = 1)
         c1.value = Name
@@ -2019,10 +2019,10 @@ for i in range (2, Nrow):
                 c1.value = hrsTotal
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 19)
-                c1.value = "Net pay:"
+                c1.value = "Gross:"
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 20)
-                c1.value = Net
+                c1.value = Gross
                 c1.border = Border(top = line)
                 c1 = newsheet1.cell(row = j-k+1, column = 21)
                 c1.border = Border(top = line)
@@ -2184,12 +2184,12 @@ for i in range (2, Nrow):
                 c1.value = rate9covid
             l += 1
 
-        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Net," Reim:",Reim," Note:",Note)
+        print("Employee:",Name,"  Hours unarmed: ",hrsUnarmed," armed:",hrsArmed," admin:",hrsAdmin," OT:",hrsOT," training:",hrsTrain," sick pay:",hrsSick," COVID:",hrsCOVID," --- Total hours:",hrsTotal," Total pay:",Gross," Reim:",Reim," Note:",Note)
         #print("\trate1:",rate1,"hrs1:",rate1hrs,"rate2:",rate2,"hrs2:",rate2hrs,"rate3:",rate3,"hrs3:",rate3hrs,"rate4:",rate4,"hrs4:",rate4hrs,"rate5:",rate5,"hrs5:",rate5hrs,"rate6:",rate6,"hrs6:",rate6hrs,"rate7:",rate7,"hrs7:",rate7hrs,"rate8:",rate8,"hrs8:",rate8hrs,"rate9:",rate9,"hrs9:",rate9hrs,"hrs10:",rate10,"hrs10:",rate10hrs,"rate11:",rate11hrs,"rate12:",rate12,"hrs12:",rate12hrs)
 
         # Clear values for next employee
         Name = Name_nxt # next employee
-        Net = 0
+        Gross = 0
         hrsUnarmed = 0
         hrsArmed = 0
         hrsAdmin = 0
@@ -2361,7 +2361,7 @@ newsheet1.column_dimensions["R"].width = 6
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[17]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["S"].width = 9
+newsheet1.column_dimensions["S"].width = 7
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[18]
     cell.alignment = Alignment(horizontal='right')
@@ -2389,7 +2389,7 @@ for i in range(1, 12): # clean empty rows
 GrandHrs = str(round(GrandHrs, 2))
 GrandTot = str(round(GrandTot, 2))
 GrandReim = str(round(GrandReim, 2))
-GrandNet = str(round(GrandNet, 2))
+GrandGross = str(round(GrandGross, 2))
 
 rowmax = newsheet1.max_row
 line1 = Side(border_style="medium", color="000000")
@@ -2410,7 +2410,7 @@ c0 = newsheet1.cell(row = rowmax+2, column = 7)
 c0.border = Border(bottom = line1)
 c0 = newsheet1.cell(row = rowmax+2, column = 8)
 c0.border = Border(bottom = line1)
-c0.value = "Net pay"
+c0.value = "Gross pay"
 c0 = newsheet1.cell(row = rowmax+2, column = 9)
 c0.border = Border(bottom = line1)
 cGrandHrs = newsheet1.cell(row = rowmax+3, column = 2)
@@ -2419,8 +2419,8 @@ cGrandTot = newsheet1.cell(row = rowmax+3, column = 4)
 cGrandTot.value = GrandTot
 cGrandReim = newsheet1.cell(row = rowmax+3, column = 6)
 cGrandReim.value = GrandReim
-cGrandNet = newsheet1.cell(row = rowmax+3, column = 8)
-cGrandNet.value = GrandNet
+cGrandGross = newsheet1.cell(row = rowmax+3, column = 8)
+cGrandGross.value = GrandGross
 c0 = newsheet1.cell(row = rowmax+5, column = 2)
 c0.value = "Unarmed hours"
 c0.border = Border(bottom = line1)
@@ -2481,7 +2481,7 @@ cGrandCovid.alignment = Alignment(horizontal = 'left')
 newbook1.save("/mnt/c/Users/Jacob/macros/Payroll/payroll_output.xlsx")
 
 print()
-print("Total hours:",GrandHrs,"\t Total payroll:",GrandTot,"\t Reimbursements:",GrandReim,"\t Total net payroll:",GrandNet)
+print("Total hours:",GrandHrs,"\t Total payroll:",GrandTot,"\t Reimbursements:",GrandReim,"\t Total Gross payroll:",GrandGross)
 print("Total unarmed:",GrandUnarmed,"\t armed:",GrandArmed,"\t admin:",GrandAdmin,"\t OT:",GrandOT,"\t training:",GrandTrain,"\t sicktime:",GrandSick,"\t COVID:",GrandCovid)
 print()
 print()
@@ -2491,7 +2491,7 @@ print("Done")
     #print(i,Name,Tot,Tot_nxt)
 #    if Name_nxt == Name:
 #        print(i,Name,Name_nxt)
-    #print(Name,"\t",Cat,"\t",Hours,"\t",Rate,"\t",Tot,"\t",Reim,"\t",Net)
+    #print(Name,"\t",Cat,"\t",Hours,"\t",Rate,"\t",Tot,"\t",Reim,"\t",Gross)
 
 
 ### Next iterration of this code will use arrays to make everything simpler, I promise.
