@@ -2441,7 +2441,7 @@ newsheet1.column_dimensions["T"].width = 9
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[19]
     cell.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["U"].width = 5
+newsheet1.column_dimensions["U"].width = 7
 for row in newsheet1[2:newsheet1.max_row]:
     cell = row[20]
     cell.alignment = Alignment(horizontal='right')
