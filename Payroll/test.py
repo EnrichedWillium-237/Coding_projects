@@ -48,14 +48,25 @@ GrandReim = 0 # total reimbursement
 GrandGross = 0 # total payout: total + reimbursement
 
 # set up arrays
-arrName = np.empty(500, dtype = 'object')
-arrCat = np.empty(500, dtype = 'object')
-arrHrs = np.empty(500, dtype = 'f')
-arrRate = np.empty(500, dtype = 'f')
-arrTot = np.empty(500, dtype = 'f')
-arrReim = np.empty(500, dtype = 'f')
+arrName  = np.empty(500, dtype = 'object')
+arrCat   = np.empty(500, dtype = 'object')
+arrHrs   = np.empty(500, dtype = 'f')
+arrRate  = np.empty(500, dtype = 'f')
+arrTot   = np.empty(500, dtype = 'f')
+arrReim  = np.empty(500, dtype = 'f')
 arrGross = np.empty(500, dtype = 'f')
-arrNote = np.empty(500, dtype = 'object')
+arrNote  = np.empty(500, dtype = 'object')
+
+# payrate for each category
+rate        = np.empty(50, dtype = 'f')
+ratehrs     = np.empty(50, dtype = 'f')
+rateUnarmed = np.empty(50, dtype = 'f')
+rateArmed   = np.empty(50, dtype = 'f')
+rateAdmin   = np.empty(50, dtype = 'f')
+rateOT      = np.empty(50, dtype = 'f')
+rateTrain   = np.empty(50, dtype = 'f')
+rateSick    = np.empty(50, dtype = 'f')
+rateCovid   = np.empty(50, dtype = 'f')
 
 # entries per employee Name
 arrNumRows = np.empty(500, dtype = 'int')
@@ -107,13 +118,13 @@ for i in range(2, Nrow):
         print(arrName[i], nRowName, arrNumRows[i-nRowName])
         nRowName = 1
 
-
 # main event loop
 for i in range(2, Nrow):
     #for i in range(2, 25):
     if arrName[i] is None or 0:
         break
     #print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
+
 
     # calculate total hours for each category
     GrandHrs += arrHrs[i]
@@ -148,6 +159,8 @@ for i in range(2, Nrow):
         print("Unknown category for hours!")
         unknownCat = True
     hrsTotal += arrHrs[i]
+
+
 
 # end main loop
 
