@@ -57,10 +57,14 @@ arrReim = np.empty(500, dtype = 'f')
 arrGross = np.empty(500, dtype = 'f')
 arrNote = np.empty(500, dtype = 'object')
 
+# entries per employee Name
+arrNumRows = np.empty(500, dtype = 'int')
+
 unknownCat = False
 
 # fill arrays with Excel spreadsheet values
 for i in range(2, Nrow):
+
     valName = sheet.cell(row = i, column = 1)
     valCat = sheet.cell(row = i, column = 2)
     valHrs = sheet.cell(row = i, column = 3)
@@ -87,9 +91,22 @@ for i in range(2, Nrow):
     arrReim[i] = valReim
     arrGross[i] = valGross
     arrNote[i] = valNote
-
     if valName is None or 0:
         break
+
+# determine total rows per name
+nRowName = 1
+for i in range(2, Nrow):
+    if arrName[i] is None or 0:
+        break
+    if arrName[i+1] is arrName[i]:
+        nRowName += 1
+    if arrName[i+1] is not arrName[i]:
+        # value gets stored to same array number as first enrty of that name
+        arrNumRows[i-nRowName] = nRowName
+        print(i, arrName[i], nRowName, arrNumRows[i-nRowName])
+        nRowName = 1
+
 
 # main event loop
 for i in range(2, Nrow):
@@ -98,11 +115,11 @@ for i in range(2, Nrow):
         break
     #print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
 
+    # total hours for each category
     GrandHrs += arrHrs[i]
     GrandTot += arrTot[i]
     GrandReim += arrReim[i]
     GrandGross += arrGross[i]
-
     if arrCat[i] is None:
         print("No category given!")
         unknownCat = True
