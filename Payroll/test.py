@@ -104,7 +104,7 @@ for i in range(2, Nrow):
     if arrName[i+1] is not arrName[i]:
         # value gets stored to same array number as first enrty of that name
         arrNumRows[i-nRowName] = nRowName
-        print(i, arrName[i], nRowName, arrNumRows[i-nRowName])
+        print(arrName[i], nRowName, arrNumRows[i-nRowName])
         nRowName = 1
 
 
@@ -115,7 +115,7 @@ for i in range(2, Nrow):
         break
     #print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
 
-    # total hours for each category
+    # calculate total hours for each category
     GrandHrs += arrHrs[i]
     GrandTot += arrTot[i]
     GrandReim += arrReim[i]
@@ -149,6 +149,7 @@ for i in range(2, Nrow):
         unknownCat = True
     hrsTotal += arrHrs[i]
 
+# end main loop
 
 print()
 print("Unarmed: %.2f  Armed: %.2f  Admin: %.2f  OT: %.2f  Train: %.2f  Sick: %.2f  COVID: %.2f" % (GrandUnarmed,GrandArmed,GrandAdmin,GrandOT,GrandTrain,GrandSick,GrandCovid))
