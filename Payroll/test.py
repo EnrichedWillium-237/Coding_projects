@@ -131,19 +131,18 @@ for i in range(2, Nrow):
         arrNumRows[i-nRowName] = nRowName
         print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
         nRowName = 1
-
-#for i in range(2, Nrow):
-    #print(arrName[i],arrNumRows[i-1])
-    #if arrName[i] is None or 0:
-        #break
-
+for i in range(2, Nrow):
+    if arrName[i+1] is arrName[i]:
+        arrNumRows[i] = arrNumRows[i-1]
+    if arrName[i] is None or 0:
+        break
 
 # main event loop
 for i in range(2, Nrow):
     #for i in range(2, 25):
     if arrName[i] is None or 0:
         break
-    print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
+    print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i]," rows",arrNumRows[i-1])
     ###print(arrName[i],arrNumRows[i-1])
 
     # calculate hours per rate
