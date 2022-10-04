@@ -47,6 +47,8 @@ GrandTot = 0 # total payroll
 GrandReim = 0 # total reimbursement
 GrandGross = 0 # total payout: total + reimbursement
 
+unknownCat = False
+
 # set up arrays
 arrName  = np.empty(500, dtype = 'object')
 arrCat   = np.empty(500, dtype = 'object')
@@ -71,8 +73,6 @@ rateCovid   = np.empty(50, dtype = 'f')
 
 # entries per employee Name
 arrNumRows = np.empty(500, dtype = 'int')
-
-unknownCat = False
 
 # fill arrays with Excel spreadsheet values
 for i in range(2, Nrow):
@@ -148,7 +148,6 @@ for i in range(2, Nrow):
     # calculate hours per rate
     #for j in range(1, arrNumRows[i-1]):
         #print(j,arrNumRows[i-1])
-
 
     # calculate total hours for each category
     GrandHrs += arrHrs[i]
