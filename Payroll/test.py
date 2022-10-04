@@ -132,10 +132,10 @@ for i in range(2, Nrow):
         print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
         nRowName = 1
 
-for i in range(2, Nrow):
-    print(arrName[i],arrNumRows[i-1])
-    if arrName[i] is None or 0:
-        break
+#for i in range(2, Nrow):
+    #print(arrName[i],arrNumRows[i-1])
+    #if arrName[i] is None or 0:
+        #break
 
 
 # main event loop
