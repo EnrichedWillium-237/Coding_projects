@@ -67,6 +67,7 @@ rateOT      = np.empty(50, dtype = 'f')
 rateTrain   = np.empty(50, dtype = 'f')
 rateSick    = np.empty(50, dtype = 'f')
 rateCovid   = np.empty(50, dtype = 'f')
+# rateCovid   = np.empty(50, dtype = 'f') # (KEEP) this one works if the above double arrays do not
 
 # entries per employee Name
 arrNumRows = np.empty(500, dtype = 'int')
@@ -90,10 +91,22 @@ for i in range(2, Nrow):
     valRate = valRate.value
     valTot = valTot.value
     valReim = valReim.value
-    if valReim is None:
-        valReim = 0
     valGross = valGross.value
     valNote = valNote.value
+    if valCat is None or 0:
+        valCat = 0
+    if valHrs is None:
+        valHrs = 0
+    if valRate is None:
+        valRate = 0
+    if valTot is None:
+        valTot = 0
+    if valReim is None:
+        valReim = 0
+    if valGross is None:
+        valGross = 0
+    if valNote is None or 0:
+        valNote = 0
     arrName[i] = valName
     arrCat[i] = valCat
     arrHrs[i] = valHrs
@@ -112,18 +125,30 @@ for i in range(2, Nrow):
         break
     if arrName[i+1] is arrName[i]:
         nRowName += 1
+        arrNumRows[i] = 0
     if arrName[i+1] is not arrName[i]:
         # value gets stored to same array number as first enrty of that name
         arrNumRows[i-nRowName] = nRowName
-        print(arrName[i], nRowName, arrNumRows[i-nRowName])
+        print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
         nRowName = 1
+
+for i in range(2, Nrow):
+    print(arrName[i],arrNumRows[i-1])
+    if arrName[i] is None or 0:
+        break
+
 
 # main event loop
 for i in range(2, Nrow):
     #for i in range(2, 25):
     if arrName[i] is None or 0:
         break
-    #print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
+    print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i])
+    ###print(arrName[i],arrNumRows[i-1])
+
+    # calculate hours per rate
+    #for j in range(1, arrNumRows[i-1]):
+        #print(j,arrNumRows[i-1])
 
 
     # calculate total hours for each category
@@ -166,6 +191,7 @@ for i in range(2, Nrow):
 
 print()
 print("Unarmed: %.2f  Armed: %.2f  Admin: %.2f  OT: %.2f  Train: %.2f  Sick: %.2f  COVID: %.2f" % (GrandUnarmed,GrandArmed,GrandAdmin,GrandOT,GrandTrain,GrandSick,GrandCovid))
+print("Total hours: %.2f  Total pay: %.2f  Reimbursement: %.2f  Gross pay: %.2f" % (hrsTotal,GrandTot,GrandReim,GrandGross))
 print()
 if unknownCat is True:
     print("New or missing work category detected! Fix this!")
