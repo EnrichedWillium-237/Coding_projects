@@ -69,7 +69,6 @@ rateOT      = np.empty(50, dtype = 'f')
 rateTrain   = np.empty(50, dtype = 'f')
 rateSick    = np.empty(50, dtype = 'f')
 rateCovid   = np.empty(50, dtype = 'f')
-# rateCovid   = np.empty(50, dtype = 'f') # (KEEP) this one works if the above double arrays do not
 
 # entries per employee Name
 arrNumRows = np.empty(500, dtype = 'int')
@@ -120,7 +119,8 @@ for i in range(2, Nrow):
 
 # determine total rows per name
 nRowName = 1
-for i in range(2, Nrow):
+#for i in range(2, Nrow):
+for i in range(2, 25):
     if arrName[i] is None or 0:
         break
     if arrName[i+1] is arrName[i]:
@@ -129,7 +129,7 @@ for i in range(2, Nrow):
     if arrName[i+1] is not arrName[i]:
         # value gets stored to same array number as first enrty of that name
         arrNumRows[i-nRowName] = nRowName
-        print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
+        #print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
         nRowName = 1
 for i in range(2, Nrow):
     if arrName[i+1] is arrName[i]:
@@ -137,17 +137,13 @@ for i in range(2, Nrow):
     if arrName[i] is None or 0:
         break
 
-# main event loop
-for i in range(2, Nrow):
-    #for i in range(2, 25):
+
+# calculate total values across all employees
+#for i in range(2, Nrow):
+for i in range(2, 25):
     if arrName[i] is None or 0:
         break
     print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i]," rows",arrNumRows[i-1])
-    ###print(arrName[i],arrNumRows[i-1])
-
-    # calculate hours per rate
-    #for j in range(1, arrNumRows[i-1]):
-        #print(j,arrNumRows[i-1])
 
     # calculate total hours for each category
     GrandHrs += arrHrs[i]
@@ -182,17 +178,31 @@ for i in range(2, Nrow):
         print("Unknown category for hours!")
         unknownCat = True
     hrsTotal += arrHrs[i]
-
-
-
 # end main loop
+
+
+# calculate hours per payrate per employee
+#for i in range(2, Nrow):
+for i in range(2, 25):
+    if arrName[i] is None or 0:
+        break
+    k = arrNumRows[i-1]
+    rate = 0
+    for j in range(i, i+1):
+        rate = arrRate[j]
+        print(i,j,k,arrName[j],arrNumRows[j-1],rate)
+
+
+
 
 print()
 print("Unarmed: %.2f  Armed: %.2f  Admin: %.2f  OT: %.2f  Train: %.2f  Sick: %.2f  COVID: %.2f" % (GrandUnarmed,GrandArmed,GrandAdmin,GrandOT,GrandTrain,GrandSick,GrandCovid))
 print("Total hours: %.2f  Total pay: %.2f  Reimbursement: %.2f  Gross pay: %.2f" % (hrsTotal,GrandTot,GrandReim,GrandGross))
 print()
 if unknownCat is True:
+    print("------------------------------------------------")
     print("New or missing work category detected! Fix this!")
+    print("------------------------------------------------")
 print()
 print("Done")
 print()
