@@ -30,7 +30,6 @@ hrsAdmin = 0
 hrsOT = 0
 hrsTrain = 0
 hrsSick = 0
-hrsCOVID = 0
 hrsTotal = 0
 
 GrandUnarmed = 0
@@ -39,7 +38,6 @@ GrandAdmin = 0
 GrandOT = 0
 GrandTrain = 0
 GrandSick = 0
-GrandCovid = 0
 
 Gross = 0 # total pay per employee
 GrandHrs = 0 # total number of hours
@@ -68,13 +66,14 @@ rateAdmin   = np.empty(50, dtype = 'f')
 rateOT      = np.empty(50, dtype = 'f')
 rateTrain   = np.empty(50, dtype = 'f')
 rateSick    = np.empty(50, dtype = 'f')
-rateCovid   = np.empty(50, dtype = 'f')
 
 # entries per employee Name
 arrNumRows = np.empty(500, dtype = 'int')
 
 # fill arrays with Excel spreadsheet values
-for i in range(2, Nrow):
+#for i in range(2, Nrow):
+NrowTest = 25 ### used for testing; replace with Nrow later
+for i in range(2, NrowTest):
 
     valName = sheet.cell(row = i, column = 1)
     valCat = sheet.cell(row = i, column = 2)
@@ -120,7 +119,7 @@ for i in range(2, Nrow):
 # determine total rows per name
 nRowName = 1
 #for i in range(2, Nrow):
-for i in range(2, 25):
+for i in range(2, NrowTest):
     if arrName[i] is None or 0:
         break
     if arrName[i+1] is arrName[i]:
@@ -131,7 +130,8 @@ for i in range(2, 25):
         arrNumRows[i-nRowName] = nRowName
         #print(arrName[i], nRowName, arrNumRows[i-nRowName]) # (KEEP) test number of rows per name
         nRowName = 1
-for i in range(2, Nrow):
+#for i in range(2, Nrow):
+for i in range(2, NrowTest):
     if arrName[i+1] is arrName[i]:
         arrNumRows[i] = arrNumRows[i-1]
     if arrName[i] is None or 0:
@@ -140,7 +140,7 @@ for i in range(2, Nrow):
 
 # calculate total values across all employees
 #for i in range(2, Nrow):
-for i in range(2, 25):
+for i in range(2, NrowTest):
     if arrName[i] is None or 0:
         break
     print(arrName[i],"  Cat",arrCat[i],"  Hrs",arrHrs[i],"  Rate",arrRate[i],"  Tot",arrTot[i],"  Reim",arrReim[i],"  Gross",arrGross[i],"  Note",arrNote[i]," rows",arrNumRows[i-1])
@@ -171,9 +171,6 @@ for i in range(2, 25):
     elif arrCat[i].__contains__("Sick"):
         hrsSick += arrHrs[i]
         GrandSick += arrHrs[i]
-    elif arrCat[i].__contains__("COVID"):
-        hrsCOVID += arrHrs[i]
-        GrandCovid += arrHrs[i]
     else:
         print("Unknown category for hours!")
         unknownCat = True
@@ -183,20 +180,19 @@ for i in range(2, 25):
 
 # calculate hours per payrate per employee
 #for i in range(2, Nrow):
-for i in range(2, 25):
+for i in range(2, NrowTest):
     if arrName[i] is None or 0:
         break
     k = arrNumRows[i-1]
     rate = 0
     for j in range(i, i+1):
-        rate = arrRate[j]
-        print(i,j,k,arrName[j],arrNumRows[j-1],rate)
-
+        ratetmp = arrRate[j]
+        print("i=",i,"j=",j,"k=",k,arrName[j],arrNumRows[j-1],arrCat[j],arrHrs[j],ratetmp)
 
 
 
 print()
-print("Unarmed: %.2f  Armed: %.2f  Admin: %.2f  OT: %.2f  Train: %.2f  Sick: %.2f  COVID: %.2f" % (GrandUnarmed,GrandArmed,GrandAdmin,GrandOT,GrandTrain,GrandSick,GrandCovid))
+print("Unarmed: %.2f  Armed: %.2f  Admin: %.2f  OT: %.2f  Train: %.2f  Sick: %.2f" % (GrandUnarmed,GrandArmed,GrandAdmin,GrandOT,GrandTrain,GrandSick))
 print("Total hours: %.2f  Total pay: %.2f  Reimbursement: %.2f  Gross pay: %.2f" % (hrsTotal,GrandTot,GrandReim,GrandGross))
 print()
 if unknownCat is True:
