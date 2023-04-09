@@ -18,6 +18,9 @@ import datetime
 week1_end = datetime.date(2023, 3, 26)
 week2_end = datetime.date(2023, 4, 2)
 
+def abs(x):
+    return x if x>=0 else -x
+
 # File location
 workbook = load_workbook('data.xlsx')
 
@@ -73,14 +76,18 @@ OT40week1_Pos1_name = 0
 
 rowmin = 270
 rowmax = 280
-rowmid = 0
+rowmid = 0 # find end of week one
 valName = sheet.cell(row = rowmin, column = 6).value
 for i in range(rowmin, rowmax+1):
+    valPos = sheet.cell(row = i, column = 1)
     valDate = sheet.cell(row = i, column = 2)
     valHrs = sheet.cell(row = i, column = 5)
+    valName = sheet.cell(row = i, column = 6)
+    valPos = valPos.value
     valHrs = valHrs.value
     valday = valDate.value.day
     valmonth = valDate.value.month
+    valName = valName.value
     if valday <= week1_end.day and valmonth <= week1_end.month:
         week1Hrs += valHrs
     else:
@@ -88,12 +95,61 @@ for i in range(rowmin, rowmax+1):
     if valday > week1_end.day and valmonth <= week1_end.month:
         if rowmid == 0:
             rowmid = i
-
+# OT +40 for week one
 if week1Hrs > 40:
     OT40week1 = week1Hrs - 40
-    #for i in range(rowmin)
+    OT = OT40week1
+    OTn = OT
+    OTcnt = 0
+    flag1 = False
+    for i in range(rowmid-1, rowmin-1, -1): # minus one offset in for loop because we're counting backwards
+        valPos = sheet.cell(row = i, column = 1)
+        valHrs = sheet.cell(row = i, column = 5)
+        valName = sheet.cell(row = i, column = 6)
+        valPos = valPos.value
+        valHrs = valHrs.value
+        valName = valName.value
+        x1 = valHrs
+        if flag1 is True:
+            OTn = 0
+            y1 = 0
+        if flag1 is False:
+            OTn = OTn - x1
+            if OTn > 0:
+                y1 = x1
+                OTcnt += y1
+            if OTn < 0:
+                y1 = OT - OTcnt
+                flag1 = True
+        OT40week1_Pos1 = y1
+        print("i",i,"  OT",OT,"  valHrs",valHrs,"  OTn",OTn,"  OT for this shift: ",OT40week1_Pos1)
+print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1)
+# OT +40 for week two
 if week2Hrs > 40:
     OT40week2 = week2Hrs - 40
-#for i in range(rowmax+1, rowmin, -1):
-
-print(valName, "\ttotal OT+40 week 1: ", OT40week1, "\ttotal OT+40 week 2: ", OT40week2)
+    OT = OT40week2
+    OTn = OT
+    OTcnt = 0
+    flag1 = False
+    for i in range(rowmax, rowmid-1, -1):
+        valPos = sheet.cell(row = i, column = 1)
+        valHrs = sheet.cell(row = i, column = 5)
+        valName = sheet.cell(row = i, column = 6)
+        valPos = valPos.value
+        valHrs = valHrs.value
+        valName = valName.value
+        x1 = valHrs
+        if flag1 is True:
+            OTn = 0
+            y1 = 0
+        if flag1 is False:
+            OTn = OTn - x1
+            if OTn > 0:
+                y1 = x1
+                OTcnt += y1
+            if OTn < 0:
+                y1 = OT - OTcnt
+                flag1 = True
+        OT40week2_Pos1 = y1
+        print("i",i,"  OT",OT,"  valHrs",valHrs,"  OTn",OTn,"  OT for this shift: ",OT40week2_Pos1)
+print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2)
