@@ -64,18 +64,18 @@ shift_date = date_obj.value
 
 week1Hrs = 0
 week2Hrs = 0
-OT40week1 = 0
-OT40week2 = 0
+RegHrsweek1_Pos1 = 0
+RegHrsweek2_Pos1 = 0
 OT40week1_Pos1 = 0
-OT40week1_Pos2 = 0
-OT40week1_Pos3 = 0
 OT40week2_Pos1 = 0
-OT40week2_Pos2 = 0
-OT40week2_Pos3 = 0
-OT40week1_Pos1_name = 0
+OT12_pos1 = 0
 
-rowmin = 270
-rowmax = 280
+rowmin = 167
+rowmax = 176
+# rowmin = 270
+# rowmax = 280
+# rowmin = 678
+# rowmax = 687
 rowmid = 0 # find end of week one
 valName = sheet.cell(row = rowmin, column = 6).value
 for i in range(rowmin, rowmax+1):
@@ -109,20 +109,27 @@ if week1Hrs > 40:
         valPos = valPos.value
         valHrs = valHrs.value
         valName = valName.value
-        x1 = valHrs
+        x = valHrs
         if flag1 is True:
             OTn = 0
-            y1 = 0
+            y = 0
         if flag1 is False:
-            OTn = OTn - x1
+            OTn = OTn - x
             if OTn > 0:
-                y1 = x1
-                OTcnt += y1
+                y = x
+                OTcnt += y
             if OTn < 0:
-                y1 = OT - OTcnt
+                y = OT - OTcnt
                 flag1 = True
-        OT40week1_Pos1 = y1
-        print("i",i,"  OT",OT,"  valHrs",valHrs,"  OTn",OTn,"  OT for this shift: ",OT40week1_Pos1)
+        if valHrs > 12: # OT +12 calculation
+            z = valHrs - 12
+            if y > z: z = 0
+            else: z = z - y
+        else: z = 0
+        RegHrsweek1_Pos1 = valHrs - y - z
+        OT40week1_Pos1 = y
+        OT12_pos1 = z
+        print("  valHrs",valHrs,"  Standard: ",RegHrsweek1_Pos1,"  OT+12:",OT12_pos1,"  OT+40: ",OT40week1_Pos1)
 print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1)
 # OT +40 for week two
 if week2Hrs > 40:
@@ -138,18 +145,27 @@ if week2Hrs > 40:
         valPos = valPos.value
         valHrs = valHrs.value
         valName = valName.value
-        x1 = valHrs
+        x = valHrs
+        if valHrs > 12: OT12_pos1 = valHrs - 12 # OT +12 calculation
+        else: OT12_pos1 = 0
         if flag1 is True:
             OTn = 0
-            y1 = 0
+            y = 0
         if flag1 is False:
-            OTn = OTn - x1
+            OTn = OTn - x
             if OTn > 0:
-                y1 = x1
-                OTcnt += y1
+                y = x
+                OTcnt += y
             if OTn < 0:
-                y1 = OT - OTcnt
+                y = OT - OTcnt
                 flag1 = True
-        OT40week2_Pos1 = y1
-        print("i",i,"  OT",OT,"  valHrs",valHrs,"  OTn",OTn,"  OT for this shift: ",OT40week2_Pos1)
+        if valHrs > 12: # OT +12 calculation
+            z = valHrs - 12
+            if y > z: z = 0
+            else: z = z - y
+        else: z = 0
+        RegHrsweek2_Pos1 = valHrs - y - z
+        OT40week2_Pos1 = y
+        OT12_pos1 = z
+        print("  valHrs",valHrs,"  Standard: ",RegHrsweek2_Pos1,"  OT+12:",OT12_pos1,"  OT+40: ",OT40week2_Pos1)
 print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2)
