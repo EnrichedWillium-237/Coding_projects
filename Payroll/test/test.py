@@ -37,7 +37,6 @@ label_4 = sheet.cell(row=1, column=4)
 label_5 = sheet.cell(row=1, column=5)
 label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
-Nrow = sheet.max_row # total number of rows
 list1 = ["", "", 0, 0, 0, 0]
 list2 = ["", "", 0, 0, 0, 0]
 list3 = ["", "", 0, 0, 0, 0]
@@ -47,6 +46,7 @@ list6 = ["", "", 0, 0, 0, 0]
 list7 = ["", "", 0, 0, 0, 0]
 list8 = ["", "", 0, 0, 0, 0]
 list9 = ["", "", 0, 0, 0, 0]
+Nrow = sheet.max_row # total number of rows
 
 # Calculation for crosschecks
 GrandHrs = 0 # total number of hours across all names and positions
@@ -64,7 +64,6 @@ for i in range(2, Nrow+1):
     Name = valName.value
     valName = sheet.cell(row = i+1, column = 6)
     NameNxt = valName.value
-    #print(Name)
 
 # Convert date format
 date_obj = sheet.cell(row = 2, column = 2)
@@ -74,6 +73,8 @@ shift_date = date_obj.value
 week1Hrs = 0
 week2Hrs = 0
 
+# rowmin = 838
+# rowmax = 843
 rowmin = 167
 rowmax = 176
 # rowmin = 270
@@ -100,9 +101,65 @@ for i in range(rowmin, rowmax+1):
         if rowmid == 0:
             rowmid = i
 
+# OT +12 for week one and week 2 without 40+
+if week1Hrs < 40:
+    regHrs = 0
+    OT12 = 0
+    valName = sheet.cell(row = rowmid-1, column = 6)
+    valName = valName.value
+    for i in range(rowmid-1, rowmin-1, -1): # minus one offset in loop because we're counting backwards
+        valPos = sheet.cell(row = i, column = 1)
+        valHrs = sheet.cell(row = i, column = 5)
+        valPos = valPos.value
+        valHrs = valHrs.value
+        if valHrs > 12:
+            OT12 = valHrs - 12
+            regHrs = valHrs - OT12
+        else: OT12 = 0
+        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12)
+    listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
+if week2Hrs < 40:
+    regHrs = 0
+    OT12 = 0
+    valName = sheet.cell(row = rowmax, column = 6)
+    valName = valName.value
+    for i in range(rowmax, rowmid-1, -1):
+        valPos = sheet.cell(row = i, column = 1)
+        valHrs = sheet.cell(row = i, column = 5)
+        valPos = valPos.value
+        valHrs = valHrs.value
+        if valHrs > 12:
+            OT12 = valHrs - 12
+            regHrs = valHrs - OT12
+        else: OT12 = 0
+        if i == rowmax:   list1 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        elif i == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, OT12, 0]
+        if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12)
+    listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    print(valName, "  Week 2 --- total: ", week2Hrs, " shift+40 total: ", 0, "\n")
+
 # OT +40 for week one
 if week1Hrs > 40:
-    RegHrsweek1 = 0
+    regHrs = 0
     OT40week1 = 0
     OT12 = 0
     OT40week1 = week1Hrs - 40
@@ -112,7 +169,6 @@ if week1Hrs > 40:
     flag1 = False
     valName = sheet.cell(row = rowmid-1, column = 6)
     valName = valName.value
-    listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
     for i in range(rowmid-1, rowmin-1, -1): # minus one offset in for loop because we're counting backwards
         valPos = sheet.cell(row = i, column = 1)
         valHrs = sheet.cell(row = i, column = 5)
@@ -135,20 +191,96 @@ if week1Hrs > 40:
             if y > z: z = 0
             else: z = z - y
         else: z = 0
-        RegHrsweek1 = valHrs - y - z
+        regHrs = valHrs - y - z
         OT12 = z
-        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, OT12, y]
         if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
-        if flagDebug: print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek1, "  OT+12:", OT12, "  OT+40: ", y)
-    # Sort by position
+        if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
+
+    listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1,"\n")
+
+# OT +40 for week two
+if week2Hrs > 40:
+    regHrs = 0
+    OT40week2 = 0
+    OT12 = 0
+    OT40week2 = week2Hrs - 40
+    OT = OT40week2
+    OTn = OT
+    OTcnt = 0
+    flag1 = False
+    valName = sheet.cell(row = rowmax, column = 6)
+    valName = valName.value
+    for i in range(rowmax, rowmid-1, -1):
+        valPos = sheet.cell(row = i, column = 1)
+        valHrs = sheet.cell(row = i, column = 5)
+        valPos = valPos.value
+        valHrs = valHrs.value
+        x = valHrs
+        if flag1 is True:
+            OTn = 0
+            y = 0
+        if flag1 is False:
+            OTn = OTn - x
+            if OTn > 0:
+                y = x
+                OTcnt += y
+            if OTn < 0:
+                y = OT - OTcnt
+                flag1 = True
+        if valHrs > 12: # OT +12 calculation
+            z = valHrs - 12
+            if y > z: z = 0
+            else: z = z - y
+        else: z = 0
+        regHrs = valHrs - y - z
+        OT12 = z
+        if i == rowmax:   list1 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, OT12, y]
+        elif i == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, OT12, y]
+        if i <= rowmax - 9: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
+
+    listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2,"\n")
+
+# Sort by position
+for i in range(0,2):
+    if i == 0:
+        list1 = (listWeek1[0])
+        list2 = (listWeek1[1])
+        list3 = (listWeek1[2])
+        list4 = (listWeek1[3])
+        list5 = (listWeek1[4])
+        list6 = (listWeek1[5])
+        list7 = (listWeek1[6])
+        list8 = (listWeek1[7])
+        list9 = (listWeek1[8])
+    else:
+        list1 = (listWeek2[0])
+        list2 = (listWeek2[1])
+        list3 = (listWeek2[2])
+        list4 = (listWeek2[3])
+        list5 = (listWeek2[4])
+        list6 = (listWeek2[5])
+        list7 = (listWeek2[6])
+        list8 = (listWeek2[7])
+        list9 = (listWeek2[8])
     pos1 = list1[1]
     pos2 = list2[1]
     pos3 = list3[1]
@@ -165,7 +297,7 @@ if week1Hrs > 40:
     if flagDebug: print("\n")
     if flagDebug: print(valName,"  Position: \ttotal hrs:  reg hrs: \tOT+12: \tOT+40")
     # Position 1
-    if (    pos2 is not None and pos2 in pos1):
+    if pos2 is not None and pos2 in pos1:
         hrsPos1 += list2[2]
         RegHrs1 += list2[3]
         totOT12_1 += list2[4]
@@ -449,55 +581,24 @@ if week1Hrs > 40:
         totOT40_9 += list9[5]
         if flagDebug: print("  ",pos9,"  ",hrsPos9,"   ",RegHrs9,"   ",totOT12_9,"   ",totOT40_9)
         list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9]
-print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1)
-if flagDebug: print("\n")
 
-# OT +40 for week two
-if week2Hrs > 40:
-    RegHrsweek2 = 0
-    OT40week2 = 0
-    OT12 = 0
-    OT40week2 = week2Hrs - 40
-    OT = OT40week2
-    OTn = OT
-    OTcnt = 0
-    flag1 = False
-    listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
-    for i in range(rowmax, rowmid-1, -1):
-        valPos = sheet.cell(row = i, column = 1)
-        valHrs = sheet.cell(row = i, column = 5)
-        valName = sheet.cell(row = i, column = 6)
-        valPos = valPos.value
-        valHrs = valHrs.value
-        valName = valName.value
-        x = valHrs
-        if flag1 is True:
-            OTn = 0
-            y = 0
-        if flag1 is False:
-            OTn = OTn - x
-            if OTn > 0:
-                y = x
-                OTcnt += y
-            if OTn < 0:
-                y = OT - OTcnt
-                flag1 = True
-        if valHrs > 12: # OT +12 calculation
-            z = valHrs - 12
-            if y > z: z = 0
-            else: z = z - y
-        else: z = 0
-        RegHrsweek2 = valHrs - y - z
-        OT12 = z
-        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
-        if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
-        print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek2, "  OT+12:", OT12, "  OT+40: ", y)
-print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2)
+    if i == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+
+print(listWeek1[0])
+print(listWeek1[1])
+print(listWeek1[2])
+print(listWeek1[3])
+print(listWeek1[4])
+print(listWeek1[5])
+print(listWeek1[6])
+print(listWeek1[7])
+print("\n")
+print(listWeek2[0])
+print(listWeek2[1])
+print(listWeek2[2])
+print(listWeek2[3])
+print(listWeek2[4])
+print(listWeek2[5])
+print(listWeek2[6])
+print(listWeek2[7])
