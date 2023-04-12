@@ -20,6 +20,7 @@ week2_end = datetime.date(2023, 4, 2)
 
 def abs(x):
     return x if x>=0 else -x
+flagDebug = True
 
 # File location
 workbook = load_workbook('data.xlsx')
@@ -36,10 +37,8 @@ label_4 = sheet.cell(row=1, column=4)
 label_5 = sheet.cell(row=1, column=5)
 label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
-print(label_1.value,"\t",label_2.value,"\t",label_3.value,"\t",label_4.value,"\t",label_5.value,"\t",label_6.value,"\t",label_7.value,"\t")
-
 Nrow = sheet.max_row # total number of rows
-list1 = [None, None, 0, 0, 0, 0]
+list1 = ["", "", 0, 0, 0, 0]
 list2 = ["", "", 0, 0, 0, 0]
 list3 = ["", "", 0, 0, 0, 0]
 list4 = ["", "", 0, 0, 0, 0]
@@ -54,7 +53,9 @@ GrandHrs = 0 # total number of hours across all names and positions
 for i in range(2, Nrow-1):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
-print("Total hours for all names and positions:  ", GrandHrs)
+print("\n")
+print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
+print("\n")
 
 # Calculate number of shifts
 numShifts = 0
@@ -135,20 +136,18 @@ if week1Hrs > 40:
             else: z = z - y
         else: z = 0
         RegHrsweek1 = valHrs - y - z
-        OT40week1 = y
         OT12 = z
-        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
-        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week1]
+        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
         if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
-        print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek1, "  OT+12:", OT12, "  OT+40: ", OT40week1)
-
+        if flagDebug: print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek1, "  OT+12:", OT12, "  OT+40: ", y)
     # Sort by position
     pos1 = list1[1]
     pos2 = list2[1]
@@ -163,8 +162,10 @@ if week1Hrs > 40:
     RegHrs1 = list1[3]
     totOT12_1 = list1[4]
     totOT40_1 = list1[5]
+    if flagDebug: print("\n")
+    if flagDebug: print(valName,"  Position: \ttotal hrs:  reg hrs: \tOT+12: \tOT+40")
     # Position 1
-    if pos2 is not None and pos2 in pos1:
+    if (    pos2 is not None and pos2 in pos1):
         hrsPos1 += list2[2]
         RegHrs1 += list2[3]
         totOT12_1 += list2[4]
@@ -204,12 +205,14 @@ if week1Hrs > 40:
         RegHrs1 += list9[3]
         totOT12_1 += list9[4]
         totOT40_1 += list9[5]
+    if flagDebug: print("  ",pos1,"  ",hrsPos1,"   ",RegHrs1,"   ",totOT12_1,"   ",totOT40_1)
+    list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1]
     # Position 2
     hrsPos2 = 0
     RegHrs2 = 0
     totOT12_2 = 0
     totOT40_2 = 0
-    if pos2 is not None and pos2 not in pos1:
+    if (    pos2 is not None and pos2 not in pos1):
         hrsPos2 = list2[2]
         RegHrs2 = list2[3]
         totOT12_2 = list2[4]
@@ -249,12 +252,14 @@ if week1Hrs > 40:
             RegHrs2 += list9[3]
             totOT12_2 += list9[4]
             totOT40_2 += list9[5]
+        if flagDebug: print("  ",pos2,"  ",hrsPos2,"   ",RegHrs2,"   ",totOT12_2,"   ",totOT40_2)
+        list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2]
     # Position 3
     hrsPos3 = 0
     RegHrs3 = 0
     totOT12_3 = 0
     totOT40_3 = 0
-    if pos3 is not None and pos3 not in pos1 and pos3 not in pos2:
+    if (    pos3 is not None and pos3 not in pos1 and pos3 not in pos2):
         hrsPos3 += list3[2]
         RegHrs3 += list3[3]
         totOT12_3 += list3[4]
@@ -289,12 +294,14 @@ if week1Hrs > 40:
             RegHrs3 += list9[3]
             totOT12_3 += list9[4]
             totOT40_3 += list9[5]
+        if flagDebug: print("  ",pos3,"  ",hrsPos3,"   ",RegHrs3,"   ",totOT12_3,"   ",totOT40_3)
+        list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3]
     # Position 4
     hrsPos4 = 0
     RegHrs4 = 0
     totOT12_4 = 0
     totOT40_4 = 0
-    if pos4 is not None and pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3:
+    if (    pos4 is not None and pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3):
         hrsPos4 += list4[2]
         RegHrs4 += list4[3]
         totOT12_4 += list4[4]
@@ -324,12 +331,126 @@ if week1Hrs > 40:
             RegHrs4 += list9[3]
             totOT12_4 += list9[4]
             totOT40_4 += list9[5]
-
-    print(pos1,hrsPos1,RegHrs1,totOT12_1,totOT40_1)
-    if pos2 is not None and pos2 is not pos1: print(pos2,hrsPos2,RegHrs2,totOT12_2,totOT40_2)
-    if pos3 is not None and pos3 is not pos1 and pos3 is not pos2: print(pos3,hrsPos3,RegHrs3,totOT12_3,totOT40_3)
-
+        if flagDebug: print("  ",pos4,"  ",hrsPos4,"   ",RegHrs4,"   ",totOT12_4,"   ",totOT40_4)
+        list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4]
+    # Position 5
+    hrsPos5 = 0
+    RegHrs5 = 0
+    totOT12_5 = 0
+    totOT40_5 = 0
+    if (    pos5 is not None and pos5 not in pos1 and pos5 not in pos2 and pos5 not in pos3 and
+            pos5 not in pos4):
+        hrsPos5 += list5[2]
+        RegHrs5 += list5[3]
+        totOT12_5 += list5[4]
+        totOT40_5 += list5[5]
+        if pos6 is not None and pos6 in pos5:
+            hrsPos5 += list6[2]
+            RegHrs5 += list6[3]
+            totOT12_5 += list6[4]
+            totOT40_5 += list6[5]
+        if pos7 is not None and pos7 in pos5:
+            hrsPos5 += list7[2]
+            RegHrs5 += list7[3]
+            totOT12_5 += list7[4]
+            totOT40_5 += list7[5]
+        if pos8 is not None and pos8 in pos5:
+            hrsPos5 += list8[2]
+            RegHrs5 += list8[3]
+            totOT12_5 += list8[4]
+            totOT40_5 += list8[5]
+        if pos9 is not None and pos9 in pos5:
+            hrsPos5 += list9[2]
+            RegHrs5 += list9[3]
+            totOT12_5 += list9[4]
+            totOT40_5 += list9[5]
+        if flagDebug: print("  ",pos5,"  ",hrsPos5,"   ",RegHrs5,"   ",totOT12_5,"   ",totOT40_5)
+        list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5]
+    # Position 6
+    hrsPos6 = 0
+    RegHrs6 = 0
+    totOT12_6 = 0
+    totOT40_6 = 0
+    if (    pos6 is not None and pos6 not in pos1 and pos6 not in pos2 and pos6 not in pos3 and
+            pos6 not in pos4 and pos6 not in pos5):
+        hrsPos6 += list6[2]
+        RegHrs6 += list6[3]
+        totOT12_6 += list6[4]
+        totOT40_6 += list6[5]
+        if pos7 is not None and pos7 in pos6:
+            hrsPos6 += list7[2]
+            RegHrs6 += list7[3]
+            totOT12_6 += list7[4]
+            totOT40_6 += list7[5]
+        if pos8 is not None and pos8 in pos6:
+            hrsPos6 += list8[2]
+            RegHrs6 += list8[3]
+            totOT12_6 += list8[4]
+            totOT40_6 += list8[5]
+        if pos9 is not None and pos9 in pos6:
+            hrsPos6 += list9[2]
+            RegHrs6 += list9[3]
+            totOT12_6 += list9[4]
+            totOT40_6 += list9[5]
+        if flagDebug: print("  ",pos6,"  ",hrsPos6,"   ",RegHrs6,"   ",totOT12_6,"   ",totOT40_6)
+        list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6]
+    # Position 7
+    hrsPos7 = 0
+    RegHrs7 = 0
+    totOT12_7 = 0
+    totOT40_7 = 0
+    if (    pos7 is not None and pos7 not in pos1 and pos7 not in pos2 and pos7 not in pos3 and
+            pos7 not in pos4 and pos7 not in pos5 and pos7 not in pos6):
+        hrsPos7 += list7[2]
+        RegHrs7 += list7[3]
+        totOT12_7 += list7[4]
+        totOT40_7 += list7[5]
+        if pos8 is not None and pos8 in pos7:
+            hrsPos7 += list8[2]
+            RegHrs7 += list8[3]
+            totOT12_7 += list8[4]
+            totOT40_7 += list8[5]
+        if pos9 is not None and pos9 in pos7:
+            hrsPos7 += list9[2]
+            RegHrs7 += list9[3]
+            totOT12_7 += list9[4]
+            totOT40_7 += list9[5]
+        if flagDebug: print("  ",pos7,"  ",hrsPos7,"   ",RegHrs7,"   ",totOT12_7,"   ",totOT40_7)
+        list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7]
+    # Position 8
+    hrsPos8 = 0
+    RegHrs8 = 0
+    totOT12_8 = 0
+    totOT40_8 = 0
+    if (    pos8 is not None and pos8 not in pos1 and pos8 not in pos2 and pos8 not in pos3 and
+            pos8 not in pos4 and pos8 not in pos5 and pos8 not in pos6 and pos8 not in pos7):
+        hrsPos8 += list8[2]
+        RegHrs8 += list8[3]
+        totOT12_8 += list8[4]
+        totOT40_8 += list8[5]
+        if pos9 is not None and pos9 in pos8:
+            hrsPos8 += list9[2]
+            RegHrs8 += list9[3]
+            totOT12_8 += list9[4]
+            totOT40_8 += list9[5]
+        if flagDebug: print("  ",pos8,"  ",hrsPos8,"   ",RegHrs8,"   ",totOT12_8,"   ",totOT40_8)
+        list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8]
+    # Position 9
+    hrsPos9 = 0
+    RegHrs9 = 0
+    totOT12_9 = 0
+    totOT40_9 = 0
+    if (    pos9 is not None and pos9 not in pos1 and pos9 not in pos2 and pos9 not in pos3 and
+            pos9 not in pos4 and pos9 not in pos5 and pos9 not in pos6 and pos9 not in pos7 and
+            pos9 not in pos8):
+        hrsPos9 += list9[2]
+        RegHrs9 += list9[3]
+        totOT12_9 += list9[4]
+        totOT40_9 += list9[5]
+        if flagDebug: print("  ",pos9,"  ",hrsPos9,"   ",RegHrs9,"   ",totOT12_9,"   ",totOT40_9)
+        list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9]
 print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1)
+if flagDebug: print("\n")
 
 # OT +40 for week two
 if week2Hrs > 40:
@@ -341,7 +462,7 @@ if week2Hrs > 40:
     OTn = OT
     OTcnt = 0
     flag1 = False
-    listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
+    listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
     for i in range(rowmax, rowmid-1, -1):
         valPos = sheet.cell(row = i, column = 1)
         valHrs = sheet.cell(row = i, column = 5)
@@ -367,17 +488,16 @@ if week2Hrs > 40:
             else: z = z - y
         else: z = 0
         RegHrsweek2 = valHrs - y - z
-        OT40week2 = y
         OT12 = z
-        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
-        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, OT40week2]
+        if i == rowmid - 1:   list1 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 2: list2 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 3: list3 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 4: list4 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 5: list5 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 6: list6 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 7: list7 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 8: list8 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
+        elif i == rowmid - 9: list9 = [valName, valPos, valHrs, RegHrsweek1, OT12, y]
         if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
-        print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek2, "  OT+12:", OT12, "  OT+40: ", OT40week2)
+        print(valName, "  ", valPos, "  Shift", valHrs, "  Standard: ", RegHrsweek2, "  OT+12:", OT12, "  OT+40: ", y)
 print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2)
