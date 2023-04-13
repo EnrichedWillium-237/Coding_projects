@@ -13,11 +13,6 @@ from openpyxl.styles import Alignment, Border, Side
 from datetime import datetime
 from datetime import date
 
-# Week end dates (must be changed for each pay cycle)
-import datetime
-week1_end = datetime.date(2023, 3, 26)
-week2_end = datetime.date(2023, 4, 2)
-
 flagDebug = True
 
 # File location
@@ -37,11 +32,19 @@ label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
 Nrow = sheet.max_row # total number of rows
 
+# Week end dates (must be changed for each pay cycle)
+import datetime
+week1_end = datetime.date(2023, 3, 26)
+week2_end = datetime.date(2023, 4, 2)
+
 # Calculation for crosschecks
 GrandHrs = 0 # total number of hours across all names and positions
 for i in range(2, Nrow-1):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
+    valDate = sheet.cell(row = i, column = 2)
+    valday = valDate.value.day
+    valmonth = valDate.value.month
 if flagDebug: print("\n")
 if flagDebug: print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
 
@@ -54,14 +57,14 @@ week2Hrs = 0
 # rowmax = 105
 # rowmin = 106 # Brent Panem, one shift in each week
 # rowmax = 107
-# rowmin = 167 # Christopher Tinch, complex
-# rowmax = 176
+rowmin = 167 # Christopher Tinch, complex
+rowmax = 176
 # rowmin = 678 # Mario Archuleta, lots of the same position
 # rowmax = 687
 # rowmin = 739 # Nicholas Manning, many different positions
 # rowmax = 747
-rowmin = 838 # Shane Conroy, +12, no +40
-rowmax = 843
+# rowmin = 838 # Shane Conroy, +12, no +40
+# rowmax = 843
 
 # Find split between week 1 and week 2
 rowmid = 0
@@ -313,8 +316,6 @@ for i in range(0,2):
     RegHrs1 = list1[3]
     totOT12_1 = list1[4]
     totOT40_1 = list1[5]
-    if flagDebug: print("\n")
-    if flagDebug: print(valName,"  Position: \ttotal hrs:  reg hrs: \tOT+12: \tOT+40")
     # Position 1
     if pos2 is not None and pos2 in pos1:
         hrsPos1 += list2[2]
@@ -357,7 +358,6 @@ for i in range(0,2):
         totOT12_1 += list9[4]
         totOT40_1 += list9[5]
     list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1]
-    if flagDebug: print(list1)
     # Position 2
     hrsPos2 = 0
     RegHrs2 = 0
@@ -404,7 +404,6 @@ for i in range(0,2):
             totOT12_2 += list9[4]
             totOT40_2 += list9[5]
         list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2]
-        if flagDebug: print(list2)
     # Position 3
     hrsPos3 = 0
     RegHrs3 = 0
@@ -446,7 +445,6 @@ for i in range(0,2):
             totOT12_3 += list9[4]
             totOT40_3 += list9[5]
         list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3]
-        if flagDebug: print(list3)
     # Position 4
     hrsPos4 = 0
     RegHrs4 = 0
@@ -483,7 +481,6 @@ for i in range(0,2):
             totOT12_4 += list9[4]
             totOT40_4 += list9[5]
         list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4]
-        if flagDebug: print(list4)
     # Position 5
     hrsPos5 = 0
     RegHrs5 = 0
@@ -516,7 +513,6 @@ for i in range(0,2):
             totOT12_5 += list9[4]
             totOT40_5 += list9[5]
         list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5]
-        if flagDebug: print(list5)
     # Position 6
     hrsPos6 = 0
     RegHrs6 = 0
@@ -544,7 +540,6 @@ for i in range(0,2):
             totOT12_6 += list9[4]
             totOT40_6 += list9[5]
         list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6]
-        if flagDebug: print(list6)
     # Position 7
     hrsPos7 = 0
     RegHrs7 = 0
@@ -567,7 +562,6 @@ for i in range(0,2):
             totOT12_7 += list9[4]
             totOT40_7 += list9[5]
         list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7]
-        if flagDebug: print(list7)
     # Position 8
     hrsPos8 = 0
     RegHrs8 = 0
@@ -585,7 +579,6 @@ for i in range(0,2):
             totOT12_8 += list9[4]
             totOT40_8 += list9[5]
         list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8]
-        if flagDebug: print(list8)
     # Position 9
     hrsPos9 = 0
     RegHrs9 = 0
@@ -599,7 +592,6 @@ for i in range(0,2):
         totOT12_9 += list9[4]
         totOT40_9 += list9[5]
         list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9]
-        if flagDebug: print(list9)
 
     if (    list2[1] is not None and (list2[1] is list1[1])):
         list2 = [None, None, 0, 0, 0, 0]
