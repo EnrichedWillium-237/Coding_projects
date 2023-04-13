@@ -10,12 +10,12 @@ from openpyxl import load_workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Border, Side
-from datetime import datetime
-from datetime import date
+from datetime import datetime, date, timedelta
+import pandas as pd
 
 flagDebug = True
 
-# File location
+# Input file location
 workbook = load_workbook('data.xlsx')
 
 # Payroll output
@@ -31,25 +31,26 @@ label_5 = sheet.cell(row=1, column=5)
 label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
 Nrow = sheet.max_row # total number of rows
-
-# Week end dates (must be changed for each pay cycle)
+daterange = sheet['B']
+date_list = [daterange[x].value for x in range(2,len(daterange))]
 import datetime
-week1_end = datetime.date(2023, 3, 26)
-week2_end = datetime.date(2023, 4, 2)
+earliest_date = min(date_list)
+latest_date = max(date_list)
+week1_end = earliest_date + datetime.timedelta(days=6)
+week2_end = latest_date
 
 # Calculation for crosschecks
-GrandHrs = 0 # total number of hours across all names and positions
+GrandHrs = 0
 for i in range(2, Nrow-1):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
-    valDate = sheet.cell(row = i, column = 2)
-    valday = valDate.value.day
-    valmonth = valDate.value.month
-if flagDebug: print("\n")
-if flagDebug: print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
-
-week1Hrs = 0
-week2Hrs = 0
+if flagDebug:
+    print("\n")
+    print("--- Week 1:",earliest_date.strftime("%Y-%m-%d"),"to",week1_end.strftime("%Y-%m-%d"),
+          "--- Week 2:",(week1_end+datetime.timedelta(days=1)).strftime("%Y-%m-%d"),"to",latest_date.strftime("%Y-%m-%d"),"---")
+    print(" Overall stats")
+    print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
+    print("\n")
 
 # rowmin = 10 # Alex Whitmer, only worked second week
 # rowmax = 11
@@ -68,6 +69,8 @@ rowmax = 176
 
 # Find split between week 1 and week 2
 rowmid = 0
+week1Hrs = 0
+week2Hrs = 0
 for i in range(rowmin, rowmax+1):
     valDate = sheet.cell(row = i, column = 2)
     valHrs = sheet.cell(row = i, column = 5)
@@ -276,7 +279,7 @@ if week2Hrs > 40:
         elif i == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, z, y]
         elif i == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, z, y]
         if i <= rowmax - 9: print(warning)
-        if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
+        if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z, "  OT+40: ", y)
 
     listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
     if flagDebug: print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2,"\n")
