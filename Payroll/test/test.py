@@ -63,17 +63,23 @@ shift_date = date_obj.value
 week1Hrs = 0
 week2Hrs = 0
 
-rowmin = 167 # Christopher Tinch, complex
-rowmax = 176
-# rowmin = 270 # Daniel Crosby, complex
-# rowmax = 280
+rowmin = 10 # Alex Whitmer, only worked second week
+rowmax = 11
+# rowmin = 105 # Brendan Kayne, only one shift
+# rowmax = 105
+# rowmin = 106 # Brent Panem, one shift in each week
+# rowmax = 107
+# rowmin = 167 # Christopher Tinch, complex
+# rowmax = 176
 # rowmin = 678 # Mario Archuleta, lots of the same position
 # rowmax = 687
 # rowmin = 739 # Nicholas Manning, many different positions
 # rowmax = 747
 # rowmin = 838 # Shane Conroy, +12, no +40
 # rowmax = 843
-rowmid = 0 # find end of week one
+
+# Find end of week one
+rowmid = 0
 valName = sheet.cell(row = rowmin, column = 6).value
 for i in range(rowmin, rowmax+1):
     valPos = sheet.cell(row = i, column = 1)
@@ -85,6 +91,7 @@ for i in range(rowmin, rowmax+1):
     valday = valDate.value.day
     valmonth = valDate.value.month
     valName = valName.value
+    # print(valday,week1_end.day,valmonth,week1_end.month)
     if valday <= week1_end.day and valmonth <= week1_end.month:
         week1Hrs += valHrs
     else:
@@ -92,8 +99,13 @@ for i in range(rowmin, rowmax+1):
     if valday > week1_end.day and valmonth <= week1_end.month:
         if rowmid == 0:
             rowmid = i
+    if rowmax - rowmin <= 1:
+        rowmid = rowmin + 1
+print(rowmin,rowmax,rowmid,rowmax-rowmin)
+
 
 # OT +12 for week one and week 2 without 40+
+warning = "Employee has worked too many shifts in one week!!! Give them some time off!!!"
 if week1Hrs < 40:
     regHrs = 0
     OT12 = 0
@@ -126,7 +138,7 @@ if week1Hrs < 40:
         elif i == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, OT12, 0]
         elif i == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, OT12, 0]
         elif i == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, OT12, 0]
-        if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if i <= rowmid - 10: print(warning)
         if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12)
     listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
     if flagDebug: print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
@@ -162,7 +174,7 @@ if week2Hrs < 40:
         elif i == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, OT12, 0]
         elif i == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, OT12, 0]
         elif i == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, OT12, 0]
-        if i <= rowmid - 9: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if i <= rowmid - 9: print(warning)
         if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12)
     listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
     if flagDebug: print(valName, "  Week 2 --- total: ", week2Hrs, " shift+40 total: ", 0, "\n")
@@ -221,7 +233,7 @@ if week1Hrs > 40:
         elif i == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, OT12, y]
         elif i == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, OT12, y]
         elif i == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, OT12, y]
-        if i <= rowmid - 10: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if i <= rowmid - 10: print(warning)
         if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
 
     listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
@@ -281,7 +293,7 @@ if week2Hrs > 40:
         elif i == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, OT12, y]
         elif i == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, OT12, y]
         elif i == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, OT12, y]
-        if i <= rowmax - 9: print("Employee has worked too many shifts in one week!!! Give them some time off!!!")
+        if i <= rowmax - 9: print(warning)
         if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
 
     listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
