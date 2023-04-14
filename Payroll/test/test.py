@@ -11,16 +11,15 @@ from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Border, Side
 from datetime import datetime, date, timedelta
-import pandas as pd
 
 flagDebug = False
 
 # Input file location
 workbook = load_workbook('data.xlsx')
 
-# Payroll output
-#newbook1 = openpyxl.Workbook()
-#newsheet1 = newbook1.active
+# Output file
+newbook1 = openpyxl.Workbook()
+newsheet1 = newbook1.active
 
 sheet = workbook.active
 label_1 = sheet.cell(row=1, column=1)
@@ -66,11 +65,11 @@ for i in range(2, Nrow+1):
     else:
         rowmin = i - rowCnt + 1
         rowmax = i
-        listVoid = [None, None, 0, 0, 0, 0]
-        listWeek1 = [listVoid, listVoid, listVoid, listVoid, listVoid,
-                     listVoid, listVoid, listVoid, listVoid]
-        listWeek2 = [listVoid, listVoid, listVoid, listVoid, listVoid,
-                     listVoid, listVoid, listVoid, listVoid]
+        emptyList = [None, None, 0, 0, 0, 0]
+        listWeek1 = [emptyList, emptyList, emptyList, emptyList, emptyList,
+                     emptyList, emptyList, emptyList, emptyList]
+        listWeek2 = [emptyList, emptyList, emptyList, emptyList, emptyList,
+                     emptyList, emptyList, emptyList, emptyList]
 
         # Begin OT calculation
         # Find middle cell between week 1 and week 2
@@ -644,28 +643,28 @@ for i in range(2, Nrow+1):
             if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
             else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
 
-        print("\n--Week 1 totals--")
-        print("  ", valName, "    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
-        print(listWeek1[0])
-        print(listWeek1[1])
-        print(listWeek1[2])
-        print(listWeek1[3])
-        print(listWeek1[4])
-        print(listWeek1[5])
-        print(listWeek1[6])
-        print(listWeek1[7])
-        print(listWeek1[8])
+        print("\n", valName)
+        print("--Week 1 totals--")
+        print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
+        if listWeek1[0][0] is not None: print(listWeek1[0])
+        if listWeek1[1][0] is not None: print(listWeek1[1])
+        if listWeek1[2][0] is not None: print(listWeek1[2])
+        if listWeek1[3][0] is not None: print(listWeek1[3])
+        if listWeek1[4][0] is not None: print(listWeek1[4])
+        if listWeek1[5][0] is not None: print(listWeek1[5])
+        if listWeek1[6][0] is not None: print(listWeek1[6])
+        if listWeek1[7][0] is not None: print(listWeek1[7])
+        if listWeek1[8][0] is not None: print(listWeek1[8])
         print("--Week 2 totals--")
-        print("  ", valName, "    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
-        print(listWeek2[0])
-        print(listWeek2[1])
-        print(listWeek2[2])
-        print(listWeek2[3])
-        print(listWeek2[4])
-        print(listWeek2[5])
-        print(listWeek2[6])
-        print(listWeek2[7])
-        print(listWeek2[8])
-
+        print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
+        if listWeek2[0][0] is not None: print(listWeek2[0])
+        if listWeek2[1][0] is not None: print(listWeek2[1])
+        if listWeek2[2][0] is not None: print(listWeek2[2])
+        if listWeek2[3][0] is not None: print(listWeek2[3])
+        if listWeek2[4][0] is not None: print(listWeek2[4])
+        if listWeek2[5][0] is not None: print(listWeek2[5])
+        if listWeek2[6][0] is not None: print(listWeek2[6])
+        if listWeek2[7][0] is not None: print(listWeek2[7])
+        if listWeek2[8][0] is not None: print(listWeek2[8])
         # Reset count parameter for next employee
         rowCnt = 1
