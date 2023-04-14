@@ -30,42 +30,27 @@ label_4 = sheet.cell(row=1, column=4)
 label_5 = sheet.cell(row=1, column=5)
 label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
-Nrow = sheet.max_row # total number of rows
+Nrow = sheet.max_row
 daterange = sheet['B']
 date_list = [daterange[x].value for x in range(2,len(daterange))]
 import datetime
-earliest_date = min(date_list)
-latest_date = max(date_list)
-week1_end = earliest_date + datetime.timedelta(days=6)
-week2_end = latest_date
+week1start = min(date_list)
+week1end = week1start + datetime.timedelta(days = 6)
+week2start = week1end + datetime.timedelta(days = 1)
+week2end = max(date_list)
 
 # Calculation for crosschecks
 GrandHrs = 0
 for i in range(2, Nrow-1):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
-if flagDebug:
-    print("\n")
-    print("--- Week 1:",earliest_date.strftime("%Y-%m-%d"),"to",week1_end.strftime("%Y-%m-%d"),
-          "--- Week 2:",(week1_end+datetime.timedelta(days=1)).strftime("%Y-%m-%d"),"to",latest_date.strftime("%Y-%m-%d"),"---")
-    print(" Overall stats")
-    print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
-    print("\n")
-
-# rowmin = 10 # Alex Whitmer, only worked second week
-# rowmax = 11
-# rowmin = 105 # Brendan Kayne, only one shift
-# rowmax = 105
-# rowmin = 106 # Brent Panem, one shift in each week
-# rowmax = 107
-# rowmin = 167 # Christopher Tinch, complex
-# rowmax = 176
-# rowmin = 678 # Mario Archuleta, lots of the same position
-# rowmax = 687
-# rowmin = 739 # Nicholas Manning, many different positions
-# rowmax = 747
-# rowmin = 838 # Shane Conroy, +12, no +40
-# rowmax = 843
+# if flagDebug:
+print("\n")
+print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"),
+      "--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"),"---")
+print(" Overall stats")
+print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
+print("\n")
 
 rowCnt = 1
 warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOME TIME OFF!!!\n"
@@ -88,43 +73,26 @@ for i in range(2, Nrow+1):
                      listVoid, listVoid, listVoid, listVoid]
 
         # Begin OT calculation
-        # Find midpoint between week 1 and week 2
+        # Find middle cell between week 1 and week 2
         rowmid = 0
+        rowmidcnt = 0
         week1Hrs = 0
         week2Hrs = 0
-        for j in range(rowmin, rowmax+1):
+        for j in range(rowmin, rowmax + 1):
             valDate = sheet.cell(row = j, column = 2)
             valHrs = sheet.cell(row = j, column = 5)
             valHrs = valHrs.value
             valDate = valDate.value
-            if valDate <= week1_end:
+            if valDate <= week1end:
                 week1Hrs += valHrs
+                rowmidcnt += 1
             else:
                 week2Hrs += valHrs
-            if valDate > week1_end and rowmid == 0:
-                rowmid = j
-            if valDate <= week1_end and rowmid == 0:
-                rowmid = rowmax
-            if rowmax - rowmin <= 1:
-                rowmid = rowmin
-
-            # if valday <= week1_end.day and valmonth <= week1_end.month:
-            #     week1Hrs += valHrs
-            # else:
-            #     week2Hrs += valHrs
-            # if valday > week1_end.day and valmonth <= week1_end.month:
-            #     if rowmid == 0:
-            #         rowmid = i
-            # if rowmax - rowmin <= 1:
-            #     rowmid = rowmin + 1
-        print(rowmin, rowmax, rowmid, week1Hrs, week2Hrs)
-
-
+            rowmid = rowmin + rowmidcnt
 
         # OT +12 for week one and week 2 without 40+
         if week1Hrs <= 40:
             regHrs = 0
-            print("HERE!!!!",i, rowmid, rowmid - 1)
             valName = sheet.cell(row = rowmid-1, column = 6)
             valName = valName.value
             list1 = [None, None, 0, 0, 0, 0]
