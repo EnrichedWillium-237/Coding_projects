@@ -1,7 +1,7 @@
 # Code for calculating OT values
 # Download .csv file "Assigned Shift Details - General" with the following parameters:
 # "Position Name", "Date", "Start Time", "End Time", "Duration", "Employee Name", "Employee Pay Rate".
-# Save .csv file as "data.xlms" and put in same directory as code.
+# Save .csv file as "data.xlms" and put in same directory as this code.
 
 # Source files
 import openpyxl
@@ -9,17 +9,13 @@ import array as arr
 from openpyxl import load_workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.utils import get_column_letter
-from openpyxl.styles import Alignment, Border, Side
+from openpyxl.styles import Alignment, Border, Side, Font
 from datetime import datetime, date, timedelta
 
 flagDebug = False
 
-# Input file location
+# Input file
 workbook = load_workbook('data.xlsx')
-
-# Output file
-newbook1 = openpyxl.Workbook()
-newsheet1 = newbook1.active
 
 sheet = workbook.active
 label_1 = sheet.cell(row=1, column=1)
@@ -40,38 +36,35 @@ week2end = max(date_list)
 
 # Calculation for crosschecks
 GrandHrs = 0
+GrandNames = 0
 for i in range(2, Nrow-1):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
-# if flagDebug:
+    valName = sheet.cell(row = i, column = 6).value
+    valNameNxt = sheet.cell(row = i + 1, column = 6).value
+    if valNameNxt is not valName: GrandNames += 1
 print("\n")
-print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"),
-      "--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"),"---")
-print(" Overall stats")
-print("Total hours for all names and positions:  ", f'{GrandHrs:.9}')
+print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
+print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
+print("Overall stats:")
+print("  Total number of employees:  ", GrandNames)
+print("  Total number of shifts:  ", Nrow - 1)
+print("  Total hours for all names and positions:  ", f'{GrandHrs:.9}')
 print("\n")
-c0 = newsheet1.cell(row = 1, column = 1)
-c0.value = "Week 1: "
-c0 = newsheet1.cell(row = 1, column = 2)
-c0.value = week1start.strftime("%Y-%m-%d")
-c0 = newsheet1.cell(row = 1, column = 3)
-c0.value = week1end.strftime("%Y-%m-%d")
-c0 = newsheet1.cell(row = 2, column = 1)
-c0.value = "Week 2: "
-c0 = newsheet1.cell(row = 2, column = 2)
-c0.value = week2start.strftime("%Y-%m-%d")
-c0 = newsheet1.cell(row = 2, column = 3)
-c0.value = week2end.strftime("%Y-%m-%d")
+
+# Setup output file and spreadsheet
+newbook1 = openpyxl.Workbook()
+newsheet1 = newbook1.active
+printCnt = 8 # Needed for printing out hours
+printCntInit = 8
 
 rowCnt = 1
-printCnt = 1
 warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOME TIME OFF!!!\n"
 flag12eval = False
 # Main event loop
 for i in range(2, Nrow+1):
     valName = sheet.cell(row = i, column = 6).value
     valNameNxt = sheet.cell(row = i+1, column = 6).value
-    flagMultShift = False
     if valNameNxt is valName:
         rowCnt += 1
     else:
@@ -104,6 +97,7 @@ for i in range(2, Nrow+1):
             regHrs = 0
             dayHrsCnt = 0
             dayHrsGap = 0
+            flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = 6).value
             list1 = [None, None, 0, 0, 0, 0]
             list2 = [None, None, 0, 0, 0, 0]
@@ -119,7 +113,7 @@ for i in range(2, Nrow+1):
                 valDate = sheet.cell(row = j, column = 2).value
                 valDateNxt = sheet.cell(row = j+1, column = 2).value
                 if j > 2 and valDateNxt.day is valDate.day:
-                    flagMultShift = True
+                    flagMultShift1 = True
                     flag12eval = True
                     print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
@@ -144,8 +138,8 @@ for i in range(2, Nrow+1):
             if flagDebug: print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
         if week2Hrs <= 40:
             regHrs = 0
-            valName = sheet.cell(row = rowmax, column = 6)
-            valName = valName.value
+            flagMultShift2 = False
+            valName = sheet.cell(row = rowmax, column = 6).value
             list1 = [None, None, 0, 0, 0, 0]
             list2 = [None, None, 0, 0, 0, 0]
             list3 = [None, None, 0, 0, 0, 0]
@@ -157,6 +151,13 @@ for i in range(2, Nrow+1):
             list9 = [None, None, 0, 0, 0, 0]
             for j in range(rowmax, rowmid-1, -1):
                 valPos = sheet.cell(row = j, column = 1)
+                valDate = sheet.cell(row = j, column = 2).value
+                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                if valDateNxt is None: continue
+                if j > 2 and valDateNxt.day is valDate.day:
+                    flagMultShift2 = True
+                    flag12eval = True
+                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5)
                 valPos = valPos.value
                 valHrs = valHrs.value
@@ -685,51 +686,335 @@ for i in range(2, Nrow+1):
         # Combine week 1 and week 2 hours
 
         # Print values to .xlsx file
-        c0 = newsheet1.cell(row = 3, column = 1)
-        c0.value = "Employee Name"
-        c0 = newsheet1.cell(row = 3, column = 2)
-        c0.value = "Position"
-        c0 = newsheet1.cell(row = 3, column = 3)
-        c0.value = "Regular hours Week 1"
-        c0 = newsheet1.cell(row = 3, column = 4)
-        c0.value = "OT+12 Week 1"
-        c0 = newsheet1.cell(row = 3, column = 5)
-        c0.value = "OT+40 Week 1"
-        c0 = newsheet1.cell(row = 3, column = 6)
-        c0.value = "Regular hours Week 2"
-        c0 = newsheet1.cell(row = 3, column = 7)
-        c0.value = "OT+12 Week 2"
-        c0 = newsheet1.cell(row = 3, column = 8)
-        c0.value = "OT+40 Week 2"
-        c0 = newsheet1.cell(row = 3, column = 9)
-        c0.value = "Total regular hours"
-        c0 = newsheet1.cell(row = 3, column = 10)
-        c0.value = "Total OT"
-
-        c0 = newsheet1.cell(row = printCnt + 3, column = 1)
+        c0 = newsheet1.cell(row = printCnt, column = 1)
         c0.value = listWeek1[0][0]
-        # c0 = newsheet1.cell(row = printCnt + 3, column = 2)
+        c0.font = Font(underline='single')
+        c0 = newsheet1.cell(row = printCnt + 1, column = 1)
+        c0.value = "---Week 1---"
+        c0 = newsheet1.cell(row = printCnt + 2, column = 1)
+        if listWeek1[0][1] is None: c0.value = "No shifts"
+        else: c0.value = listWeek1[0][1]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 2)
+        c0.value = listWeek1[0][2]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 3)
+        c0.value = listWeek1[0][3]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 4)
+        c0.value = listWeek1[0][4]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 5)
+        c0.value = listWeek1[0][5]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 6)
+        c0.value = listWeek1[0][4] + listWeek1[0][5]
+        if flagMultShift1 is True:
+            c0 = newsheet1.cell(row = printCnt + 2, column = 7)
+            c0.value = "Multiple shifts in same day. Check for OT+12 by hand."
+        if listWeek1[1][0] is None: printCnt += 4
+        if listWeek1[1][0] is not None:
+            c0 = newsheet1.cell(row = printCnt + 3, column = 1)
+            c0.value = listWeek1[1][1]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 2)
+            c0.value = listWeek1[1][2]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 3)
+            c0.value = listWeek1[1][3]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 4)
+            c0.value = listWeek1[1][4]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 5)
+            c0.value = listWeek1[1][5]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 6)
+            c0.value = listWeek1[1][4] + listWeek1[1][5]
+            printCnt += 5
+        if listWeek1[2][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[2][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[2][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[2][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[2][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[2][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[2][4] + listWeek1[2][5]
+            printCnt += 1
+        if listWeek1[3][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[3][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[3][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[3][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[3][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[3][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[3][4] + listWeek1[3][5]
+            printCnt += 1
+        if listWeek1[4][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[4][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[4][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[4][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[4][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[4][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[4][4] + listWeek1[4][5]
+            printCnt += 1
+        if listWeek1[5][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[5][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[5][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[5][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[5][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[5][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[5][4] + listWeek1[5][5]
+            printCnt += 1
+        if listWeek1[6][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[6][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[6][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[6][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[6][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[6][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[6][4] + listWeek1[6][5]
+            printCnt += 1
+        if listWeek1[7][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[7][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[7][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[7][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[7][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[7][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[7][4] + listWeek1[7][5]
+            printCnt += 1
+        if listWeek1[8][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek1[8][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek1[8][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek1[8][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek1[8][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek1[8][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek1[8][4] + listWeek1[8][5]
+            printCnt += 1
 
-        printCnt += 1
-
+        c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+        c0.value = "---Week 2---"
+        c0 = newsheet1.cell(row = printCnt, column = 1)
+        if listWeek2[0][1] is None: c0.value = "No shifts"
+        else: c0.value = listWeek2[0][1]
+        c0 = newsheet1.cell(row = printCnt, column = 2)
+        c0.value = listWeek2[0][2]
+        c0 = newsheet1.cell(row = printCnt, column = 3)
+        c0.value = listWeek2[0][3]
+        c0 = newsheet1.cell(row = printCnt, column = 4)
+        c0.value = listWeek2[0][4]
+        c0 = newsheet1.cell(row = printCnt, column = 5)
+        c0.value = listWeek2[0][5]
+        c0 = newsheet1.cell(row = printCnt, column = 6)
+        c0.value = listWeek2[0][4] + listWeek2[0][5]
+        if flagMultShift2 is True:
+            c0 = newsheet1.cell(row = printCnt, column = 7)
+            c0.value = "Multiple shifts in same day. Check for OT+12 by hand."
+        if listWeek2[1][0] is None: printCnt += 2
+        if listWeek2[1][0] is not None:
+            c0 = newsheet1.cell(row = printCnt + 1, column = 1)
+            c0.value = listWeek2[1][1]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 2)
+            c0.value = listWeek2[1][2]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 3)
+            c0.value = listWeek2[1][3]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 4)
+            c0.value = listWeek2[1][4]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 5)
+            c0.value = listWeek2[1][5]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 6)
+            c0.value = listWeek2[1][4] + listWeek2[1][5]
+            printCnt += 3
+        if listWeek2[2][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[2][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[2][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[2][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[2][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[2][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[2][4] + listWeek2[2][5]
+            printCnt += 1
+        if listWeek2[3][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[3][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[3][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[3][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[3][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[3][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[3][4] + listWeek2[3][5]
+            printCnt += 1
+        if listWeek2[4][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[4][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[4][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[4][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[4][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[4][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[4][4] + listWeek2[4][5]
+            printCnt += 1
+        if listWeek2[5][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[5][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[5][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[5][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[5][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[5][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[5][4] + listWeek2[5][5]
+            printCnt += 1
+        if listWeek2[6][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[6][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[6][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[6][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[6][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[6][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[6][4] + listWeek2[6][5]
+            printCnt += 1
+        if listWeek2[7][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[7][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[7][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[7][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[7][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[7][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[7][4] + listWeek2[7][5]
+            printCnt += 1
+        if listWeek2[8][0] is not None:
+            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+            c0.value = listWeek2[8][1]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+            c0.value = listWeek2[8][2]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+            c0.value = listWeek2[8][3]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0.value = listWeek2[8][4]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0.value = listWeek2[8][5]
+            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0.value = listWeek2[8][4] + listWeek2[8][5]
+            printCnt += 1
         # Reset count parameter for next employee
         rowCnt = 1
 
-# Excel spreadsheet options
-newsheet1.column_dimensions["A"].width = 25
-newsheet1.column_dimensions["B"].width = 20
-newsheet1.column_dimensions["C"].width = 20
-newsheet1.column_dimensions["D"].width = 20
-newsheet1.column_dimensions["E"].width = 20
-newsheet1.column_dimensions["F"].width = 20
-newsheet1.column_dimensions["G"].width = 20
-newsheet1.column_dimensions["H"].width = 20
-newsheet1.column_dimensions["I"].width = 20
-newsheet1.column_dimensions["J"].width = 20
+# More headers and design options for output
+c0 = newsheet1.cell(row = 1, column = 1)
+c0.value = "Week 1 dates:  "
+c0 = newsheet1.cell(row = 1, column = 2)
+c0.value = week1start.strftime("%Y-%m-%d") + "  to  " + week1end.strftime("%Y-%m-%d")
+c0 = newsheet1.cell(row = 2, column = 1)
+c0.value = "Week 2 dates:  "
+c0 = newsheet1.cell(row = 2, column = 2)
+c0.value = week2start.strftime("%Y-%m-%d") + "  to  " + week2end.strftime("%Y-%m-%d")
+c0 = newsheet1.cell(row = 3, column = 1)
+c0.value = "Total number of employees:  "
+c0 = newsheet1.cell(row = 3, column = 2)
+c0.value = GrandNames
+c0 = newsheet1.cell(row = 4, column = 1)
+c0.value = "Total number of shifts:  "
+c0 = newsheet1.cell(row = 4, column = 2)
+c0.value = Nrow - 1
+c0 = newsheet1.cell(row = 5, column = 1)
+c0.value = "Total number of hours:  "
+c0 = newsheet1.cell(row = 5, column = 2)
+c0.value = GrandHrs
+c0 = newsheet1.cell(row = printCntInit - 1, column = 1)
+c0.value = "Position"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 2)
+c0.value = "Total hours"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 3)
+c0.value = "Regular"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 4)
+c0.value = "OT+12"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 5)
+c0.value = "OT+40"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 6)
+c0.value = "OT Total"
+c0.font = Font(underline='single')
+c0 = newsheet1.cell(row = printCntInit - 1, column = 8)
+c0.value = "Note"
+
+c0 = newsheet1.cell(row = 1, column = 1)
+c0.alignment = Alignment(horizontal='right')
+c0 = newsheet1.cell(row = 2, column = 1)
+c0.alignment = Alignment(horizontal='right')
+c0 = newsheet1.cell(row = 3, column = 1)
+c0.alignment = Alignment(horizontal='right')
+c0 = newsheet1.cell(row = 4, column = 1)
+c0.alignment = Alignment(horizontal='right')
+c0 = newsheet1.cell(row = 5, column = 1)
+c0.alignment = Alignment(horizontal='right')
+newsheet1.column_dimensions["A"].width = 40
+newsheet1.column_dimensions["B"].width = 11
+newsheet1.column_dimensions["C"].width = 8
+newsheet1.column_dimensions["D"].width = 8
+newsheet1.column_dimensions["E"].width = 8
 
 newbook1.save("OT_output.xlsx")
 print("\n")
+if flag12eval is True: print("---WARNING! Hand-check days with multiple shifts!---\n")
 print("file output written to OT_output.xlsx")
-if flag12eval is True: print("---WARNING! Hand-check days with multiple shifts!---")
-print("\n")
-print("OT calculation done.")
+print("\nOT calculation done.\n")
