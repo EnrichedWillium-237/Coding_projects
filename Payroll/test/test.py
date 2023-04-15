@@ -952,6 +952,17 @@ for i in range(2, Nrow+1):
             c0 = newsheet1.cell(row = printCnt - 1, column = 6)
             c0.value = listWeek2[8][4] + listWeek2[8][5]
             printCnt += 1
+
+        # c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+        # c0.value = "---Total---"
+        # c0 = newsheet1.cell(row = printCnt, column = 1)
+        # if listWeek1[0][1] is not None and listWeek2[0][1] is not None:
+        #     c0 = newsheet1.cell(row = printCnt, column = 2)
+        #     c0.value = listWeek1[0][2] + listWeek2[0][2]
+        #     c0 = newsheet1.cell(row = printCnt, column = 3)
+        #     c0.value = listWeek1[0][3] + listWeek2[0][3]
+        #
+        # printCnt += 2
         # Reset count parameter for next employee
         rowCnt = 1
 
