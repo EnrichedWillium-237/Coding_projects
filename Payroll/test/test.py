@@ -662,47 +662,45 @@ for i in range(2, Nrow+1):
         print("\n", valName)
         print("--Week 1 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
-        if listWeek1[0][0] is not None: print(listWeek1[0])
-        if listWeek1[1][0] is not None: print(listWeek1[1])
-        if listWeek1[2][0] is not None: print(listWeek1[2])
-        if listWeek1[3][0] is not None: print(listWeek1[3])
-        if listWeek1[4][0] is not None: print(listWeek1[4])
-        if listWeek1[5][0] is not None: print(listWeek1[5])
-        if listWeek1[6][0] is not None: print(listWeek1[6])
-        if listWeek1[7][0] is not None: print(listWeek1[7])
-        if listWeek1[8][0] is not None: print(listWeek1[8])
+        for j in range(0, 9):
+            if listWeek1[j][0] is not None: print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4])
         print("--Week 2 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
-        if listWeek2[0][0] is not None: print(listWeek2[0])
-        if listWeek2[1][0] is not None: print(listWeek2[1])
-        if listWeek2[2][0] is not None: print(listWeek2[2])
-        if listWeek2[3][0] is not None: print(listWeek2[3])
-        if listWeek2[4][0] is not None: print(listWeek2[4])
-        if listWeek2[5][0] is not None: print(listWeek2[5])
-        if listWeek2[6][0] is not None: print(listWeek2[6])
-        if listWeek2[7][0] is not None: print(listWeek2[7])
-        if listWeek2[8][0] is not None: print(listWeek2[8])
-
-        # Combine week 1 and week 2 hours
+        for j in range(0, 9):
+            if listWeek2[j][0] is not None: print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4])
 
         # Print values to .xlsx file
+        line = Side(border_style="thin", color="000000")
         c0 = newsheet1.cell(row = printCnt, column = 1)
         c0.value = listWeek1[0][0]
-        c0.font = Font(underline='single')
+        c0.border = Border(bottom = line, right = line)
+        c0 = newsheet1.cell(row = printCnt, column = 2)
+        c0.value = "Regular"
+        c0.border = Border(bottom = line)
+        c0 = newsheet1.cell(row = printCnt, column = 3)
+        c0.value = "OT+12"
+        c0.border = Border(bottom = line)
+        c0 = newsheet1.cell(row = printCnt, column = 4)
+        c0.value = "OT+40"
+        c0.border = Border(bottom = line)
+        c0 = newsheet1.cell(row = printCnt, column = 5)
+        c0.value = "OT Total"
+        c0.border = Border(bottom = line)
         c0 = newsheet1.cell(row = printCnt + 1, column = 1)
         c0.value = "---Week 1---"
+        c0.border = Border(right = line)
+        c0.font = Font(italic = 'single')
         c0 = newsheet1.cell(row = printCnt + 2, column = 1)
         if listWeek1[0][1] is None: c0.value = "No shifts"
         else: c0.value = listWeek1[0][1]
+        c0.border = Border(right = line)
         c0 = newsheet1.cell(row = printCnt + 2, column = 2)
-        c0.value = listWeek1[0][2]
-        c0 = newsheet1.cell(row = printCnt + 2, column = 3)
         c0.value = listWeek1[0][3]
-        c0 = newsheet1.cell(row = printCnt + 2, column = 4)
+        c0 = newsheet1.cell(row = printCnt + 2, column = 3)
         c0.value = listWeek1[0][4]
-        c0 = newsheet1.cell(row = printCnt + 2, column = 5)
+        c0 = newsheet1.cell(row = printCnt + 2, column = 4)
         c0.value = listWeek1[0][5]
-        c0 = newsheet1.cell(row = printCnt + 2, column = 6)
+        c0 = newsheet1.cell(row = printCnt + 2, column = 5)
         c0.value = listWeek1[0][4] + listWeek1[0][5]
         if flagMultShift1 is True:
             c0 = newsheet1.cell(row = printCnt + 2, column = 7)
@@ -711,130 +709,123 @@ for i in range(2, Nrow+1):
         if listWeek1[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 3, column = 1)
             c0.value = listWeek1[1][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt + 3, column = 2)
-            c0.value = listWeek1[1][2]
-            c0 = newsheet1.cell(row = printCnt + 3, column = 3)
             c0.value = listWeek1[1][3]
-            c0 = newsheet1.cell(row = printCnt + 3, column = 4)
+            c0 = newsheet1.cell(row = printCnt + 3, column = 3)
             c0.value = listWeek1[1][4]
-            c0 = newsheet1.cell(row = printCnt + 3, column = 5)
+            c0 = newsheet1.cell(row = printCnt + 3, column = 4)
             c0.value = listWeek1[1][5]
-            c0 = newsheet1.cell(row = printCnt + 3, column = 6)
+            c0 = newsheet1.cell(row = printCnt + 3, column = 5)
             c0.value = listWeek1[1][4] + listWeek1[1][5]
             printCnt += 5
         if listWeek1[2][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[2][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[2][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[2][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[2][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[2][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[2][4] + listWeek1[2][5]
             printCnt += 1
         if listWeek1[3][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[3][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[3][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[3][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[3][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[3][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[3][4] + listWeek1[3][5]
             printCnt += 1
         if listWeek1[4][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[4][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[4][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[4][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[4][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[4][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[4][4] + listWeek1[4][5]
             printCnt += 1
         if listWeek1[5][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[5][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[5][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[5][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[5][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[5][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[5][4] + listWeek1[5][5]
             printCnt += 1
         if listWeek1[6][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[6][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[6][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[6][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[6][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[6][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[6][4] + listWeek1[6][5]
             printCnt += 1
         if listWeek1[7][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[7][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[7][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[7][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[7][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[7][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[7][4] + listWeek1[7][5]
             printCnt += 1
         if listWeek1[8][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek1[8][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[8][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[8][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek1[8][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek1[8][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek1[8][4] + listWeek1[8][5]
             printCnt += 1
 
         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
         c0.value = "---Week 2---"
+        c0.border = Border(right = line)
+        c0.font = Font(italic = 'single')
         c0 = newsheet1.cell(row = printCnt, column = 1)
         if listWeek2[0][1] is None: c0.value = "No shifts"
         else: c0.value = listWeek2[0][1]
+        c0.border = Border(right = line)
         c0 = newsheet1.cell(row = printCnt, column = 2)
-        c0.value = listWeek2[0][2]
-        c0 = newsheet1.cell(row = printCnt, column = 3)
         c0.value = listWeek2[0][3]
-        c0 = newsheet1.cell(row = printCnt, column = 4)
+        c0 = newsheet1.cell(row = printCnt, column = 3)
         c0.value = listWeek2[0][4]
-        c0 = newsheet1.cell(row = printCnt, column = 5)
+        c0 = newsheet1.cell(row = printCnt, column = 4)
         c0.value = listWeek2[0][5]
-        c0 = newsheet1.cell(row = printCnt, column = 6)
+        c0 = newsheet1.cell(row = printCnt, column = 5)
         c0.value = listWeek2[0][4] + listWeek2[0][5]
         if flagMultShift2 is True:
             c0 = newsheet1.cell(row = printCnt, column = 7)
@@ -843,128 +834,173 @@ for i in range(2, Nrow+1):
         if listWeek2[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 1, column = 1)
             c0.value = listWeek2[1][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt + 1, column = 2)
-            c0.value = listWeek2[1][2]
-            c0 = newsheet1.cell(row = printCnt + 1, column = 3)
             c0.value = listWeek2[1][3]
-            c0 = newsheet1.cell(row = printCnt + 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt + 1, column = 3)
             c0.value = listWeek2[1][4]
-            c0 = newsheet1.cell(row = printCnt + 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt + 1, column = 4)
             c0.value = listWeek2[1][5]
-            c0 = newsheet1.cell(row = printCnt + 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt + 1, column = 5)
             c0.value = listWeek2[1][4] + listWeek2[1][5]
             printCnt += 3
         if listWeek2[2][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[2][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[2][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[2][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[2][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[2][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[2][4] + listWeek2[2][5]
             printCnt += 1
         if listWeek2[3][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[3][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[3][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[3][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[3][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[3][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[3][4] + listWeek2[3][5]
             printCnt += 1
         if listWeek2[4][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[4][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[4][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[4][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[4][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[4][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[4][4] + listWeek2[4][5]
             printCnt += 1
         if listWeek2[5][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[5][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[5][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[5][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[5][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[5][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[5][4] + listWeek2[5][5]
             printCnt += 1
         if listWeek2[6][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[6][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[6][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[6][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[6][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[6][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[6][4] + listWeek2[6][5]
             printCnt += 1
         if listWeek2[7][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[7][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[7][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[7][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[7][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[7][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[7][4] + listWeek2[7][5]
             printCnt += 1
         if listWeek2[8][0] is not None:
             c0 = newsheet1.cell(row = printCnt - 1, column = 1)
             c0.value = listWeek2[8][1]
+            c0.border = Border(right = line)
             c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[8][2]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[8][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
             c0.value = listWeek2[8][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
             c0.value = listWeek2[8][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 6)
+            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
             c0.value = listWeek2[8][4] + listWeek2[8][5]
             printCnt += 1
 
+        # Add up totals ### work on later
+        # xreg = 0
+        # xOT = 0
         # c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-        # c0.value = "---Total---"
-        # c0 = newsheet1.cell(row = printCnt, column = 1)
-        # if listWeek1[0][1] is not None and listWeek2[0][1] is not None:
-        #     c0 = newsheet1.cell(row = printCnt, column = 2)
-        #     c0.value = listWeek1[0][2] + listWeek2[0][2]
-        #     c0 = newsheet1.cell(row = printCnt, column = 3)
-        #     c0.value = listWeek1[0][3] + listWeek2[0][3]
-        #
-        # printCnt += 2
-        # Reset count parameter for next employee
-        rowCnt = 1
+        # c0.value = "---Total (regular, OT)---"
+        # c0.border = Border(right = line)
+        # c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+        # for j in range(0, 9):
+        #     if listWeek1[j][1] is not None:
+        #         xreg = listWeek1[j][3]
+        #         xOT  = listWeek1[j][4] + listWeek1[j][5]
+        #         if listWeek2[0][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[0][3]
+        #             xOT  += listWeek2[0][4] + listWeek2[0][5]
+        #         if listWeek2[1][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[1][3]
+        #             xOT  += listWeek2[1][4] + listWeek2[1][5]
+        #         if listWeek2[2][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[2][3]
+        #             xOT  += listWeek2[2][4] + listWeek2[2][5]
+        #         if listWeek2[3][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[3][3]
+        #             xOT  += listWeek2[3][4] + listWeek2[3][5]
+        #         if listWeek2[4][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[4][3]
+        #             xOT  += listWeek2[4][4] + listWeek2[4][5]
+        #         if listWeek2[5][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[5][3]
+        #             xOT  += listWeek2[5][4] + listWeek2[5][5]
+        #         if listWeek2[6][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[6][3]
+        #             xOT  += listWeek2[6][4] + listWeek2[6][5]
+        #         if listWeek2[7][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[7][3]
+        #             xOT  += listWeek2[7][4] + listWeek2[7][5]
+        #         if listWeek2[8][1] is listWeek1[j][1]:
+        #             xreg += listWeek2[8][3]
+        #             xOT  += listWeek2[8][4] + listWeek2[8][5]
+        #         c0 = newsheet1.cell(row = printCnt, column = 1)
+        #         c0.value = listWeek1[j][1]
+        #         c0.border = Border(right = line)
+        #         c0 = newsheet1.cell(row = printCnt, column = 2)
+        #         c0.value = xreg
+        #         c0 = newsheet1.cell(row = printCnt, column = 3)
+        #         c0.value = xOT
+        #         printCnt += 1
+        #     if listWeek2[j][1] is not None:
+        #         for k in range(0,9):
+        #             if listWeek1[k][1] is not None and listWeek2[j][1] is not listWeek1[k][1]:
+        #                 print(j,k,listWeek2[j][1],listWeek1[k][1])
+        #                 xreg = listWeek2[j][3]
+        #                 xOT  = listWeek2[j][4] + listWeek2[j][5]
+        #                 c0 = newsheet1.cell(row = printCnt, column = 1)
+        #                 c0.value = listWeek2[j][1]
+        #                 c0.border = Border(right = line)
+        #                 c0 = newsheet1.cell(row = printCnt, column = 2)
+        #                 c0.value = xreg
+        #                 c0 = newsheet1.cell(row = printCnt, column = 3)
+        #                 c0.value = xOT
+        #                 printCnt += 1
+        #                 break
+        #printCnt += 2
+        printCnt += 1
+
+        rowCnt = 1 # Reset count parameter for next employee
 
 # More headers and design options for output
 c0 = newsheet1.cell(row = 1, column = 1)
@@ -987,26 +1023,6 @@ c0 = newsheet1.cell(row = 5, column = 1)
 c0.value = "Total number of hours:  "
 c0 = newsheet1.cell(row = 5, column = 2)
 c0.value = GrandHrs
-c0 = newsheet1.cell(row = printCntInit - 1, column = 1)
-c0.value = "Position"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 2)
-c0.value = "Total hours"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 3)
-c0.value = "Regular"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 4)
-c0.value = "OT+12"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 5)
-c0.value = "OT+40"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 6)
-c0.value = "OT Total"
-c0.font = Font(underline='single')
-c0 = newsheet1.cell(row = printCntInit - 1, column = 8)
-c0.value = "Note"
 
 c0 = newsheet1.cell(row = 1, column = 1)
 c0.alignment = Alignment(horizontal='right')
@@ -1019,10 +1035,9 @@ c0.alignment = Alignment(horizontal='right')
 c0 = newsheet1.cell(row = 5, column = 1)
 c0.alignment = Alignment(horizontal='right')
 newsheet1.column_dimensions["A"].width = 40
-newsheet1.column_dimensions["B"].width = 11
+newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
-newsheet1.column_dimensions["E"].width = 8
 
 newbook1.save("OT_output.xlsx")
 print("\n")
