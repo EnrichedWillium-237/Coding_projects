@@ -1,7 +1,8 @@
 # Code for calculating OT values
 # Download .csv file "Assigned Shift Details - General" with the following parameters:
 # "Position Name", "Date", "Start Time", "End Time", "Duration", "Employee Name", "Employee Pay Rate".
-# Save .csv file as "data.xlms" and put in same directory as this code.
+# Sort .csv file by employee name.
+# Save .csv file as "input.xlsx" and put in same directory as this code.
 
 # Source files
 import openpyxl
@@ -15,7 +16,7 @@ from datetime import datetime, date, timedelta
 flagDebug = False
 
 # Input file
-workbook = load_workbook('data.xlsx')
+workbook = load_workbook('input.xlsx')
 
 sheet = workbook.active
 label_1 = sheet.cell(row=1, column=1)
@@ -27,7 +28,7 @@ label_6 = sheet.cell(row=1, column=6)
 label_7 = sheet.cell(row=1, column=7)
 Nrow = sheet.max_row
 daterange = sheet['B']
-date_list = [daterange[x].value for x in range(2,len(daterange))]
+date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
 import datetime
 week1start = min(date_list)
 week1end = week1start + datetime.timedelta(days = 6)
@@ -37,12 +38,13 @@ week2end = max(date_list)
 # Calculation for crosschecks
 GrandHrs = 0
 GrandNames = 0
-for i in range(2, Nrow-1):
+for i in range(2, Nrow):
     valHrs = sheet.cell(row = i, column = 5)
     GrandHrs += valHrs.value
     valName = sheet.cell(row = i, column = 6).value
     valNameNxt = sheet.cell(row = i + 1, column = 6).value
     if valNameNxt is not valName: GrandNames += 1
+    print(i,valName,valNameNxt,valHrs.value)
 print("\n")
 print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
 print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
@@ -62,7 +64,7 @@ rowCnt = 1
 warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOME TIME OFF!!!\n"
 flag12eval = False
 # Main event loop
-for i in range(2, Nrow+1):
+for i in range(2, Nrow + 1):
     valName = sheet.cell(row = i, column = 6).value
     valNameNxt = sheet.cell(row = i+1, column = 6).value
     if valNameNxt is valName:
@@ -150,17 +152,15 @@ for i in range(2, Nrow+1):
             list8 = [None, None, 0, 0, 0, 0]
             list9 = [None, None, 0, 0, 0, 0]
             for j in range(rowmax, rowmid-1, -1):
-                valPos = sheet.cell(row = j, column = 1)
+                valPos = sheet.cell(row = j, column = 1).value
                 valDate = sheet.cell(row = j, column = 2).value
                 valDateNxt = sheet.cell(row = j+1, column = 2).value
-                if valDateNxt is None: continue
-                if j > 2 and valDateNxt.day is valDate.day:
+                if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
                     flagMultShift2 = True
                     flag12eval = True
                     print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
-                valHrs = sheet.cell(row = j, column = 5)
-                valPos = valPos.value
-                valHrs = valHrs.value
+                valHrs = sheet.cell(row = j, column = 5).value
+
                 if valHrs > 12:
                     z = valHrs - 12
                     regHrs = valHrs - z
@@ -336,280 +336,305 @@ for i in range(2, Nrow+1):
             totOT12_1 = list1[4]
             totOT40_1 = list1[5]
             # Position 1
-            if pos2 is not None and pos2 in pos1:
-                hrsPos1 += list2[2]
-                RegHrs1 += list2[3]
-                totOT12_1 += list2[4]
-                totOT40_1 += list2[5]
-            if pos3 is not None and pos3 in pos1:
-                hrsPos1 += list3[2]
-                RegHrs1 += list3[3]
-                totOT12_1 += list3[4]
-                totOT40_1 += list3[5]
-            if pos4 is not None and pos4 in pos1:
-                hrsPos1 += list4[2]
-                RegHrs1 += list4[3]
-                totOT12_1 += list4[4]
-                totOT40_1 += list4[5]
-            if pos5 is not None and pos5 in pos1:
-                hrsPos1 += list5[2]
-                RegHrs1 += list5[3]
-                totOT12_1 += list5[4]
-                totOT40_1 += list5[5]
-            if pos6 is not None and pos6 in pos1:
-                hrsPos1 += list6[2]
-                RegHrs1 += list6[3]
-                totOT12_1 += list6[4]
-                totOT40_1 += list6[5]
-            if pos7 is not None and pos7 in pos1:
-                hrsPos1 += list7[2]
-                RegHrs1 += list7[3]
-                totOT12_1 += list7[4]
-                totOT40_1 += list7[5]
-            if pos8 is not None and pos8 in pos1:
-                hrsPos1 += list8[2]
-                RegHrs1 += list8[3]
-                totOT12_1 += list8[4]
-                totOT40_1 += list8[5]
-            if pos9 is not None and pos9 in pos1:
-                hrsPos1 += list9[2]
-                RegHrs1 += list9[3]
-                totOT12_1 += list9[4]
-                totOT40_1 += list9[5]
+            if pos1 is not None:
+                if pos2 is not None and pos2 in pos1:
+                    hrsPos1 += list2[2]
+                    RegHrs1 += list2[3]
+                    totOT12_1 += list2[4]
+                    totOT40_1 += list2[5]
+                if pos3 is not None and pos3 in pos1:
+                    hrsPos1 += list3[2]
+                    RegHrs1 += list3[3]
+                    totOT12_1 += list3[4]
+                    totOT40_1 += list3[5]
+                if pos4 is not None and pos4 in pos1:
+                    hrsPos1 += list4[2]
+                    RegHrs1 += list4[3]
+                    totOT12_1 += list4[4]
+                    totOT40_1 += list4[5]
+                if pos5 is not None and pos5 in pos1:
+                    hrsPos1 += list5[2]
+                    RegHrs1 += list5[3]
+                    totOT12_1 += list5[4]
+                    totOT40_1 += list5[5]
+                if pos6 is not None and pos6 in pos1:
+                    hrsPos1 += list6[2]
+                    RegHrs1 += list6[3]
+                    totOT12_1 += list6[4]
+                    totOT40_1 += list6[5]
+                if pos7 is not None and pos7 in pos1:
+                    hrsPos1 += list7[2]
+                    RegHrs1 += list7[3]
+                    totOT12_1 += list7[4]
+                    totOT40_1 += list7[5]
+                if pos8 is not None and pos8 in pos1:
+                    hrsPos1 += list8[2]
+                    RegHrs1 += list8[3]
+                    totOT12_1 += list8[4]
+                    totOT40_1 += list8[5]
+                if pos9 is not None and pos9 in pos1:
+                    hrsPos1 += list9[2]
+                    RegHrs1 += list9[3]
+                    totOT12_1 += list9[4]
+                    totOT40_1 += list9[5]
             list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1]
             # Position 2
             hrsPos2 = 0
             RegHrs2 = 0
             totOT12_2 = 0
             totOT40_2 = 0
-            if (    pos2 is not None and pos2 not in pos1):
-                hrsPos2 = list2[2]
-                RegHrs2 = list2[3]
-                totOT12_2 = list2[4]
-                totOT40_2 = list2[5]
-                if pos3 is not None and pos3 in pos2:
-                    hrsPos2 += list3[2]
-                    RegHrs2 += list3[3]
-                    totOT12_2 += list3[4]
-                    totOT40_2 += list3[5]
-                if pos4 is not None and pos4 in pos2:
-                    hrsPos2 += list4[2]
-                    RegHrs2 += list4[3]
-                    totOT12_2 += list4[4]
-                    totOT40_2 += list4[5]
-                if pos5 is not None and pos5 in pos2:
-                    hrsPos2 += list5[2]
-                    RegHrs2 += list5[3]
-                    totOT12_2 += list5[4]
-                    totOT40_2 += list5[5]
-                if pos6 is not None and pos6 in pos2:
-                    hrsPos2 += list6[2]
-                    RegHrs2 += list6[3]
-                    totOT12_2 += list6[4]
-                    totOT40_2 += list6[5]
-                if pos7 is not None and pos7 in pos2:
-                    hrsPos2 += list7[2]
-                    RegHrs2 += list7[3]
-                    totOT12_2 += list7[4]
-                    totOT40_2 += list7[5]
-                if pos8 is not None and pos8 in pos2:
-                    hrsPos2 += list8[2]
-                    RegHrs2 += list8[3]
-                    totOT12_2 += list8[4]
-                    totOT40_2 += list8[5]
-                if pos9 is not None and pos9 in pos2:
-                    hrsPos2 += list9[2]
-                    RegHrs2 += list9[3]
-                    totOT12_2 += list9[4]
-                    totOT40_2 += list9[5]
+            if pos2 is not None:
+                if (    pos1 is not None and
+                        pos2 not in pos1):
+                    hrsPos2 = list2[2]
+                    RegHrs2 = list2[3]
+                    totOT12_2 = list2[4]
+                    totOT40_2 = list2[5]
+                    if pos3 is not None and pos3 in pos2:
+                        hrsPos2 += list3[2]
+                        RegHrs2 += list3[3]
+                        totOT12_2 += list3[4]
+                        totOT40_2 += list3[5]
+                    if pos4 is not None and pos4 in pos2:
+                        hrsPos2 += list4[2]
+                        RegHrs2 += list4[3]
+                        totOT12_2 += list4[4]
+                        totOT40_2 += list4[5]
+                    if pos5 is not None and pos5 in pos2:
+                        hrsPos2 += list5[2]
+                        RegHrs2 += list5[3]
+                        totOT12_2 += list5[4]
+                        totOT40_2 += list5[5]
+                    if pos6 is not None and pos6 in pos2:
+                        hrsPos2 += list6[2]
+                        RegHrs2 += list6[3]
+                        totOT12_2 += list6[4]
+                        totOT40_2 += list6[5]
+                    if pos7 is not None and pos7 in pos2:
+                        hrsPos2 += list7[2]
+                        RegHrs2 += list7[3]
+                        totOT12_2 += list7[4]
+                        totOT40_2 += list7[5]
+                    if pos8 is not None and pos8 in pos2:
+                        hrsPos2 += list8[2]
+                        RegHrs2 += list8[3]
+                        totOT12_2 += list8[4]
+                        totOT40_2 += list8[5]
+                    if pos9 is not None and pos9 in pos2:
+                        hrsPos2 += list9[2]
+                        RegHrs2 += list9[3]
+                        totOT12_2 += list9[4]
+                        totOT40_2 += list9[5]
                 list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2]
             # Position 3
             hrsPos3 = 0
             RegHrs3 = 0
             totOT12_3 = 0
             totOT40_3 = 0
-            if (    pos3 is not None and pos3 not in pos1 and pos3 not in pos2):
-                hrsPos3 += list3[2]
-                RegHrs3 += list3[3]
-                totOT12_3 += list3[4]
-                totOT40_3 += list3[5]
-                if pos4 is not None and pos4 in pos3:
-                    hrsPos3 += list4[2]
-                    RegHrs3 += list4[3]
-                    totOT12_3 += list4[4]
-                    totOT40_3 += list4[5]
-                if pos5 is not None and pos5 in pos3:
-                    hrsPos3 += list5[2]
-                    RegHrs3 += list5[3]
-                    totOT12_3 += list5[4]
-                    totOT40_3 += list5[5]
-                if pos6 is not None and pos6 in pos3:
-                    hrsPos3 += list6[2]
-                    RegHrs3 += list6[3]
-                    totOT12_3 += list6[4]
-                    totOT40_3 += list6[5]
-                if pos7 is not None and pos7 in pos3:
-                    hrsPos3 += list7[2]
-                    RegHrs3 += list7[3]
-                    totOT12_3 += list7[4]
-                    totOT40_3 += list7[5]
-                if pos8 is not None and pos8 in pos3:
-                    hrsPos3 += list8[2]
-                    RegHrs3 += list8[3]
-                    totOT12_3 += list8[4]
-                    totOT40_3 += list8[5]
-                if pos9 is not None and pos9 in pos3:
-                    hrsPos3 += list9[2]
-                    RegHrs3 += list9[3]
-                    totOT12_3 += list9[4]
-                    totOT40_3 += list9[5]
+            if pos3 is not None:
+                if (    pos2 is not None and pos1 is not None and
+                        pos3 not in pos1 and pos3 not in pos2):
+                    hrsPos3 += list3[2]
+                    RegHrs3 += list3[3]
+                    totOT12_3 += list3[4]
+                    totOT40_3 += list3[5]
+                    if pos4 is not None and pos4 in pos3:
+                        hrsPos3 += list4[2]
+                        RegHrs3 += list4[3]
+                        totOT12_3 += list4[4]
+                        totOT40_3 += list4[5]
+                    if pos5 is not None and pos5 in pos3:
+                        hrsPos3 += list5[2]
+                        RegHrs3 += list5[3]
+                        totOT12_3 += list5[4]
+                        totOT40_3 += list5[5]
+                    if pos6 is not None and pos6 in pos3:
+                        hrsPos3 += list6[2]
+                        RegHrs3 += list6[3]
+                        totOT12_3 += list6[4]
+                        totOT40_3 += list6[5]
+                    if pos7 is not None and pos7 in pos3:
+                        hrsPos3 += list7[2]
+                        RegHrs3 += list7[3]
+                        totOT12_3 += list7[4]
+                        totOT40_3 += list7[5]
+                    if pos8 is not None and pos8 in pos3:
+                        hrsPos3 += list8[2]
+                        RegHrs3 += list8[3]
+                        totOT12_3 += list8[4]
+                        totOT40_3 += list8[5]
+                    if pos9 is not None and pos9 in pos3:
+                        hrsPos3 += list9[2]
+                        RegHrs3 += list9[3]
+                        totOT12_3 += list9[4]
+                        totOT40_3 += list9[5]
                 list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3]
             # Position 4
             hrsPos4 = 0
             RegHrs4 = 0
             totOT12_4 = 0
             totOT40_4 = 0
-            if (    pos4 is not None and pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3):
-                hrsPos4 += list4[2]
-                RegHrs4 += list4[3]
-                totOT12_4 += list4[4]
-                totOT40_4 += list4[5]
-                if pos5 is not None and pos5 in pos4:
-                    hrsPos4 += list5[2]
-                    RegHrs4 += list5[3]
-                    totOT12_4 += list5[4]
-                    totOT40_4 += list5[5]
-                if pos6 is not None and pos6 in pos4:
-                    hrsPos4 += list6[2]
-                    RegHrs4 += list6[3]
-                    totOT12_4 += list6[4]
-                    totOT40_4 += list6[5]
-                if pos7 is not None and pos7 in pos4:
-                    hrsPos4 += list7[2]
-                    RegHrs4 += list7[3]
-                    totOT12_4 += list7[4]
-                    totOT40_4 += list7[5]
-                if pos8 is not None and pos8 in pos4:
-                    hrsPos4 += list8[2]
-                    RegHrs4 += list8[3]
-                    totOT12_4 += list8[4]
-                    totOT40_4 += list8[5]
-                if pos9 is not None and pos9 in pos4:
-                    hrsPos4 += list9[2]
-                    RegHrs4 += list9[3]
-                    totOT12_4 += list9[4]
-                    totOT40_4 += list9[5]
+            if pos4 is not None:
+                if (    pos3 is not None and pos2 is not None and pos1 is not None and
+                        pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3):
+                    hrsPos4 += list4[2]
+                    RegHrs4 += list4[3]
+                    totOT12_4 += list4[4]
+                    totOT40_4 += list4[5]
+                    if pos5 is not None and pos5 in pos4:
+                        hrsPos4 += list5[2]
+                        RegHrs4 += list5[3]
+                        totOT12_4 += list5[4]
+                        totOT40_4 += list5[5]
+                    if pos6 is not None and pos6 in pos4:
+                        hrsPos4 += list6[2]
+                        RegHrs4 += list6[3]
+                        totOT12_4 += list6[4]
+                        totOT40_4 += list6[5]
+                    if pos7 is not None and pos7 in pos4:
+                        hrsPos4 += list7[2]
+                        RegHrs4 += list7[3]
+                        totOT12_4 += list7[4]
+                        totOT40_4 += list7[5]
+                    if pos8 is not None and pos8 in pos4:
+                        hrsPos4 += list8[2]
+                        RegHrs4 += list8[3]
+                        totOT12_4 += list8[4]
+                        totOT40_4 += list8[5]
+                    if pos9 is not None and pos9 in pos4:
+                        hrsPos4 += list9[2]
+                        RegHrs4 += list9[3]
+                        totOT12_4 += list9[4]
+                        totOT40_4 += list9[5]
                 list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4]
             # Position 5
             hrsPos5 = 0
             RegHrs5 = 0
             totOT12_5 = 0
             totOT40_5 = 0
-            if (    pos5 is not None and pos5 not in pos1 and pos5 not in pos2 and pos5 not in pos3 and
-                    pos5 not in pos4):
-                hrsPos5 += list5[2]
-                RegHrs5 += list5[3]
-                totOT12_5 += list5[4]
-                totOT40_5 += list5[5]
-                if pos6 is not None and pos6 in pos5:
-                    hrsPos5 += list6[2]
-                    RegHrs5 += list6[3]
-                    totOT12_5 += list6[4]
-                    totOT40_5 += list6[5]
-                if pos7 is not None and pos7 in pos5:
-                    hrsPos5 += list7[2]
-                    RegHrs5 += list7[3]
-                    totOT12_5 += list7[4]
-                    totOT40_5 += list7[5]
-                if pos8 is not None and pos8 in pos5:
-                    hrsPos5 += list8[2]
-                    RegHrs5 += list8[3]
-                    totOT12_5 += list8[4]
-                    totOT40_5 += list8[5]
-                if pos9 is not None and pos9 in pos5:
-                    hrsPos5 += list9[2]
-                    RegHrs5 += list9[3]
-                    totOT12_5 += list9[4]
-                    totOT40_5 += list9[5]
+            if pos5 is not None:
+                if (    pos4 is not None and pos3 is not None and pos2 is not None and
+                        pos1 is not None and
+                        pos5 not in pos1 and pos5 not in pos2 and pos5 not in pos3 and
+                        pos5 not in pos4):
+                    hrsPos5 += list5[2]
+                    RegHrs5 += list5[3]
+                    totOT12_5 += list5[4]
+                    totOT40_5 += list5[5]
+                    if pos6 is not None and pos6 in pos5:
+                        hrsPos5 += list6[2]
+                        RegHrs5 += list6[3]
+                        totOT12_5 += list6[4]
+                        totOT40_5 += list6[5]
+                    if pos7 is not None and pos7 in pos5:
+                        hrsPos5 += list7[2]
+                        RegHrs5 += list7[3]
+                        totOT12_5 += list7[4]
+                        totOT40_5 += list7[5]
+                    if pos8 is not None and pos8 in pos5:
+                        hrsPos5 += list8[2]
+                        RegHrs5 += list8[3]
+                        totOT12_5 += list8[4]
+                        totOT40_5 += list8[5]
+                    if pos9 is not None and pos9 in pos5:
+                        hrsPos5 += list9[2]
+                        RegHrs5 += list9[3]
+                        totOT12_5 += list9[4]
+                        totOT40_5 += list9[5]
                 list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5]
             # Position 6
             hrsPos6 = 0
             RegHrs6 = 0
             totOT12_6 = 0
             totOT40_6 = 0
-            if (    pos6 is not None and pos6 not in pos1 and pos6 not in pos2 and pos6 not in pos3 and
-                    pos6 not in pos4 and pos6 not in pos5):
-                hrsPos6 += list6[2]
-                RegHrs6 += list6[3]
-                totOT12_6 += list6[4]
-                totOT40_6 += list6[5]
-                if pos7 is not None and pos7 in pos6:
-                    hrsPos6 += list7[2]
-                    RegHrs6 += list7[3]
-                    totOT12_6 += list7[4]
-                    totOT40_6 += list7[5]
-                if pos8 is not None and pos8 in pos6:
-                    hrsPos6 += list8[2]
-                    RegHrs6 += list8[3]
-                    totOT12_6 += list8[4]
-                    totOT40_6 += list8[5]
-                if pos9 is not None and pos9 in pos6:
-                    hrsPos6 += list9[2]
-                    RegHrs6 += list9[3]
-                    totOT12_6 += list9[4]
-                    totOT40_6 += list9[5]
+            if pos6 is not None:
+                if (    pos5 is not None and pos4 is not None and pos3 is not None and
+                        pos2 is not None and pos1 is not None and
+                        pos6 not in pos1 and pos6 not in pos2 and pos6 not in pos3 and
+                        pos6 not in pos4 and pos6 not in pos5):
+                    hrsPos6 += list6[2]
+                    RegHrs6 += list6[3]
+                    totOT12_6 += list6[4]
+                    totOT40_6 += list6[5]
+                    if pos7 is not None and pos7 in pos6:
+                        hrsPos6 += list7[2]
+                        RegHrs6 += list7[3]
+                        totOT12_6 += list7[4]
+                        totOT40_6 += list7[5]
+                    if pos8 is not None and pos8 in pos6:
+                        hrsPos6 += list8[2]
+                        RegHrs6 += list8[3]
+                        totOT12_6 += list8[4]
+                        totOT40_6 += list8[5]
+                    if pos9 is not None and pos9 in pos6:
+                        hrsPos6 += list9[2]
+                        RegHrs6 += list9[3]
+                        totOT12_6 += list9[4]
+                        totOT40_6 += list9[5]
                 list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6]
             # Position 7
             hrsPos7 = 0
             RegHrs7 = 0
             totOT12_7 = 0
             totOT40_7 = 0
-            if (    pos7 is not None and pos7 not in pos1 and pos7 not in pos2 and pos7 not in pos3 and
-                    pos7 not in pos4 and pos7 not in pos5 and pos7 not in pos6):
-                hrsPos7 += list7[2]
-                RegHrs7 += list7[3]
-                totOT12_7 += list7[4]
-                totOT40_7 += list7[5]
-                if pos8 is not None and pos8 in pos7:
-                    hrsPos7 += list8[2]
-                    RegHrs7 += list8[3]
-                    totOT12_7 += list8[4]
-                    totOT40_7 += list8[5]
-                if pos9 is not None and pos9 in pos7:
-                    hrsPos7 += list9[2]
-                    RegHrs7 += list9[3]
-                    totOT12_7 += list9[4]
-                    totOT40_7 += list9[5]
+            if pos7 is not None:
+                if (    pos6 is not None and pos5 is not None and pos4 is not None and
+                        pos3 is not None and pos2 is not None and pos1 is not None and
+                        pos7 not in pos1 and pos7 not in pos2 and pos7 not in pos3 and
+                        pos7 not in pos4 and pos7 not in pos5 and pos7 not in pos6):
+                    hrsPos7 += list7[2]
+                    RegHrs7 += list7[3]
+                    totOT12_7 += list7[4]
+                    totOT40_7 += list7[5]
+                    if pos8 is not None and pos8 in pos7:
+                        hrsPos7 += list8[2]
+                        RegHrs7 += list8[3]
+                        totOT12_7 += list8[4]
+                        totOT40_7 += list8[5]
+                    if pos9 is not None and pos9 in pos7:
+                        hrsPos7 += list9[2]
+                        RegHrs7 += list9[3]
+                        totOT12_7 += list9[4]
+                        totOT40_7 += list9[5]
                 list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7]
             # Position 8
             hrsPos8 = 0
             RegHrs8 = 0
             totOT12_8 = 0
             totOT40_8 = 0
-            if (    pos8 is not None and pos8 not in pos1 and pos8 not in pos2 and pos8 not in pos3 and
-                    pos8 not in pos4 and pos8 not in pos5 and pos8 not in pos6 and pos8 not in pos7):
-                hrsPos8 += list8[2]
-                RegHrs8 += list8[3]
-                totOT12_8 += list8[4]
-                totOT40_8 += list8[5]
-                if pos9 is not None and pos9 in pos8:
-                    hrsPos8 += list9[2]
-                    RegHrs8 += list9[3]
-                    totOT12_8 += list9[4]
-                    totOT40_8 += list9[5]
+            if pos8 is not None:
+                if (    pos7 is not None and pos6 is not None and pos5 is not None and
+                        pos4 is not None and pos3 is not None and pos2 is not None and
+                        pos1 is not None and
+                        pos8 not in pos1 and pos8 not in pos2 and pos8 not in pos3 and
+                        pos8 not in pos4 and pos8 not in pos5 and pos8 not in pos6 and
+                        pos8 not in pos7):
+                    hrsPos8 += list8[2]
+                    RegHrs8 += list8[3]
+                    totOT12_8 += list8[4]
+                    totOT40_8 += list8[5]
+                    if pos9 is not None and pos9 in pos8:
+                        hrsPos8 += list9[2]
+                        RegHrs8 += list9[3]
+                        totOT12_8 += list9[4]
+                        totOT40_8 += list9[5]
                 list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8]
             # Position 9
             hrsPos9 = 0
             RegHrs9 = 0
             totOT12_9 = 0
             totOT40_9 = 0
-            if (    pos9 is not None and pos9 not in pos1 and pos9 not in pos2 and pos9 not in pos3 and
-                    pos9 not in pos4 and pos9 not in pos5 and pos9 not in pos6 and pos9 not in pos7 and
-                    pos9 not in pos8):
-                hrsPos9 += list9[2]
-                RegHrs9 += list9[3]
-                totOT12_9 += list9[4]
-                totOT40_9 += list9[5]
+            if pos9 is not None:
+                if (    pos8 is not None and pos7 is not None and pos6 is not None and
+                        pos5 is not None and pos4 is not None and pos3 is not None and
+                        pos2 is not None and pos1 is not None and
+                        pos9 not in pos1 and pos9 not in pos2 and pos9 not in pos3 and
+                        pos9 not in pos4 and pos9 not in pos5 and pos9 not in pos6 and
+                        pos9 not in pos7 and pos9 not in pos8):
+                    hrsPos9 += list9[2]
+                    RegHrs9 += list9[3]
+                    totOT12_9 += list9[4]
+                    totOT40_9 += list9[5]
                 list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9]
 
             if (    list2[1] is not None and (list2[1] is list1[1])):
@@ -663,11 +688,11 @@ for i in range(2, Nrow+1):
         print("--Week 1 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
         for j in range(0, 9):
-            if listWeek1[j][0] is not None: print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4])
+            if listWeek1[j][0] is not None: print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5])
         print("--Week 2 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
         for j in range(0, 9):
-            if listWeek2[j][0] is not None: print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4])
+            if listWeek2[j][0] is not None: print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4], " ", listWeek2[j][5])
 
         # Print values to .xlsx file
         line = Side(border_style="thin", color="000000")
@@ -719,97 +744,20 @@ for i in range(2, Nrow+1):
             c0 = newsheet1.cell(row = printCnt + 3, column = 5)
             c0.value = listWeek1[1][4] + listWeek1[1][5]
             printCnt += 5
-        if listWeek1[2][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[2][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[2][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[2][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[2][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[2][4] + listWeek1[2][5]
-            printCnt += 1
-        if listWeek1[3][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[3][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[3][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[3][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[3][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[3][4] + listWeek1[3][5]
-            printCnt += 1
-        if listWeek1[4][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[4][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[4][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[4][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[4][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[4][4] + listWeek1[4][5]
-            printCnt += 1
-        if listWeek1[5][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[5][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[5][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[5][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[5][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[5][4] + listWeek1[5][5]
-            printCnt += 1
-        if listWeek1[6][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[6][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[6][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[6][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[6][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[6][4] + listWeek1[6][5]
-            printCnt += 1
-        if listWeek1[7][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[7][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[7][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[7][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[7][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[7][4] + listWeek1[7][5]
-            printCnt += 1
-        if listWeek1[8][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek1[8][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek1[8][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek1[8][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek1[8][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek1[8][4] + listWeek1[8][5]
-            printCnt += 1
+            for j in range(2, 9):
+                if listWeek1[j][0] is not None:
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+                    c0.value = listWeek1[j][1]
+                    c0.border = Border(right = line)
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+                    c0.value = listWeek1[j][3]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+                    c0.value = listWeek1[j][4]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+                    c0.value = listWeek1[j][5]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+                    c0.value = listWeek1[j][4] + listWeek1[j][5]
+                    printCnt += 1
 
         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
         c0.value = "---Week 2---"
@@ -844,97 +792,20 @@ for i in range(2, Nrow+1):
             c0 = newsheet1.cell(row = printCnt + 1, column = 5)
             c0.value = listWeek2[1][4] + listWeek2[1][5]
             printCnt += 3
-        if listWeek2[2][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[2][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[2][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[2][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[2][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[2][4] + listWeek2[2][5]
-            printCnt += 1
-        if listWeek2[3][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[3][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[3][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[3][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[3][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[3][4] + listWeek2[3][5]
-            printCnt += 1
-        if listWeek2[4][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[4][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[4][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[4][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[4][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[4][4] + listWeek2[4][5]
-            printCnt += 1
-        if listWeek2[5][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[5][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[5][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[5][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[5][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[5][4] + listWeek2[5][5]
-            printCnt += 1
-        if listWeek2[6][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[6][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[6][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[6][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[6][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[6][4] + listWeek2[6][5]
-            printCnt += 1
-        if listWeek2[7][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[7][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[7][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[7][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[7][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[7][4] + listWeek2[7][5]
-            printCnt += 1
-        if listWeek2[8][0] is not None:
-            c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-            c0.value = listWeek2[8][1]
-            c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-            c0.value = listWeek2[8][3]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-            c0.value = listWeek2[8][4]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-            c0.value = listWeek2[8][5]
-            c0 = newsheet1.cell(row = printCnt - 1, column = 5)
-            c0.value = listWeek2[8][4] + listWeek2[8][5]
-            printCnt += 1
+            for j in range(2, 9):
+                if listWeek2[j][0] is not None:
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+                    c0.value = listWeek2[j][1]
+                    c0.border = Border(right = line)
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+                    c0.value = listWeek2[j][3]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+                    c0.value = listWeek2[j][4]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+                    c0.value = listWeek2[j][5]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+                    c0.value = listWeek2[j][4] + listWeek2[j][5]
+                    printCnt += 1
 
         # Add up totals ### work on later
         # xreg = 0
