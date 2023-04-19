@@ -6,10 +6,8 @@
 
 # Source files
 import openpyxl
-import array as arr
 from openpyxl import load_workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
-from openpyxl.utils import get_column_letter
 from openpyxl.styles import Alignment, Border, Side, Font
 from datetime import datetime, date, timedelta
 
@@ -19,13 +17,13 @@ flagDebug = False
 workbook = load_workbook('input.xlsx')
 
 sheet = workbook.active
-label_1 = sheet.cell(row=1, column=1)
-label_2 = sheet.cell(row=1, column=2)
-label_3 = sheet.cell(row=1, column=3)
-label_4 = sheet.cell(row=1, column=4)
-label_5 = sheet.cell(row=1, column=5)
-label_6 = sheet.cell(row=1, column=6)
-label_7 = sheet.cell(row=1, column=7)
+label_1 = sheet.cell(row = 1, column = 1)
+label_2 = sheet.cell(row = 1, column = 2)
+label_3 = sheet.cell(row = 1, column = 3)
+label_4 = sheet.cell(row = 1, column = 4)
+label_5 = sheet.cell(row = 1, column = 5)
+label_6 = sheet.cell(row = 1, column = 6)
+label_7 = sheet.cell(row = 1, column = 7)
 Nrow = sheet.max_row
 daterange = sheet['B']
 date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
@@ -44,7 +42,6 @@ for i in range(2, Nrow):
     valName = sheet.cell(row = i, column = 6).value
     valNameNxt = sheet.cell(row = i + 1, column = 6).value
     if valNameNxt is not valName: GrandNames += 1
-    print(i,valName,valNameNxt,valHrs.value)
 print("\n")
 print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
 print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
@@ -191,6 +188,7 @@ for i in range(2, Nrow + 1):
             OTn = OT
             OTcnt = 0
             flag1 = False
+            flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = 6)
             valName = valName.value
             list1 = [None, None, 0, 0, 0, 0]
@@ -204,6 +202,12 @@ for i in range(2, Nrow + 1):
             list9 = [None, None, 0, 0, 0, 0]
             for j in range(rowmid-1, rowmin-1, -1): # minus one offset in for loop because we're counting backwards
                 valPos = sheet.cell(row = j, column = 1)
+                valDate = sheet.cell(row = j, column = 2).value
+                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
+                    flagMultShift1 = True
+                    flag12eval = True
+                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5)
                 valPos = valPos.value
                 valHrs = valHrs.value
@@ -250,6 +254,7 @@ for i in range(2, Nrow + 1):
             OTn = OT
             OTcnt = 0
             flag1 = False
+            flagMultShift2 = False
             valName = sheet.cell(row = rowmax, column = 6)
             valName = valName.value
             list1 = [None, None, 0, 0, 0, 0]
@@ -263,6 +268,12 @@ for i in range(2, Nrow + 1):
             list9 = [None, None, 0, 0, 0, 0]
             for j in range(rowmax, rowmid-1, -1):
                 valPos = sheet.cell(row = j, column = 1)
+                valDate = sheet.cell(row = j, column = 2).value
+                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
+                    flagMultShift2 = True
+                    flag12eval = True
+                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5)
                 valPos = valPos.value
                 valHrs = valHrs.value
@@ -808,68 +819,73 @@ for i in range(2, Nrow + 1):
                     printCnt += 1
 
         # Add up totals ### work on later
-        # xreg = 0
-        # xOT = 0
-        # c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-        # c0.value = "---Total (regular, OT)---"
-        # c0.border = Border(right = line)
-        # c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-        # for j in range(0, 9):
-        #     if listWeek1[j][1] is not None:
-        #         xreg = listWeek1[j][3]
-        #         xOT  = listWeek1[j][4] + listWeek1[j][5]
-        #         if listWeek2[0][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[0][3]
-        #             xOT  += listWeek2[0][4] + listWeek2[0][5]
-        #         if listWeek2[1][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[1][3]
-        #             xOT  += listWeek2[1][4] + listWeek2[1][5]
-        #         if listWeek2[2][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[2][3]
-        #             xOT  += listWeek2[2][4] + listWeek2[2][5]
-        #         if listWeek2[3][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[3][3]
-        #             xOT  += listWeek2[3][4] + listWeek2[3][5]
-        #         if listWeek2[4][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[4][3]
-        #             xOT  += listWeek2[4][4] + listWeek2[4][5]
-        #         if listWeek2[5][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[5][3]
-        #             xOT  += listWeek2[5][4] + listWeek2[5][5]
-        #         if listWeek2[6][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[6][3]
-        #             xOT  += listWeek2[6][4] + listWeek2[6][5]
-        #         if listWeek2[7][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[7][3]
-        #             xOT  += listWeek2[7][4] + listWeek2[7][5]
-        #         if listWeek2[8][1] is listWeek1[j][1]:
-        #             xreg += listWeek2[8][3]
-        #             xOT  += listWeek2[8][4] + listWeek2[8][5]
-        #         c0 = newsheet1.cell(row = printCnt, column = 1)
-        #         c0.value = listWeek1[j][1]
-        #         c0.border = Border(right = line)
-        #         c0 = newsheet1.cell(row = printCnt, column = 2)
-        #         c0.value = xreg
-        #         c0 = newsheet1.cell(row = printCnt, column = 3)
-        #         c0.value = xOT
-        #         printCnt += 1
-        #     if listWeek2[j][1] is not None:
-        #         for k in range(0,9):
-        #             if listWeek1[k][1] is not None and listWeek2[j][1] is not listWeek1[k][1]:
-        #                 print(j,k,listWeek2[j][1],listWeek1[k][1])
-        #                 xreg = listWeek2[j][3]
-        #                 xOT  = listWeek2[j][4] + listWeek2[j][5]
-        #                 c0 = newsheet1.cell(row = printCnt, column = 1)
-        #                 c0.value = listWeek2[j][1]
-        #                 c0.border = Border(right = line)
-        #                 c0 = newsheet1.cell(row = printCnt, column = 2)
-        #                 c0.value = xreg
-        #                 c0 = newsheet1.cell(row = printCnt, column = 3)
-        #                 c0.value = xOT
-        #                 printCnt += 1
-        #                 break
-        #printCnt += 2
-        printCnt += 1
+        xreg = 0
+        xOT = 0
+        c0 = newsheet1.cell(row = printCnt - 1, column = 1)
+        c0.value = "---Total (regular, OT)---"
+        c0.border = Border(right = line)
+        c0.font = Font(italic = 'single')
+        c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+        for j in range(0, 9):
+            if listWeek1[j][1] is not None:
+                xreg = listWeek1[j][3]
+                xOT  = listWeek1[j][4] + listWeek1[j][5]
+                if listWeek2[0][1] is listWeek1[j][1]:
+                    xreg += listWeek2[0][3]
+                    xOT  += listWeek2[0][4] + listWeek2[0][5]
+                if listWeek2[1][1] is listWeek1[j][1]:
+                    xreg += listWeek2[1][3]
+                    xOT  += listWeek2[1][4] + listWeek2[1][5]
+                if listWeek2[2][1] is listWeek1[j][1]:
+                    xreg += listWeek2[2][3]
+                    xOT  += listWeek2[2][4] + listWeek2[2][5]
+                if listWeek2[3][1] is listWeek1[j][1]:
+                    xreg += listWeek2[3][3]
+                    xOT  += listWeek2[3][4] + listWeek2[3][5]
+                if listWeek2[4][1] is listWeek1[j][1]:
+                    xreg += listWeek2[4][3]
+                    xOT  += listWeek2[4][4] + listWeek2[4][5]
+                if listWeek2[5][1] is listWeek1[j][1]:
+                    xreg += listWeek2[5][3]
+                    xOT  += listWeek2[5][4] + listWeek2[5][5]
+                if listWeek2[6][1] is listWeek1[j][1]:
+                    xreg += listWeek2[6][3]
+                    xOT  += listWeek2[6][4] + listWeek2[6][5]
+                if listWeek2[7][1] is listWeek1[j][1]:
+                    xreg += listWeek2[7][3]
+                    xOT  += listWeek2[7][4] + listWeek2[7][5]
+                if listWeek2[8][1] is listWeek1[j][1]:
+                    xreg += listWeek2[8][3]
+                    xOT  += listWeek2[8][4] + listWeek2[8][5]
+                c0 = newsheet1.cell(row = printCnt, column = 1)
+                c0.value = listWeek1[j][1]
+                c0.border = Border(right = line)
+                c0 = newsheet1.cell(row = printCnt, column = 2)
+                c0.value = xreg
+                c0 = newsheet1.cell(row = printCnt, column = 3)
+                c0.value = xOT
+                printCnt += 1
+        xreg = 0
+        xOT = 0
+        for j in range(0, 9):
+            if listWeek2[j][1] is not None:
+                if (    listWeek2[j][1] is not listWeek1[0][1] and listWeek2[j][1] is not listWeek1[1][1] and
+                        listWeek2[j][1] is not listWeek1[2][1] and listWeek2[j][1] is not listWeek1[3][1] and
+                        listWeek2[j][1] is not listWeek1[4][1] and listWeek2[j][1] is not listWeek1[5][1] and
+                        listWeek2[j][1] is not listWeek1[6][1] and listWeek2[j][1] is not listWeek1[7][1] and
+                        listWeek2[j][1] is not listWeek1[8][1] and listWeek2[j][1]):
+                    xreg = listWeek2[j][3]
+                    xOT  = listWeek2[j][4] + listWeek2[j][5]
+                    c0 = newsheet1.cell(row = printCnt, column = 1)
+                    c0.value = listWeek2[j][1]
+                    c0.border = Border(right = line)
+                    c0 = newsheet1.cell(row = printCnt, column = 2)
+                    c0.value = xreg
+                    c0 = newsheet1.cell(row = printCnt, column = 3)
+                    c0.value = xOT
+                    printCnt += 1
+        printCnt += 2
+        #printCnt += 1
 
         rowCnt = 1 # Reset count parameter for next employee
 
@@ -910,8 +926,9 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-newbook1.save("OT_output.xlsx")
+output_name = "output_raw.xlsx"
+newbook1.save(output_name)
 print("\n")
 if flag12eval is True: print("---WARNING! Hand-check days with multiple shifts!---\n")
-print("file output written to OT_output.xlsx")
+print("file output written to", output_name)
 print("\nOT calculation done.\n")
