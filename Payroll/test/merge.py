@@ -35,8 +35,11 @@ for i in range(8, Nrow + 1):
             cnt = 0
             for j in range(0, 9):
                 pos = sheet.cell(row = i + 1 + j, column = 1).value
-                reg = sheet.cell(row = i + 1 + j, column = 2).value
-                ot  = sheet.cell(row = i + 1 + j, column = 3).value
+                reg = sheet.cell(row = i + 1 + j, column = 3).value
+                ot  = sheet.cell(row = i + 1 + j, column = 4).value
+                flag12 = False
+                fix12 = sheet.cell(row = i + 1 + j, column = 7).value
+                if fix12 is not None and fix12.__contains__("Check"): flag12 = True
                 if pos is None: break
                 else:
                     c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
@@ -49,6 +52,10 @@ for i in range(8, Nrow + 1):
                     elif pos.__contains__("Sick"): cat = "Sick"
                     elif pos.__contains__("Covid") or pos.__contains__("COVID"): cat = "Covid"
                     else: cat = "Unarmed"
+                    if flag12 is True:
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 11)
+                        c2.value = "HAND CALCULATE OT+12"
+                        c2.font = Font(bold = 'single')
                     if reg != 0 and ot == 0:
                         c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
                         c0.value = reg

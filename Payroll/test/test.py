@@ -62,7 +62,7 @@ for i in range(2, Nrow + 1):
     else:
         rowmin = i - rowCnt + 1
         rowmax = i
-        emptyList = [None, None, 0, 0, 0, 0]
+        emptyList = [None, None, 0, 0, 0, 0, 0]
         listWeek1 = [emptyList, emptyList, emptyList, emptyList, emptyList,
                      emptyList, emptyList, emptyList, emptyList]
         listWeek2 = [emptyList, emptyList, emptyList, emptyList, emptyList,
@@ -91,23 +91,24 @@ for i in range(2, Nrow + 1):
             dayHrsGap = 0
             flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = 6).value
-            list1 = [None, None, 0, 0, 0, 0]
-            list2 = [None, None, 0, 0, 0, 0]
-            list3 = [None, None, 0, 0, 0, 0]
-            list4 = [None, None, 0, 0, 0, 0]
-            list5 = [None, None, 0, 0, 0, 0]
-            list6 = [None, None, 0, 0, 0, 0]
-            list7 = [None, None, 0, 0, 0, 0]
-            list8 = [None, None, 0, 0, 0, 0]
-            list9 = [None, None, 0, 0, 0, 0]
+            list1 = [None, None, 0, 0, 0, 0, 0]
+            list2 = [None, None, 0, 0, 0, 0, 0]
+            list3 = [None, None, 0, 0, 0, 0, 0]
+            list4 = [None, None, 0, 0, 0, 0, 0]
+            list5 = [None, None, 0, 0, 0, 0, 0]
+            list6 = [None, None, 0, 0, 0, 0, 0]
+            list7 = [None, None, 0, 0, 0, 0, 0]
+            list8 = [None, None, 0, 0, 0, 0, 0]
+            list9 = [None, None, 0, 0, 0, 0, 0]
             for j in range(rowmid-1, rowmin-1, -1): # minus one offset in loop because we're counting backwards
                 valPos = sheet.cell(row = j, column = 1).value
                 valDate = sheet.cell(row = j, column = 2).value
-                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                valDateNxt = sheet.cell(row = j + 1, column = 2).value
+                valRate = sheet.cell(row = j, column = 7).value
                 if j > 2 and valDateNxt.day is valDate.day:
                     flagMultShift1 = True
                     flag12eval = True
-                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
+                    if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
                 if valHrs > 12:
                     z = valHrs - 12
@@ -115,15 +116,15 @@ for i in range(2, Nrow + 1):
                 else:
                     z = 0
                     regHrs = valHrs
-                if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, z, 0]
+                if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 if j <= rowmid - 10: print(warnShift)
                 if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z)
             listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
@@ -132,40 +133,40 @@ for i in range(2, Nrow + 1):
             regHrs = 0
             flagMultShift2 = False
             valName = sheet.cell(row = rowmax, column = 6).value
-            list1 = [None, None, 0, 0, 0, 0]
-            list2 = [None, None, 0, 0, 0, 0]
-            list3 = [None, None, 0, 0, 0, 0]
-            list4 = [None, None, 0, 0, 0, 0]
-            list5 = [None, None, 0, 0, 0, 0]
-            list6 = [None, None, 0, 0, 0, 0]
-            list7 = [None, None, 0, 0, 0, 0]
-            list8 = [None, None, 0, 0, 0, 0]
-            list9 = [None, None, 0, 0, 0, 0]
+            list1 = [None, None, 0, 0, 0, 0, 0]
+            list2 = [None, None, 0, 0, 0, 0, 0]
+            list3 = [None, None, 0, 0, 0, 0, 0]
+            list4 = [None, None, 0, 0, 0, 0, 0]
+            list5 = [None, None, 0, 0, 0, 0, 0]
+            list6 = [None, None, 0, 0, 0, 0, 0]
+            list7 = [None, None, 0, 0, 0, 0, 0]
+            list8 = [None, None, 0, 0, 0, 0, 0]
+            list9 = [None, None, 0, 0, 0, 0, 0]
             for j in range(rowmax, rowmid-1, -1):
                 valPos = sheet.cell(row = j, column = 1).value
                 valDate = sheet.cell(row = j, column = 2).value
-                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                valDateNxt = sheet.cell(row = j + 1, column = 2).value
+                valRate = sheet.cell(row = j, column = 7).value
                 if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
                     flagMultShift2 = True
                     flag12eval = True
-                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
+                    if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
-
                 if valHrs > 12:
                     z = valHrs - 12
                     regHrs = valHrs - z
                 else:
                     z = 0
                     regHrs = valHrs
-                if j == rowmax:   list1 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, z, 0]
-                elif j == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, z, 0]
+                if j == rowmax:       list1 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
+                elif j == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 if j <= rowmid - 9: print(warnShift)
                 if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z)
             listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
@@ -184,26 +185,25 @@ for i in range(2, Nrow + 1):
             flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = 6)
             valName = valName.value
-            list1 = [None, None, 0, 0, 0, 0]
-            list2 = [None, None, 0, 0, 0, 0]
-            list3 = [None, None, 0, 0, 0, 0]
-            list4 = [None, None, 0, 0, 0, 0]
-            list5 = [None, None, 0, 0, 0, 0]
-            list6 = [None, None, 0, 0, 0, 0]
-            list7 = [None, None, 0, 0, 0, 0]
-            list8 = [None, None, 0, 0, 0, 0]
-            list9 = [None, None, 0, 0, 0, 0]
+            list1 = [None, None, 0, 0, 0, 0, 0]
+            list2 = [None, None, 0, 0, 0, 0, 0]
+            list3 = [None, None, 0, 0, 0, 0, 0]
+            list4 = [None, None, 0, 0, 0, 0, 0]
+            list5 = [None, None, 0, 0, 0, 0, 0]
+            list6 = [None, None, 0, 0, 0, 0, 0]
+            list7 = [None, None, 0, 0, 0, 0, 0]
+            list8 = [None, None, 0, 0, 0, 0, 0]
+            list9 = [None, None, 0, 0, 0, 0, 0]
             for j in range(rowmid-1, rowmin-1, -1): # minus one offset in for loop because we're counting backwards
-                valPos = sheet.cell(row = j, column = 1)
+                valPos = sheet.cell(row = j, column = 1).value
                 valDate = sheet.cell(row = j, column = 2).value
-                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                valDateNxt = sheet.cell(row = j + 1, column = 2).value
+                valRate = sheet.cell(row = j, column = 7).value
                 if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
                     flagMultShift1 = True
                     flag12eval = True
-                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
-                valHrs = sheet.cell(row = j, column = 5)
-                valPos = valPos.value
-                valHrs = valHrs.value
+                    if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
+                valHrs = sheet.cell(row = j, column = 5).value
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
@@ -223,15 +223,15 @@ for i in range(2, Nrow + 1):
                 else: z = 0
                 regHrs = valHrs - y - z
                 if y + z == 0: regHrs = valHrs
-                if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, z, y]
+                if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 4: list4 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 5: list5 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 6: list6 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 7: list7 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 8: list8 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmid - 9: list9 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 if j <= rowmid - 10: print(warnShift)
                 if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", OT12, "  OT+40: ", y)
 
@@ -250,26 +250,25 @@ for i in range(2, Nrow + 1):
             flagMultShift2 = False
             valName = sheet.cell(row = rowmax, column = 6)
             valName = valName.value
-            list1 = [None, None, 0, 0, 0, 0]
-            list2 = [None, None, 0, 0, 0, 0]
-            list3 = [None, None, 0, 0, 0, 0]
-            list4 = [None, None, 0, 0, 0, 0]
-            list5 = [None, None, 0, 0, 0, 0]
-            list6 = [None, None, 0, 0, 0, 0]
-            list7 = [None, None, 0, 0, 0, 0]
-            list8 = [None, None, 0, 0, 0, 0]
-            list9 = [None, None, 0, 0, 0, 0]
+            list1 = [None, None, 0, 0, 0, 0, 0]
+            list2 = [None, None, 0, 0, 0, 0, 0]
+            list3 = [None, None, 0, 0, 0, 0, 0]
+            list4 = [None, None, 0, 0, 0, 0, 0]
+            list5 = [None, None, 0, 0, 0, 0, 0]
+            list6 = [None, None, 0, 0, 0, 0, 0]
+            list7 = [None, None, 0, 0, 0, 0, 0]
+            list8 = [None, None, 0, 0, 0, 0, 0]
+            list9 = [None, None, 0, 0, 0, 0, 0]
             for j in range(rowmax, rowmid-1, -1):
-                valPos = sheet.cell(row = j, column = 1)
+                valPos = sheet.cell(row = j, column = 1).value
                 valDate = sheet.cell(row = j, column = 2).value
-                valDateNxt = sheet.cell(row = j+1, column = 2).value
+                valDateNxt = sheet.cell(row = j + 1, column = 2).value
+                valRate = sheet.cell(row = j, column = 7).value
                 if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
                     flagMultShift2 = True
                     flag12eval = True
-                    print("---Multiple shifts in same day. Evaluate OT+12 by hand!---")
-                valHrs = sheet.cell(row = j, column = 5)
-                valPos = valPos.value
-                valHrs = valHrs.value
+                    if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
+                valHrs = sheet.cell(row = j, column = 5).value
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
@@ -289,15 +288,15 @@ for i in range(2, Nrow + 1):
                 else: z = 0
                 regHrs = valHrs - y - z
                 if y + z == 0: regHrs = valHrs
-                if j == rowmax:   list1 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, z, y]
-                elif j == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, z, y]
+                if j == rowmax:       list1 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 3: list4 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 4: list5 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 5: list6 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 6: list7 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 7: list8 = [valName, valPos, valHrs, regHrs, z, y, valRate]
+                elif j == rowmax - 8: list9 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 if j <= rowmax - 9: print(warnShift)
                 if flagDebug: print(valName, "  ", valPos, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z, "  OT+40: ", y)
 
@@ -381,7 +380,7 @@ for i in range(2, Nrow + 1):
                     RegHrs1 += list9[3]
                     totOT12_1 += list9[4]
                     totOT40_1 += list9[5]
-            list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1]
+            list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1, 0]
             # Position 2
             hrsPos2 = 0
             RegHrs2 = 0
@@ -429,7 +428,7 @@ for i in range(2, Nrow + 1):
                         RegHrs2 += list9[3]
                         totOT12_2 += list9[4]
                         totOT40_2 += list9[5]
-                list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2]
+                list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2, 0]
             # Position 3
             hrsPos3 = 0
             RegHrs3 = 0
@@ -472,7 +471,7 @@ for i in range(2, Nrow + 1):
                         RegHrs3 += list9[3]
                         totOT12_3 += list9[4]
                         totOT40_3 += list9[5]
-                list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3]
+                list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3, 0]
             # Position 4
             hrsPos4 = 0
             RegHrs4 = 0
@@ -510,7 +509,7 @@ for i in range(2, Nrow + 1):
                         RegHrs4 += list9[3]
                         totOT12_4 += list9[4]
                         totOT40_4 += list9[5]
-                list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4]
+                list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4, 0]
             # Position 5
             hrsPos5 = 0
             RegHrs5 = 0
@@ -545,7 +544,7 @@ for i in range(2, Nrow + 1):
                         RegHrs5 += list9[3]
                         totOT12_5 += list9[4]
                         totOT40_5 += list9[5]
-                list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5]
+                list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5, 0]
             # Position 6
             hrsPos6 = 0
             RegHrs6 = 0
@@ -575,7 +574,7 @@ for i in range(2, Nrow + 1):
                         RegHrs6 += list9[3]
                         totOT12_6 += list9[4]
                         totOT40_6 += list9[5]
-                list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6]
+                list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6, 0]
             # Position 7
             hrsPos7 = 0
             RegHrs7 = 0
@@ -600,7 +599,7 @@ for i in range(2, Nrow + 1):
                         RegHrs7 += list9[3]
                         totOT12_7 += list9[4]
                         totOT40_7 += list9[5]
-                list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7]
+                list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7, 0]
             # Position 8
             hrsPos8 = 0
             RegHrs8 = 0
@@ -622,7 +621,7 @@ for i in range(2, Nrow + 1):
                         RegHrs8 += list9[3]
                         totOT12_8 += list9[4]
                         totOT40_8 += list9[5]
-                list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8]
+                list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8, 0]
             # Position 9
             hrsPos9 = 0
             RegHrs9 = 0
@@ -639,82 +638,86 @@ for i in range(2, Nrow + 1):
                     RegHrs9 += list9[3]
                     totOT12_9 += list9[4]
                     totOT40_9 += list9[5]
-                list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9]
+                list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9, 0]
 
             if (    list2[1] is not None and (list2[1] is list1[1])):
-                list2 = [None, None, 0, 0, 0, 0]
+                list2 = [None, None, 0, 0, 0, 0, 0]
             if (    list3[1] is not None and (list3[1] is list1[1] or list3[1] is list2[1])):
-                list3 = [None, None, 0, 0, 0, 0]
+                list3 = [None, None, 0, 0, 0, 0, 0]
             if (    list4[1] is not None and (list4[1] is list1[1] or list4[1] is list2[1] or list4[1] is list3[1])):
-                list4 = [None, None, 0, 0, 0, 0]
+                list4 = [None, None, 0, 0, 0, 0, 0]
             if (    list5[1] is not None and (list5[1] is list1[1] or list5[1] is list2[1] or list5[1] is list3[1] or
                     list5[1] is list4[1])):
-                list5 = [None, None, 0, 0, 0, 0]
+                list5 = [None, None, 0, 0, 0, 0, 0]
             if (    list6[1] is not None and (list6[1] is list1[1] or list6[1] is list2[1] or list6[1] is list3[1] or
                     list6[1] is list4[1] or list6[1] is list5[1])):
-                list6 = [None, None, 0, 0, 0, 0]
+                list6 = [None, None, 0, 0, 0, 0, 0]
             if (    list7[1] is not None and (list7[1] is list1[1] or list7[1] is list2[1] or list7[1] is list3[1] or
                     list7[1] is list4[1] or list7[1] is list5[1] or list7[1] is list6[1])):
-                list7 = [None, None, 0, 0, 0, 0]
+                list7 = [None, None, 0, 0, 0, 0, 0]
             if (    list8[1] is not None and (list8[1] is list1[1] or list8[1] is list2[1] or list8[1] is list3[1] or
                     list8[1] is list4[1] or list8[1] is list5[1] or list8[1] is list6[1] or list8[1] is list7[1])):
-                list8 = [None, None, 0, 0, 0, 0]
+                list8 = [None, None, 0, 0, 0, 0, 0]
             if (    list9[1] is not None and (list9[1] is list1[1] or list9[1] is list2[1] or list9[1] is list3[1] or
                     list9[1] is list4[1] or list9[1] is list5[1] or list9[1] is list6[1] or list9[1] is list7[1] or
                     list9[1] is list8[1])):
-                list9 = [None, None, 0, 0, 0, 0]
+                list9 = [None, None, 0, 0, 0, 0, 0]
 
             if list8[1] is None and list9[1] is not None:
                 list8 = list9
-                list9 = [None, None, 0, 0, 0, 0]
+                list9 = [None, None, 0, 0, 0, 0, 0]
             if list7[1] is None and list8[1] is not None:
                 list7 = list8
-                list8 = [None, None, 0, 0, 0, 0]
+                list8 = [None, None, 0, 0, 0, 0, 0]
             if list6[1] is None and list7[1] is not None:
                 list6 = list7
-                list7 = [None, None, 0, 0, 0, 0]
+                list7 = [None, None, 0, 0, 0, 0, 0]
             if list5[1] is None and list6[1] is not None:
                 list5 = list6
-                list6 = [None, None, 0, 0, 0, 0]
+                list6 = [None, None, 0, 0, 0, 0, 0]
             if list4[1] is None and list5[1] is not None:
                 list4 = list5
-                list5 = [None, None, 0, 0, 0, 0]
+                list5 = [None, None, 0, 0, 0, 0, 0]
             if list3[1] is None and list4[1] is not None:
                 list3 = list4
-                list4 = [None, None, 0, 0, 0, 0]
+                list4 = [None, None, 0, 0, 0, 0, 0]
             if list2[1] is None and list3[1] is not None:
                 list2 = list3
-                list3 = [None, None, 0, 0, 0, 0]
+                list3 = [None, None, 0, 0, 0, 0, 0]
             if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
             else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9]
 
+
+        # Print values to .xlsx file
         print("\n", valName)
         print("--Week 1 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
         for j in range(0, 9):
-            if listWeek1[j][0] is not None: print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5])
+            if listWeek1[j][0] is not None: print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5], " ", listWeek1[j][6])
         print("--Week 2 totals--")
         print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:")
         for j in range(0, 9):
-            if listWeek2[j][0] is not None: print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4], " ", listWeek2[j][5])
+            if listWeek2[j][0] is not None: print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4], " ", listWeek2[j][5], " ", listWeek2[j][6])
 
-        # Print values to .xlsx file
         line = Side(border_style="thin", color="000000")
         c0 = newsheet1.cell(row = printCnt, column = 1)
         c0.value = listWeek1[0][0]
-        c0.border = Border(bottom = line, right = line)
         c0 = newsheet1.cell(row = printCnt, column = 2)
+        c0.border = Border(bottom = line)
+        c0.value = "Rate"
+        c0 = newsheet1.cell(row = printCnt, column = 3)
         c0.value = "Regular"
         c0.border = Border(bottom = line)
-        c0 = newsheet1.cell(row = printCnt, column = 3)
+        c0 = newsheet1.cell(row = printCnt, column = 4)
         c0.value = "OT+12"
         c0.border = Border(bottom = line)
-        c0 = newsheet1.cell(row = printCnt, column = 4)
+        c0 = newsheet1.cell(row = printCnt, column = 5)
         c0.value = "OT+40"
         c0.border = Border(bottom = line)
-        c0 = newsheet1.cell(row = printCnt, column = 5)
+        c0 = newsheet1.cell(row = printCnt, column = 6)
         c0.value = "OT Total"
         c0.border = Border(bottom = line)
+
         c0 = newsheet1.cell(row = printCnt + 1, column = 1)
         c0.value = "---Week 1---"
         c0.border = Border(right = line)
@@ -724,28 +727,34 @@ for i in range(2, Nrow + 1):
         else: c0.value = listWeek1[0][1]
         c0.border = Border(right = line)
         c0 = newsheet1.cell(row = printCnt + 2, column = 2)
-        c0.value = listWeek1[0][3]
+        c0.font = Font(italic = 'single')
+        # c0.value = listWeek1[0][6]
         c0 = newsheet1.cell(row = printCnt + 2, column = 3)
-        c0.value = listWeek1[0][4]
+        c0.value = listWeek1[0][3]
         c0 = newsheet1.cell(row = printCnt + 2, column = 4)
-        c0.value = listWeek1[0][5]
+        c0.value = listWeek1[0][4]
         c0 = newsheet1.cell(row = printCnt + 2, column = 5)
+        c0.value = listWeek1[0][5]
+        c0 = newsheet1.cell(row = printCnt + 2, column = 6)
         c0.value = listWeek1[0][4] + listWeek1[0][5]
         if flagMultShift1 is True:
-            c0 = newsheet1.cell(row = printCnt + 2, column = 7)
-            c0.value = "Multiple shifts in same day. Check for OT+12 by hand."
+            c0 = newsheet1.cell(row = printCnt + 2, column = 8)
+            c0.value = "Multiple shifts in same day for this week. Check for OT+12 by hand."
         if listWeek1[1][0] is None: printCnt += 4
         if listWeek1[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 3, column = 1)
             c0.value = listWeek1[1][1]
             c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt + 3, column = 2)
-            c0.value = listWeek1[1][3]
+            c0 = newsheet1.cell(row = printCnt + 2, column = 2)
+            c0.font = Font(italic = 'single')
+            # c0.value = listWeek1[1][6]
             c0 = newsheet1.cell(row = printCnt + 3, column = 3)
-            c0.value = listWeek1[1][4]
+            c0.value = listWeek1[1][3]
             c0 = newsheet1.cell(row = printCnt + 3, column = 4)
-            c0.value = listWeek1[1][5]
+            c0.value = listWeek1[1][4]
             c0 = newsheet1.cell(row = printCnt + 3, column = 5)
+            c0.value = listWeek1[1][5]
+            c0 = newsheet1.cell(row = printCnt + 3, column = 6)
             c0.value = listWeek1[1][4] + listWeek1[1][5]
             printCnt += 5
             for j in range(2, 9):
@@ -753,13 +762,16 @@ for i in range(2, Nrow + 1):
                     c0 = newsheet1.cell(row = printCnt - 1, column = 1)
                     c0.value = listWeek1[j][1]
                     c0.border = Border(right = line)
-                    c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-                    c0.value = listWeek1[j][3]
+                    c0 = newsheet1.cell(row = printCnt + 2, column = 2)
+                    c0.font = Font(italic = 'single')
+                    # c0.value = listWeek1[j][6]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-                    c0.value = listWeek1[j][4]
+                    c0.value = listWeek1[j][3]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-                    c0.value = listWeek1[j][5]
+                    c0.value = listWeek1[j][4]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+                    c0.value = listWeek1[j][5]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 6)
                     c0.value = listWeek1[j][4] + listWeek1[j][5]
                     printCnt += 1
 
@@ -771,29 +783,29 @@ for i in range(2, Nrow + 1):
         if listWeek2[0][1] is None: c0.value = "No shifts"
         else: c0.value = listWeek2[0][1]
         c0.border = Border(right = line)
-        c0 = newsheet1.cell(row = printCnt, column = 2)
-        c0.value = listWeek2[0][3]
         c0 = newsheet1.cell(row = printCnt, column = 3)
-        c0.value = listWeek2[0][4]
+        c0.value = listWeek2[0][3]
         c0 = newsheet1.cell(row = printCnt, column = 4)
-        c0.value = listWeek2[0][5]
+        c0.value = listWeek2[0][4]
         c0 = newsheet1.cell(row = printCnt, column = 5)
+        c0.value = listWeek2[0][5]
+        c0 = newsheet1.cell(row = printCnt, column = 6)
         c0.value = listWeek2[0][4] + listWeek2[0][5]
         if flagMultShift2 is True:
-            c0 = newsheet1.cell(row = printCnt, column = 7)
-            c0.value = "Multiple shifts in same day. Check for OT+12 by hand."
+            c0 = newsheet1.cell(row = printCnt, column = 8)
+            c0.value = "Multiple shifts in same day for this week. Check for OT+12 by hand."
         if listWeek2[1][0] is None: printCnt += 2
         if listWeek2[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 1, column = 1)
             c0.value = listWeek2[1][1]
             c0.border = Border(right = line)
-            c0 = newsheet1.cell(row = printCnt + 1, column = 2)
-            c0.value = listWeek2[1][3]
             c0 = newsheet1.cell(row = printCnt + 1, column = 3)
-            c0.value = listWeek2[1][4]
+            c0.value = listWeek2[1][3]
             c0 = newsheet1.cell(row = printCnt + 1, column = 4)
-            c0.value = listWeek2[1][5]
+            c0.value = listWeek2[1][4]
             c0 = newsheet1.cell(row = printCnt + 1, column = 5)
+            c0.value = listWeek2[1][5]
+            c0 = newsheet1.cell(row = printCnt + 1, column = 6)
             c0.value = listWeek2[1][4] + listWeek2[1][5]
             printCnt += 3
             for j in range(2, 9):
@@ -801,13 +813,13 @@ for i in range(2, Nrow + 1):
                     c0 = newsheet1.cell(row = printCnt - 1, column = 1)
                     c0.value = listWeek2[j][1]
                     c0.border = Border(right = line)
-                    c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-                    c0.value = listWeek2[j][3]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 3)
-                    c0.value = listWeek2[j][4]
+                    c0.value = listWeek2[j][3]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 4)
-                    c0.value = listWeek2[j][5]
+                    c0.value = listWeek2[j][4]
                     c0 = newsheet1.cell(row = printCnt - 1, column = 5)
+                    c0.value = listWeek2[j][5]
+                    c0 = newsheet1.cell(row = printCnt - 1, column = 6)
                     c0.value = listWeek2[j][4] + listWeek2[j][5]
                     printCnt += 1
 
@@ -818,7 +830,7 @@ for i in range(2, Nrow + 1):
         c0.value = "---Total (regular, OT)---"
         c0.border = Border(right = line)
         c0.font = Font(italic = 'single')
-        c0 = newsheet1.cell(row = printCnt - 1, column = 2)
+        c0 = newsheet1.cell(row = printCnt - 1, column = 3)
         for j in range(0, 9):
             if listWeek1[j][1] is not None:
                 xreg = listWeek1[j][3]
@@ -853,10 +865,13 @@ for i in range(2, Nrow + 1):
                 c0 = newsheet1.cell(row = printCnt, column = 1)
                 c0.value = listWeek1[j][1]
                 c0.border = Border(right = line)
-                c0 = newsheet1.cell(row = printCnt, column = 2)
-                c0.value = xreg
                 c0 = newsheet1.cell(row = printCnt, column = 3)
+                c0.value = xreg
+                c0 = newsheet1.cell(row = printCnt, column = 4)
                 c0.value = xOT
+                if flagMultShift2 is True:
+                    c0 = newsheet1.cell(row = printCnt, column = 8)
+                    c0.value = "Check for OT+12 by hand"
                 printCnt += 1
         xreg = 0
         xOT = 0
@@ -872,9 +887,9 @@ for i in range(2, Nrow + 1):
                     c0 = newsheet1.cell(row = printCnt, column = 1)
                     c0.value = listWeek2[j][1]
                     c0.border = Border(right = line)
-                    c0 = newsheet1.cell(row = printCnt, column = 2)
-                    c0.value = xreg
                     c0 = newsheet1.cell(row = printCnt, column = 3)
+                    c0.value = xreg
+                    c0 = newsheet1.cell(row = printCnt, column = 4)
                     c0.value = xOT
                     printCnt += 1
         printCnt += 2
@@ -914,14 +929,16 @@ c0 = newsheet1.cell(row = 4, column = 1)
 c0.alignment = Alignment(horizontal='right')
 c0 = newsheet1.cell(row = 5, column = 1)
 c0.alignment = Alignment(horizontal='right')
-newsheet1.column_dimensions["A"].width = 40
+newsheet1.column_dimensions["A"].width = 48
 newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
 output_name = "output_raw.xlsx"
 newbook1.save(output_name)
-print("\n")
-if flag12eval is True: print("---WARNING! Hand-check days with multiple shifts!---\n")
+print("\n\n")
+if flag12eval is True: print("====================================================")
+if flag12eval is True: print("---WARNING! Hand-check days with multiple shifts!---")
+if flag12eval is True: print("====================================================\n")
 print("file output written to", output_name)
 print("\nOT calculation done.\n")
