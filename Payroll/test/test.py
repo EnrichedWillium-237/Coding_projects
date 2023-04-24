@@ -17,13 +17,6 @@ flagDebug = False
 workbook = load_workbook('input.xlsx')
 
 sheet = workbook.active
-label_1 = sheet.cell(row = 1, column = 1)
-label_2 = sheet.cell(row = 1, column = 2)
-label_3 = sheet.cell(row = 1, column = 3)
-label_4 = sheet.cell(row = 1, column = 4)
-label_5 = sheet.cell(row = 1, column = 5)
-label_6 = sheet.cell(row = 1, column = 6)
-label_7 = sheet.cell(row = 1, column = 7)
 Nrow = sheet.max_row
 daterange = sheet['B']
 date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
