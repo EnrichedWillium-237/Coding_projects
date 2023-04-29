@@ -34,9 +34,10 @@ for i in range(8, Nrow + 1):
         if "---Total" in val1:
             cnt = 0
             for j in range(0, 9):
-                pos = sheet.cell(row = i + 1 + j, column = 1).value
-                reg = sheet.cell(row = i + 1 + j, column = 3).value
-                ot  = sheet.cell(row = i + 1 + j, column = 4).value
+                pos  = sheet.cell(row = i + 1 + j, column = 1).value
+                reg  = sheet.cell(row = i + 1 + j, column = 3).value
+                ot   = sheet.cell(row = i + 1 + j, column = 4).value
+                rate = sheet.cell(row = i + 1 + j, column = 2).value
                 flag12 = False
                 fix12 = sheet.cell(row = i + 1 + j, column = 7).value
                 if fix12 is not None and fix12.__contains__("Check"): flag12 = True
@@ -46,9 +47,10 @@ for i in range(8, Nrow + 1):
                     c0.value = valName
                     c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
                     c0.value = pos
-                    if pos.__contains__("ARMED") and ot == 0: cat = "Armed"
+                    if pos.__contains__("Training"): cat = "Training"
+                    elif pos.__contains__("ARMED") and ot == 0: cat = "Armed"
+                    elif pos.__contains__("Armed") and ot == 0: cat = "Armed"
                     elif pos.__contains__("Admin Work"): cat = "Admin"
-                    elif pos.__contains__("Training"): cat = "Training"
                     elif pos.__contains__("Sick"): cat = "Sick"
                     elif pos.__contains__("Covid") or pos.__contains__("COVID"): cat = "Covid"
                     else: cat = "Unarmed"
@@ -61,140 +63,45 @@ for i in range(8, Nrow + 1):
                         c0.value = reg
                         c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
                         c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate
                         cnt += 1
                     if reg == 0 and ot != 0:
                         c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
                         c0.value = ot
+                        if pos.__contains__("Training"): cat = "Training"
                         if cat.__contains__("Unarmed"): cat = "OT Unarmed"
-                        if cat.__contains__("Armed"): cat = "OT Armed"
-                        if cat.__contains__("Admin"): cat = "OT Admin"
+                        if pos.__contains__("ARMED"): cat = "OT Armed"
+                        if pos.__contains__("Armed"): cat = "OT Armed"
+                        if pos.__contains__("Admin"): cat = "OT Admin"
                         c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
                         c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate * 1.5
                         cnt += 1
                     if reg != 0 and ot != 0:
                         c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
                         c0.value = reg
                         c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
                         c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate
                         c0 = newsheet1.cell(row = i + 2 + cnt, column = 2)
                         c0.value = valName
                         c0 = newsheet1.cell(row = i + 2 + cnt, column = 3)
                         c0.value = pos
                         c0 = newsheet1.cell(row = i + 2 + cnt, column = 6)
                         c0.value = ot
+                        if pos.__contains__("Training"): cat = "Training"
                         if cat.__contains__("Unarmed"): cat = "OT Unarmed"
-                        if cat.__contains__("Armed"): cat = "OT Armed"
-                        if cat.__contains__("Admin"): cat = "OT Admin"
+                        if pos.__contains__("ARMED"): cat = "OT Armed"
+                        if pos.__contains__("Armed"): cat = "OT Armed"
+                        if pos.__contains__("Admin"): cat = "OT Admin"
                         c1 = newsheet1.cell(row = i + 2 + cnt, column = 4)
                         c1.value = cat
+                        c2 = newsheet1.cell(row = i + 2 + cnt, column = 7)
+                        c2.value = rate * 1.5
                         cnt += 2
-
-            # if pos is not None:
-            #     c0 = newsheet1.cell(row = i + 1, column = 2)
-            #     c0.value = valName
-            #     c0 = newsheet1.cell(row = i + 1, column = 3)
-            #     c0.value = pos
-            #     if reg != 0 and ot == 0:
-            #         c0 = newsheet1.cell(row = i + 1, column = 5)
-            #         c0.value = reg
-            #         cnt += 1
-            #     if reg == 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1, column = 5)
-            #         c0.value = ot
-            #         cnt += 1
-            #     if reg != 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1, column = 5)
-            #         c0.value = reg
-            #         c0 = newsheet1.cell(row = i + 2, column = 2)
-            #         c0.value = valName
-            #         c0 = newsheet1.cell(row = i + 2, column = 3)
-            #         c0.value = pos
-            #         c0 = newsheet1.cell(row = i + 2, column = 5)
-            #         c0.value = ot
-            #         cnt += 2
-            # pos = sheet.cell(row = i + 1 + 1, column = 1).value
-            # reg = sheet.cell(row = i + 1 + 1, column = 2).value
-            # ot  = sheet.cell(row = i + 1 + 1, column = 3).value
-            # if pos is None: continue
-            # if pos is not None:
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
-            #     c0.value = valName
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
-            #     c0.value = pos
-            #     if reg != 0 and ot == 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         cnt += 1
-            #     if reg == 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 1
-            #     if reg != 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 2)
-            #         c0.value = valName
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 3)
-            #         c0.value = pos
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 2
-            # pos = sheet.cell(row = i + 1 + 2, column = 1).value
-            # reg = sheet.cell(row = i + 1 + 2, column = 2).value
-            # ot  = sheet.cell(row = i + 1 + 2, column = 3).value
-            # if pos is None: continue
-            # if pos is not None:
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
-            #     c0.value = valName
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
-            #     c0.value = pos
-            #     if reg != 0 and ot == 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         cnt += 1
-            #     if reg == 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 1
-            #     if reg != 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 2)
-            #         c0.value = valName
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 3)
-            #         c0.value = pos
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 2
-            # pos = sheet.cell(row = i + 1 + 3, column = 1).value
-            # reg = sheet.cell(row = i + 1 + 3, column = 2).value
-            # ot  = sheet.cell(row = i + 1 + 3, column = 3).value
-            # if pos is None: continue
-            # if pos is not None:
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
-            #     c0.value = valName
-            #     c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
-            #     c0.value = pos
-            #     if reg != 0 and ot == 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         cnt += 1
-            #     if reg == 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 1
-            #     if reg != 0 and ot != 0:
-            #         c0 = newsheet1.cell(row = i + 1 + cnt, column = 5)
-            #         c0.value = reg
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 2)
-            #         c0.value = valName
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 3)
-            #         c0.value = pos
-            #         c0 = newsheet1.cell(row = i + 2 + cnt, column = 5)
-            #         c0.value = ot
-            #         cnt += 2
-
-
 
 
 
@@ -237,18 +144,18 @@ newsheet1.column_dimensions["J"].width = 12
 newsheet1.column_dimensions["K"].width = 12
 
 # Delete empty rows
-# indx = []
-# for i in range(len(tuple(newsheet1.rows))):
-#     flag = False
-#     for cell in tuple(newsheet1.rows)[i]:
-#         if cell.value != None:
-#             flag = True
-#             break
-#     if flag == False:
-#         indx.append(i)
-# indx.sort()
-# for i in range(len(indx)):
-#     newsheet1.delete_rows(idx = indx[i] + 1 - i)
+indx = []
+for i in range(len(tuple(newsheet1.rows))):
+    flag = False
+    for cell in tuple(newsheet1.rows)[i]:
+        if cell.value != None:
+            flag = True
+            break
+    if flag == False:
+        indx.append(i)
+indx.sort()
+for i in range(len(indx)):
+    newsheet1.delete_rows(idx = indx[i] + 1 - i)
 
 
 output_name = "output_merged.xlsx"
