@@ -77,6 +77,7 @@ for i in range(2, Nrow + 1):
         for j in range(rowmin, rowmax + 1):
             valDate = sheet.cell(row = j, column = 2).value
             valHrs = sheet.cell(row = j, column = 5).value
+            if valHrs > 0 and valHrs < 0.01: valHrs = 0
             if valDate <= week1end:
                 week1Hrs += valHrs
                 rowmidcnt += 1
@@ -110,12 +111,15 @@ for i in range(2, Nrow + 1):
                     flag12eval = True
                     if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
+                if valHrs > 0 and valHrs < 0.01: valHrs = 0
                 if valHrs > 12:
                     z = valHrs - 12
                     regHrs = valHrs - z
                 else:
                     z = 0
                     regHrs = valHrs
+                if regHrs > 0 and regHrs < 0.01: regHrs = 0
+                if z > 0 and z < 0.01: z = 0
                 if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
@@ -152,12 +156,15 @@ for i in range(2, Nrow + 1):
                     flag12eval = True
                     if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
+                if valHrs > 0 and valHrs < 0.01: valHrs = 0
                 if valHrs > 12:
                     z = valHrs - 12
                     regHrs = valHrs - z
                 else:
                     z = 0
                     regHrs = valHrs
+                if regHrs > 0 and regHrs < 0.01: regHrs = 0
+                if z > 0 and z < 0.01: z = 0
                 if j == rowmax:       list1 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
                 elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, 0, valRate]
@@ -204,6 +211,7 @@ for i in range(2, Nrow + 1):
                     flag12eval = True
                     if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
+                if valHrs > 0 and valHrs < 0.01: valHrs = 0
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
@@ -213,7 +221,7 @@ for i in range(2, Nrow + 1):
                     if OTn > 0:
                         y = x
                         OTcnt += y
-                    if OTn < 0:
+                    if OTn <= 0:
                         y = OT - OTcnt
                         flag1 = True
                 if valHrs > 12: # OT +12 calculation
@@ -223,6 +231,9 @@ for i in range(2, Nrow + 1):
                 else: z = 0
                 regHrs = valHrs - y - z
                 if y + z == 0: regHrs = valHrs
+                if regHrs > 0 and regHrs < 0.01: regHrs = 0
+                if z > 0 and z < 0.01: z = 0
+                if y > 0 and y < 0.01: y = 0
                 if j == rowmid - 1:   list1 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 elif j == rowmid - 2: list2 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 elif j == rowmid - 3: list3 = [valName, valPos, valHrs, regHrs, z, y, valRate]
@@ -269,6 +280,7 @@ for i in range(2, Nrow + 1):
                     flag12eval = True
                     if flagDebug: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = 5).value
+                if valHrs > 0 and valHrs < 0.01: valHrs = 0
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
@@ -278,7 +290,7 @@ for i in range(2, Nrow + 1):
                     if OTn > 0:
                         y = x
                         OTcnt += y
-                    if OTn < 0:
+                    if OTn <= 0:
                         y = OT - OTcnt
                         flag1 = True
                 if valHrs > 12: # OT +12 calculation
@@ -288,6 +300,9 @@ for i in range(2, Nrow + 1):
                 else: z = 0
                 regHrs = valHrs - y - z
                 if y + z == 0: regHrs = valHrs
+                if regHrs > 0 and regHrs < 0.01: regHrs = 0
+                if z > 0 and z < 0.01: z = 0
+                if y > 0 and y < 0.01: y = 0
                 if j == rowmax:       list1 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 elif j == rowmax - 1: list2 = [valName, valPos, valHrs, regHrs, z, y, valRate]
                 elif j == rowmax - 2: list3 = [valName, valPos, valHrs, regHrs, z, y, valRate]
@@ -751,7 +766,7 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt + 2, column = 6)
         c0.value = listWeek1[0][4] + listWeek1[0][5]
         if flagMultShift1 is True:
-            c0 = newsheet1.cell(row = printCnt + 2, column = 8)
+            c0 = newsheet1.cell(row = printCnt + 2, column = 10)
             c0.value = "Multiple shifts in same day for this week. Check for OT+12 by hand."
         if listWeek1[1][0] is None: printCnt += 4
         if listWeek1[1][0] is not None:
@@ -813,7 +828,7 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt, column = 6)
         c0.value = listWeek2[0][4] + listWeek2[0][5]
         if flagMultShift2 is True:
-            c0 = newsheet1.cell(row = printCnt, column = 8)
+            c0 = newsheet1.cell(row = printCnt, column = 10)
             c0.value = "Multiple shifts in same day for this week. Check for OT+12 by hand."
         if listWeek2[1][0] is None: printCnt += 2
         if listWeek2[1][0] is not None:
@@ -905,7 +920,7 @@ for i in range(2, Nrow + 1):
                 c0 = newsheet1.cell(row = printCnt, column = 4)
                 c0.value = xOT
                 if flagMultShift2 is True:
-                    c0 = newsheet1.cell(row = printCnt, column = 8)
+                    c0 = newsheet1.cell(row = printCnt, column = 10)
                     c0.value = "Check for OT+12 by hand"
                 printCnt += 1
         xreg = 0
@@ -935,7 +950,6 @@ for i in range(2, Nrow + 1):
         #printCnt += 1
 
         rowCnt = 1 # Reset count parameter for next employee
-
 
 # More headers and design options for output
 c0 = newsheet1.cell(row = 1, column = 1)

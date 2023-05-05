@@ -766,7 +766,7 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt + 2, column = 6)
         c0.value = listWeek1[0][4] + listWeek1[0][5]
         if flagMultShift1 is True:
-            c0 = newsheet1.cell(row = printCnt + 2, column = 8)
+            c0 = newsheet1.cell(row = printCnt + 2, column = 10)
             c0.value = "Multiple shifts in same day for this week. Check for OT+12 by hand."
         if listWeek1[1][0] is None: printCnt += 4
         if listWeek1[1][0] is not None:
