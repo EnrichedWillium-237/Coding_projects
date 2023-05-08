@@ -20,8 +20,8 @@ workbook = load_workbook('input.xlsx')
 df = pd.read_excel('input.xlsx')
 # df['Employee Name'] = df['Employee Last Name'] + ' ' + df['Employee First Name']
 df_sorted = df.sort_values(
-    by = ['Employee Last Name', 'Date'],
-    ascending = [True, True]
+    by = ['Employee Last Name', 'Employee First Name', 'Date'],
+    ascending = [True, True, True]
 )
 df_sorted['Employee Name'] = df_sorted['Employee First Name'] + ' ' + df_sorted['Employee Last Name']
 df_sorted.to_excel('output_sorted.xlsx', header = True, index = False)
