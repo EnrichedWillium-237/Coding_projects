@@ -13,6 +13,8 @@ import openpyxl
 from openpyxl import load_workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 import pandas as pd
+import os
+if os.path.isfile('input.xlsx') is False: print("\n\"File input.xlsx not found!\"\n")
 
 # Input file
 workbook = load_workbook('input.xlsx')
