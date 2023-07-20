@@ -25,6 +25,11 @@ for i in range(1, 10000):
 newbook1 = openpyxl.Workbook()
 newsheet1 = newbook1.active
 
+print("\n\n")
+print("======================================")
+print("   Step 3: Merging final spreadsheet  ")
+print("======================================")
+print("\n")
 print("\nCreating final spreadsheet...\n")
 
 for i in range(8, Nrow + 1):
@@ -37,13 +42,17 @@ for i in range(8, Nrow + 1):
             valNote = sheet.cell(row = i, column = 10).value
         if "---Total" in val1:
             cnt = 0
-            for j in range(0, 9):
+            for j in range(0, 12):
                 pos  = sheet.cell(row = i + 1 + j, column = 1).value
                 reg  = sheet.cell(row = i + 1 + j, column = 3).value
                 ot   = sheet.cell(row = i + 1 + j, column = 4).value
                 rate = sheet.cell(row = i + 1 + j, column = 2).value
                 if pos is None: break
                 else:
+                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
+                    c0.value = valName
+                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
+                    c0.value = pos
                     if valENum is not None:
                         c4 = newsheet1.cell(row = i + 1 + cnt, column = 1)
                         c4.value = valENum
@@ -51,10 +60,12 @@ for i in range(8, Nrow + 1):
                         c5 = newsheet1.cell(row = i + 1 + cnt, column = 11)
                         c5.value = "Check OT+12 by hand"
                         c5.font = Font(bold = 'single')
-                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
-                    c0.value = valName
-                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
-                    c0.value = pos
+                        # remove redundant flag for OT+12 calculation
+                        for k in range(0, 12):
+                            c6 = newsheet1.cell(row = i + cnt - k, column = 11)
+                            c7 = newsheet1.cell(row = i + cnt - k, column = 2)
+                            if c6.value is not None and c7.value is valName:
+                                c5.value = " "
                     cat = "Unarmed"
                     if pos.__contains__("Training"): cat = "Training"
                     elif pos.__contains__("Admin Work"): cat = "Admin"
@@ -168,6 +179,6 @@ for i in range(len(indx)):
 
 output_name = "output_merged.xlsx"
 newbook1.save(output_name)
-print("\n")
-print("file output written to", output_name)
 print("\nSpreadsheet informarion merged.\n")
+print("File output written to", output_name, "\n")
+print("--Step 3 complete. OT calculation finished.--\n")
