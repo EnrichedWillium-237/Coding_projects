@@ -34,16 +34,16 @@ colDate = 3
 colHrs  = 6
 colName = 7
 colRate = 8
-for i in range(2, Nrow):
+for i in range(2, Nrow + 1):
     valHrs = sheet.cell(row = i, column = colHrs)
     GrandHrs += valHrs.value
     valName = sheet.cell(row = i, column = colName).value
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
-    if valNameNxt not in valName: GrandNames += 1
+    if valNameNxt is not None and valNameNxt not in valName: GrandNames += 1
 print("\n\n")
-print("====================================")
-print("   Step 2: Calculating OT     ")
-print("====================================")
+print("======================================")
+print("       Step 2: Calculating OT         ")
+print("======================================")
 print("\n")
 print("Payroll date range:")
 print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
@@ -399,7 +399,6 @@ for i in range(2, Nrow + 1):
             RegHrs1 = list1[3]
             totOT12_1 = list1[4]
             totOT40_1 = list1[5]
-            nshift = 0
             # Position 1
             if pos1 is not None:
                 if pos2 is not None and pos2 in pos1:
@@ -407,74 +406,62 @@ for i in range(2, Nrow + 1):
                     RegHrs1 += list2[3]
                     totOT12_1 += list2[4]
                     totOT40_1 += list2[5]
-                    nshift += 1
                 if pos3 is not None and pos3 in pos1:
                     hrsPos1 += list3[2]
                     RegHrs1 += list3[3]
                     totOT12_1 += list3[4]
                     totOT40_1 += list3[5]
-                    nshift += 1
                 if pos4 is not None and pos4 in pos1:
                     hrsPos1 += list4[2]
                     RegHrs1 += list4[3]
                     totOT12_1 += list4[4]
                     totOT40_1 += list4[5]
-                    nshift += 1
                 if pos5 is not None and pos5 in pos1:
                     hrsPos1 += list5[2]
                     RegHrs1 += list5[3]
                     totOT12_1 += list5[4]
                     totOT40_1 += list5[5]
-                    nshift += 1
                 if pos6 is not None and pos6 in pos1:
                     hrsPos1 += list6[2]
                     RegHrs1 += list6[3]
                     totOT12_1 += list6[4]
                     totOT40_1 += list6[5]
-                    nshift += 1
                 if pos7 is not None and pos7 in pos1:
                     hrsPos1 += list7[2]
                     RegHrs1 += list7[3]
                     totOT12_1 += list7[4]
                     totOT40_1 += list7[5]
-                    nshift += 1
                 if pos8 is not None and pos8 in pos1:
                     hrsPos1 += list8[2]
                     RegHrs1 += list8[3]
                     totOT12_1 += list8[4]
                     totOT40_1 += list8[5]
-                    nshift += 1
                 if pos9 is not None and pos9 in pos1:
                     hrsPos1 += list9[2]
                     RegHrs1 += list9[3]
                     totOT12_1 += list9[4]
                     totOT40_1 += list9[5]
-                    nshift += 1
                 if pos10 is not None and pos10 in pos1:
                     hrsPos1 += list10[2]
                     RegHrs1 += list10[3]
                     totOT12_1 += list10[4]
                     totOT40_1 += list10[5]
-                    nshift += 1
                 if pos11 is not None and pos11 in pos1:
                     hrsPos1 += list11[2]
                     RegHrs1 += list11[3]
                     totOT12_1 += list11[4]
                     totOT40_1 += list11[5]
-                    nshift += 1
                 if pos12 is not None and pos12 in pos1:
                     hrsPos1 += list12[2]
                     RegHrs1 += list12[3]
                     totOT12_1 += list12[4]
                     totOT40_1 += list12[5]
-                    nshift += 1
-            list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1, list1[6], list1[7], nshift]
+            list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1, list1[6], list1[7], 0]
             # Position 2
             hrsPos2 = 0
             RegHrs2 = 0
             totOT12_2 = 0
             totOT40_2 = 0
-            nshift = 0
             if pos2 is not None:
                 if (    pos1 is not None and
                         pos2 not in pos1):
@@ -482,25 +469,21 @@ for i in range(2, Nrow + 1):
                     RegHrs2 = list2[3]
                     totOT12_2 = list2[4]
                     totOT40_2 = list2[5]
-                    nshift += 1
                     if pos3 is not None and pos3 in pos2:
                         hrsPos2 += list3[2]
                         RegHrs2 += list3[3]
                         totOT12_2 += list3[4]
                         totOT40_2 += list3[5]
-                        nshift += 1
                     if pos4 is not None and pos4 in pos2:
                         hrsPos2 += list4[2]
                         RegHrs2 += list4[3]
                         totOT12_2 += list4[4]
                         totOT40_2 += list4[5]
-                        nshift += 1
                     if pos5 is not None and pos5 in pos2:
                         hrsPos2 += list5[2]
                         RegHrs2 += list5[3]
                         totOT12_2 += list5[4]
                         totOT40_2 += list5[5]
-                        nshift += 1
                     if pos6 is not None and pos6 in pos2:
                         hrsPos2 += list6[2]
                         RegHrs2 += list6[3]
@@ -511,44 +494,37 @@ for i in range(2, Nrow + 1):
                         RegHrs2 += list7[3]
                         totOT12_2 += list7[4]
                         totOT40_2 += list7[5]
-                        nshift += 1
                     if pos8 is not None and pos8 in pos2:
                         hrsPos2 += list8[2]
                         RegHrs2 += list8[3]
                         totOT12_2 += list8[4]
                         totOT40_2 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos2:
                         hrsPos2 += list9[2]
                         RegHrs2 += list9[3]
                         totOT12_2 += list9[4]
                         totOT40_2 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos2:
                         hrsPos2 += list10[2]
                         RegHrs2 += list10[3]
                         totOT12_2 += list10[4]
                         totOT40_2 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos2:
                         hrsPos2 += list11[2]
                         RegHrs2 += list11[3]
                         totOT12_2 += list11[4]
                         totOT40_2 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos2:
                         hrsPos2 += list12[2]
                         RegHrs2 += list12[3]
                         totOT12_2 += list12[4]
                         totOT40_2 += list12[5]
-                        nshift += 1
-                list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2, list2[6], list2[7], nshift]
+                list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2, list2[6], list2[7], 0]
             # Position 3
             hrsPos3 = 0
             RegHrs3 = 0
             totOT12_3 = 0
             totOT40_3 = 0
-            nshift = 0
             if pos3 is not None:
                 if (    pos2 is not None and pos1 is not None and
                         pos3 not in pos1 and pos3 not in pos2):
@@ -556,68 +532,57 @@ for i in range(2, Nrow + 1):
                     RegHrs3 += list3[3]
                     totOT12_3 += list3[4]
                     totOT40_3 += list3[5]
-                    nshift += 1
                     if pos4 is not None and pos4 in pos3:
                         hrsPos3 += list4[2]
                         RegHrs3 += list4[3]
                         totOT12_3 += list4[4]
                         totOT40_3 += list4[5]
-                        nshift += 1
                     if pos5 is not None and pos5 in pos3:
                         hrsPos3 += list5[2]
                         RegHrs3 += list5[3]
                         totOT12_3 += list5[4]
                         totOT40_3 += list5[5]
-                        nshift += 1
                     if pos6 is not None and pos6 in pos3:
                         hrsPos3 += list6[2]
                         RegHrs3 += list6[3]
                         totOT12_3 += list6[4]
                         totOT40_3 += list6[5]
-                        nshift += 1
                     if pos7 is not None and pos7 in pos3:
                         hrsPos3 += list7[2]
                         RegHrs3 += list7[3]
                         totOT12_3 += list7[4]
                         totOT40_3 += list7[5]
-                        nshift += 1
                     if pos8 is not None and pos8 in pos3:
                         hrsPos3 += list8[2]
                         RegHrs3 += list8[3]
                         totOT12_3 += list8[4]
                         totOT40_3 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos3:
                         hrsPos3 += list9[2]
                         RegHrs3 += list9[3]
                         totOT12_3 += list9[4]
                         totOT40_3 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos3:
                         hrsPos3 += list10[2]
                         RegHrs3 += list10[3]
                         totOT12_3 += list10[4]
                         totOT40_3 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos3:
                         hrsPos3 += list11[2]
                         RegHrs3 += list11[3]
                         totOT12_3 += list11[4]
                         totOT40_3 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos3:
                         hrsPos3 += list12[2]
                         RegHrs3 += list12[3]
                         totOT12_3 += list12[4]
                         totOT40_3 += list12[5]
-                        nshift += 1
-                list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3, list3[6], list3[7], nshift]
+                list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3, list3[6], list3[7], 0]
             # Position 4
             hrsPos4 = 0
             RegHrs4 = 0
             totOT12_4 = 0
             totOT40_4 = 0
-            nshift = 0
             if pos4 is not None:
                 if (    pos3 is not None and pos2 is not None and pos1 is not None and
                         pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3):
@@ -625,62 +590,52 @@ for i in range(2, Nrow + 1):
                     RegHrs4 += list4[3]
                     totOT12_4 += list4[4]
                     totOT40_4 += list4[5]
-                    nshift += 1
                     if pos5 is not None and pos5 in pos4:
                         hrsPos4 += list5[2]
                         RegHrs4 += list5[3]
                         totOT12_4 += list5[4]
                         totOT40_4 += list5[5]
-                        nshift += 1
                     if pos6 is not None and pos6 in pos4:
                         hrsPos4 += list6[2]
                         RegHrs4 += list6[3]
                         totOT12_4 += list6[4]
                         totOT40_4 += list6[5]
-                        nshift += 1
                     if pos7 is not None and pos7 in pos4:
                         hrsPos4 += list7[2]
                         RegHrs4 += list7[3]
                         totOT12_4 += list7[4]
                         totOT40_4 += list7[5]
-                        nshift += 1
                     if pos8 is not None and pos8 in pos4:
                         hrsPos4 += list8[2]
                         RegHrs4 += list8[3]
                         totOT12_4 += list8[4]
                         totOT40_4 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos4:
                         hrsPos4 += list9[2]
                         RegHrs4 += list9[3]
                         totOT12_4 += list9[4]
                         totOT40_4 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos4:
                         hrsPos4 += list10[2]
                         RegHrs4 += list10[3]
                         totOT12_4 += list10[4]
                         totOT40_4 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos4:
                         hrsPos4 += list11[2]
                         RegHrs4 += list11[3]
                         totOT12_4 += list11[4]
                         totOT40_4 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos4:
                         hrsPos4 += list12[2]
                         RegHrs4 += list12[3]
                         totOT12_4 += list12[4]
                         totOT40_4 += list12[5]
-                        nshift += 1
-                list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4, list4[6], list4[7], nshift]
+                list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4, list4[6], list4[7], 0]
             # Position 5
             hrsPos5 = 0
             RegHrs5 = 0
             totOT12_5 = 0
             totOT40_5 = 0
-            nshift = 0
             if pos5 is not None:
                 if (    pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
@@ -690,56 +645,47 @@ for i in range(2, Nrow + 1):
                     RegHrs5 += list5[3]
                     totOT12_5 += list5[4]
                     totOT40_5 += list5[5]
-                    nshift += 1
                     if pos6 is not None and pos6 in pos5:
                         hrsPos5 += list6[2]
                         RegHrs5 += list6[3]
                         totOT12_5 += list6[4]
                         totOT40_5 += list6[5]
-                        nshift += 1
                     if pos7 is not None and pos7 in pos5:
                         hrsPos5 += list7[2]
                         RegHrs5 += list7[3]
                         totOT12_5 += list7[4]
                         totOT40_5 += list7[5]
-                        nshift += 1
                     if pos8 is not None and pos8 in pos5:
                         hrsPos5 += list8[2]
                         RegHrs5 += list8[3]
                         totOT12_5 += list8[4]
                         totOT40_5 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos5:
                         hrsPos5 += list9[2]
                         RegHrs5 += list9[3]
                         totOT12_5 += list9[4]
                         totOT40_5 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos5:
                         hrsPos5 += list10[2]
                         RegHrs5 += list10[3]
                         totOT12_5 += list10[4]
                         totOT40_5 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos5:
                         hrsPos5 += list11[2]
                         RegHrs5 += list11[3]
                         totOT12_5 += list11[4]
                         totOT40_5 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos5:
                         hrsPos5 += list12[2]
                         RegHrs5 += list12[3]
                         totOT12_5 += list12[4]
                         totOT40_5 += list12[5]
-                        nshift += 1
-                list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5, list5[6], list5[7], nshift]
+                list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5, list5[6], list5[7], 0]
             # Position 6
             hrsPos6 = 0
             RegHrs6 = 0
             totOT12_6 = 0
             totOT40_6 = 0
-            nshift = 0
             if pos6 is not None:
                 if (    pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
@@ -749,50 +695,42 @@ for i in range(2, Nrow + 1):
                     RegHrs6 += list6[3]
                     totOT12_6 += list6[4]
                     totOT40_6 += list6[5]
-                    nshift += 1
                     if pos7 is not None and pos7 in pos6:
                         hrsPos6 += list7[2]
                         RegHrs6 += list7[3]
                         totOT12_6 += list7[4]
                         totOT40_6 += list7[5]
-                        nshift += 1
                     if pos8 is not None and pos8 in pos6:
                         hrsPos6 += list8[2]
                         RegHrs6 += list8[3]
                         totOT12_6 += list8[4]
                         totOT40_6 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos6:
                         hrsPos6 += list9[2]
                         RegHrs6 += list9[3]
                         totOT12_6 += list9[4]
                         totOT40_6 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos6:
                         hrsPos6 += list10[2]
                         RegHrs6 += list10[3]
                         totOT12_6 += list10[4]
                         totOT40_6 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos6:
                         hrsPos6 += list11[2]
                         RegHrs6 += list11[3]
                         totOT12_6 += list11[4]
                         totOT40_6 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos6:
                         hrsPos6 += list12[2]
                         RegHrs6 += list12[3]
                         totOT12_6 += list12[4]
                         totOT40_6 += list12[5]
-                        nshift += 1
-                list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6, list6[6], list6[7], nshift]
+                list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6, list6[6], list6[7], 0]
             # Position 7
             hrsPos7 = 0
             RegHrs7 = 0
             totOT12_7 = 0
             totOT40_7 = 0
-            nshift = 1
             if pos7 is not None:
                 if (    pos6 is not None and pos5 is not None and pos4 is not None and
                         pos3 is not None and pos2 is not None and pos1 is not None and
@@ -802,44 +740,37 @@ for i in range(2, Nrow + 1):
                     RegHrs7 += list7[3]
                     totOT12_7 += list7[4]
                     totOT40_7 += list7[5]
-                    nshift += 1
                     if pos8 is not None and pos8 in pos7:
                         hrsPos7 += list8[2]
                         RegHrs7 += list8[3]
                         totOT12_7 += list8[4]
                         totOT40_7 += list8[5]
-                        nshift += 1
                     if pos9 is not None and pos9 in pos7:
                         hrsPos7 += list9[2]
                         RegHrs7 += list9[3]
                         totOT12_7 += list9[4]
                         totOT40_7 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos7:
                         hrsPos7 += list10[2]
                         RegHrs7 += list10[3]
                         totOT12_7 += list10[4]
                         totOT40_7 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos7:
                         hrsPos7 += list11[2]
                         RegHrs7 += list11[3]
                         totOT12_7 += list11[4]
                         totOT40_7 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos7:
                         hrsPos7 += list12[2]
                         RegHrs7 += list12[3]
                         totOT12_7 += list12[4]
                         totOT40_7 += list12[5]
-                        nshift += 1
-                list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7, list7[6], list7[7], nshift]
+                list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7, list7[6], list7[7], 0]
             # Position 8
             hrsPos8 = 0
             RegHrs8 = 0
             totOT12_8 = 0
             totOT40_8 = 0
-            nshift = 0
             if pos8 is not None:
                 if (    pos7 is not None and pos6 is not None and pos5 is not None and
                         pos4 is not None and pos3 is not None and pos2 is not None and
@@ -851,38 +782,32 @@ for i in range(2, Nrow + 1):
                     RegHrs8 += list8[3]
                     totOT12_8 += list8[4]
                     totOT40_8 += list8[5]
-                    nshift += 1
                     if pos9 is not None and pos9 in pos8:
                         hrsPos8 += list9[2]
                         RegHrs8 += list9[3]
                         totOT12_8 += list9[4]
                         totOT40_8 += list9[5]
-                        nshift += 1
                     if pos10 is not None and pos10 in pos8:
                         hrsPos8 += list10[2]
                         RegHrs8 += list10[3]
                         totOT12_8 += list10[4]
                         totOT40_8 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos8:
                         hrsPos8 += list11[2]
                         RegHrs8 += list11[3]
                         totOT12_8 += list11[4]
                         totOT40_8 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos8:
                         hrsPos8 += list12[2]
                         RegHrs8 += list12[3]
                         totOT12_8 += list12[4]
                         totOT40_8 += list12[5]
-                        nshift += 1
-                list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8, list8[6], list8[7], nshift]
+                list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8, list8[6], list8[7], 0]
             # Position 9
             hrsPos9 = 0
             RegHrs9 = 0
             totOT12_9 = 0
             totOT40_9 = 0
-            nshift = 1
             if pos9 is not None:
                 if (    pos8 is not None and pos7 is not None and pos6 is not None and
                         pos5 is not None and pos4 is not None and pos3 is not None and
@@ -894,32 +819,27 @@ for i in range(2, Nrow + 1):
                     RegHrs9 += list9[3]
                     totOT12_9 += list9[4]
                     totOT40_9 += list9[5]
-                    nshift += 1
                     if pos10 is not None and pos10 in pos9:
                         hrsPos9 += list10[2]
                         RegHrs9 += list10[3]
                         totOT12_9 += list10[4]
                         totOT40_9 += list10[5]
-                        nshift += 1
                     if pos11 is not None and pos11 in pos9:
                         hrsPos9 += list11[2]
                         RegHrs9 += list11[3]
                         totOT12_9 += list11[4]
                         totOT40_9 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos9:
                         hrsPos9 += list12[2]
                         RegHrs9 += list12[3]
                         totOT12_9 += list12[4]
                         totOT40_9 += list12[5]
-                        nshift += 1
-                list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9, list9[6], list9[7], nshift]
+                list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9, list9[6], list9[7], 0]
             # Position 10
             hrsPos10 = 0
             RegHrs10 = 0
             totOT12_10 = 0
             totOT40_10 = 0
-            nshift = 1
             if pos10 is not None:
                 if (    pos9 is not None and pos8 is not None and pos7 is not None and
                         pos6 is not None and pos5 is not None and pos4 is not None and
@@ -931,26 +851,22 @@ for i in range(2, Nrow + 1):
                     RegHrs10 += list10[3]
                     totOT12_10 += list10[4]
                     totOT40_10 += list10[5]
-                    nshift += 1
                     if pos11 is not None and pos11 in pos10:
                         hrsPos10 += list11[2]
                         RegHrs10 += list11[3]
                         totOT12_10 += list11[4]
                         totOT40_10 += list11[5]
-                        nshift += 1
                     if pos12 is not None and pos12 in pos10:
                         hrsPos10 += list12[2]
                         RegHrs10 += list12[3]
                         totOT12_10 += list12[4]
                         totOT40_10 += list12[5]
-                        nshift += 1
-                list10 = [valName, pos10, hrsPos10, RegHrs10, totOT12_10, totOT40_10, list10[6], list10[7], nshift]
+                list10 = [valName, pos10, hrsPos10, RegHrs10, totOT12_10, totOT40_10, list10[6], list10[7], 0]
             # Position 11
             hrsPos11 = 0
             RegHrs11 = 0
             totOT12_11 = 0
             totOT40_11 = 0
-            nshift = 1
             if pos11 is not None:
                 if (    pos10 is not None and pos9 is not None and pos8 is not None and
                         pos7 is not None and pos6 is not None and pos5 is not None and
@@ -964,20 +880,17 @@ for i in range(2, Nrow + 1):
                     RegHrs11 += list11[3]
                     totOT12_11 += list11[4]
                     totOT40_11 += list11[5]
-                    nshift += 1
                     if pos12 is not None and pos12 in pos11:
                         hrsPos11 += list12[2]
                         RegHrs11 += list12[3]
                         totOT12_11 += list12[4]
                         totOT40_11 += list12[5]
-                        nshift += 1
-                list11 = [valName, pos11, hrsPos11, RegHrs11, totOT12_11, totOT40_11, list11[6], list11[7], nshift]
+                list11 = [valName, pos11, hrsPos11, RegHrs11, totOT12_11, totOT40_11, list11[6], list11[7], 0]
             # Position 12
             hrsPos12 = 0
             RegHrs12 = 0
             totOT12_12 = 0
             totOT40_12 = 0
-            nshift = 1
             if pos12 is not None:
                 if (    pos11 is not None and pos10 is not None and pos9 is not None and
                         pos8 is not None and pos7 is not None and pos6 is not None and
@@ -991,8 +904,8 @@ for i in range(2, Nrow + 1):
                     RegHrs12 += list12[3]
                     totOT12_12 += list12[4]
                     totOT40_12 += list12[5]
-                    nshift += 1
-                list12 = [valName, pos12, hrsPos12, RegHrs12, totOT12_12, totOT40_12, list12[6], list12[7], nshift]
+                list12 = [valName, pos12, hrsPos12, RegHrs12, totOT12_12, totOT40_12, list12[6], list12[7], 0]
+
 
             if (    list2[1] is not None and (list2[1] is list1[1])):
                 list2 = [None, None, 0, 0, 0, 0, 0, None, 0]
@@ -1244,50 +1157,49 @@ for i in range(2, Nrow + 1):
         c0.border = Border(right = line)
         c0.font = Font(italic = 'single')
         c0 = newsheet1.cell(row = printCnt - 1, column = 2)
-        c0.border = Border(right = line)
+        c0.border = Border(right = line, bottom = line)
+        c0 = newsheet1.cell(row = printCnt - 1, column = 3)
+        c0.value = "tot reg"
+        c0.font = Font(italic = 'single')
+        c0.alignment = Alignment(horizontal = 'right')
+        c0.border = Border(bottom = line)
+        c0 = newsheet1.cell(row = printCnt - 1, column = 4)
+        c0.value = "tot OT"
+        c0.font = Font(italic = 'single')
+        c0.alignment = Alignment(horizontal = 'right')
+        c0.border = Border(bottom = line)
         for j in range(0, 12):
             if listWeek1[j][1] is not None:
                 if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                     xreg = listWeek1[j][3]
                     xOT  = listWeek1[j][4] + listWeek1[j][5]
-                    xshift = listWeek1[j][8]
                     if listWeek2[0][1] is not None and listWeek2[0][1] in listWeek1[j][1]:
                         xreg += listWeek2[0][3]
                         xOT  += listWeek2[0][4] + listWeek2[0][5]
-                        xshift += listWeek2[0][8]
                     if listWeek2[1][1] is not None and listWeek2[1][1] in listWeek1[j][1]:
                         xreg += listWeek2[1][3]
                         xOT  += listWeek2[1][4] + listWeek2[1][5]
-                        xshift += listWeek2[1][8]
                     if listWeek2[2][1] is not None and listWeek2[2][1] in listWeek1[j][1]:
                         xreg += listWeek2[2][3]
                         xOT  += listWeek2[2][4] + listWeek2[2][5]
-                        xshift += listWeek2[2][8]
                     if listWeek2[3][1] is not None and listWeek2[3][1] in listWeek1[j][1]:
                         xreg += listWeek2[3][3]
                         xOT  += listWeek2[3][4] + listWeek2[3][5]
-                        xshift += listWeek2[3][8]
                     if listWeek2[4][1] is not None and listWeek2[4][1] in listWeek1[j][1]:
                         xreg += listWeek2[4][3]
                         xOT  += listWeek2[4][4] + listWeek2[4][5]
-                        xshift += listWeek2[4][8]
                     if listWeek2[5][1] is not None and listWeek2[5][1] in listWeek1[j][1]:
                         xreg += listWeek2[5][3]
                         xOT  += listWeek2[5][4] + listWeek2[5][5]
-                        xshift += listWeek2[5][8]
                     if listWeek2[6][1] is not None and listWeek2[6][1] in listWeek1[j][1]:
                         xreg += listWeek2[6][3]
                         xOT  += listWeek2[6][4] + listWeek2[6][5]
-                        xshift += listWeek2[6][8]
                     if listWeek2[7][1] is not None and listWeek2[7][1] in listWeek1[j][1]:
                         xreg += listWeek2[7][3]
                         xOT  += listWeek2[7][4] + listWeek2[7][5]
-                        xshift += listWeek2[7][8]
                     if listWeek2[8][1] is not None and listWeek2[8][1] in listWeek1[j][1]:
                         xreg += listWeek2[8][3]
                         xOT  += listWeek2[8][4] + listWeek2[8][5]
-                        xshift += listWeek2[8][8]
-                    if xshift == 0: xshift = 1
                     c0 = newsheet1.cell(row = printCnt, column = 1)
                     c0.value = listWeek1[j][1]
                     c0.border = Border(right = line)
@@ -1301,9 +1213,6 @@ for i in range(2, Nrow + 1):
                     c0 = newsheet1.cell(row = printCnt, column = 4)
                     c0.font = Font(bold = 'single')
                     c0.value = xOT
-                    c0 = newsheet1.cell(row = printCnt, column = 6)
-                    c0.font = Font(italic = 'single')
-                    c0.value = xshift
                     printCnt += 1
         xreg = 0
         xOT = 0
@@ -1322,8 +1231,6 @@ for i in range(2, Nrow + 1):
                     else:
                         xreg = listWeek2[j][3]
                         xOT  = listWeek2[j][4] + listWeek2[j][5]
-                        xshift = listWeek2[j][8]
-                        if xshift == 0: xshift = 1
                         c0 = newsheet1.cell(row = printCnt, column = 1)
                         c0.value = listWeek2[j][1]
                         c0.border = Border(right = line)
@@ -1337,9 +1244,6 @@ for i in range(2, Nrow + 1):
                         c0 = newsheet1.cell(row = printCnt, column = 4)
                         c0.font = Font(bold = 'single')
                         c0.value = xOT
-                        c0 = newsheet1.cell(row = printCnt, column = 6)
-                        c0.font = Font(italic = 'single')
-                        c0.value = xshift
                         printCnt += 1
         printCnt += 2
         rowCnt = 1 # Reset count parameter for next employee
@@ -1408,3 +1312,4 @@ if flagMultShiftTot is True: print("---WARNING! Hand-check days with multiple sh
 if flagMultShiftTot is True: print("====================================================\n")
 print("\nOT calculation done.\n")
 print("File output written to", output_name,"\n")
+print("--Step 2 complete--")
