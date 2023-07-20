@@ -25,6 +25,8 @@ for i in range(1, 10000):
 newbook1 = openpyxl.Workbook()
 newsheet1 = newbook1.active
 
+print("\nCreating final spreadsheet...\n")
+
 for i in range(8, Nrow + 1):
     val0 = sheet.cell(row = i - 1, column = 1).value
     val1 = sheet.cell(row = i, column = 1).value

@@ -769,7 +769,6 @@ for i in range(2, Nrow + 1):
             print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:   Rate:")
             for j in range(0, 9):
                 if listWeek1[j][0] is not None:
-                    # print(listWeek1[j][2], listWeek1[j][5])
                     if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                         print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5], " ", listWeek1[j][6])
             print("--Week 2 totals--")
@@ -829,7 +828,6 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt + 2, column = 6)
         c0.value = listWeek1[0][4] + listWeek1[0][5]
         c0 = newsheet1.cell(row = printCnt + 2, column = 9)
-        c0.value = listWeek1[0][8]
         if flagMultShift1 is True:
             c0 = newsheet1.cell(row = printCnt + 2, column = 10)
             c0.value = "Multiple shifts in same day for week 1. Check for OT+12 by hand."
@@ -851,7 +849,6 @@ for i in range(2, Nrow + 1):
             c0 = newsheet1.cell(row = printCnt + 3, column = 6)
             c0.value = listWeek1[1][4] + listWeek1[1][5]
             c0 = newsheet1.cell(row = printCnt + 3, column = 9)
-            c0.value = listWeek1[1][8]
             printCnt += 5
             for j in range(2, 9):
                 if listWeek1[j][0] is not None:
@@ -872,7 +869,6 @@ for i in range(2, Nrow + 1):
                         c0 = newsheet1.cell(row = printCnt - 1, column = 6)
                         c0.value = listWeek1[j][4] + listWeek1[j][5]
                         c0 = newsheet1.cell(row = printCnt - 1, column = 9)
-                        c0.value = listWeek1[j][8]
                         printCnt += 1
 
         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
@@ -898,7 +894,6 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt, column = 6)
         c0.value = listWeek2[0][4] + listWeek2[0][5]
         c0 = newsheet1.cell(row = printCnt, column = 9)
-        c0.value = listWeek2[0][8]
         if flagMultShift2 is True:
             c0 = newsheet1.cell(row = printCnt, column = 10)
             c0.value = "Multiple shifts in same day for week 2. Check for OT+12 by hand."
@@ -920,7 +915,6 @@ for i in range(2, Nrow + 1):
             c0 = newsheet1.cell(row = printCnt + 1, column = 6)
             c0.value = listWeek2[1][4] + listWeek2[1][5]
             c0 = newsheet1.cell(row = printCnt + 1, column = 9)
-            c0.value = listWeek2[1][8]
             printCnt += 3
             for j in range(2, 9):
                 if listWeek2[j][0] is not None:
@@ -941,19 +935,17 @@ for i in range(2, Nrow + 1):
                         c0 = newsheet1.cell(row = printCnt - 1, column = 6)
                         c0.value = listWeek2[j][4] + listWeek2[j][5]
                         c0 = newsheet1.cell(row = printCnt - 1, column = 9)
-                        c0.value = listWeek2[j][8]
                         printCnt += 1
 
         # Add up both weeks
         xreg = 0
         xOT = 0
         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
-        c0.value = "---Total (regular, OT)---"
+        c0.value = "---Total (reg, OT, shifts)---"
         c0.border = Border(right = line)
         c0.font = Font(italic = 'single')
         c0 = newsheet1.cell(row = printCnt - 1, column = 2)
         c0.border = Border(right = line)
-        c0 = newsheet1.cell(row = printCnt - 1, column = 3)
         for j in range(0, 9):
             if listWeek1[j][1] is not None:
                 if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
@@ -996,6 +988,7 @@ for i in range(2, Nrow + 1):
                         xreg += listWeek2[8][3]
                         xOT  += listWeek2[8][4] + listWeek2[8][5]
                         xshift += listWeek2[8][8]
+                    if xshift == 0: xshift = 1
                     c0 = newsheet1.cell(row = printCnt, column = 1)
                     c0.value = listWeek1[j][1]
                     c0.border = Border(right = line)
@@ -1004,10 +997,13 @@ for i in range(2, Nrow + 1):
                     c0.font = Font(italic = 'single')
                     c0.value = listWeek1[j][6]
                     c0 = newsheet1.cell(row = printCnt, column = 3)
+                    c0.font = Font(bold = 'single')
                     c0.value = xreg
                     c0 = newsheet1.cell(row = printCnt, column = 4)
+                    c0.font = Font(bold = 'single')
                     c0.value = xOT
-                    c0 = newsheet1.cell(row = printCnt, column = 9)
+                    c0 = newsheet1.cell(row = printCnt, column = 6)
+                    c0.font = Font(italic = 'single')
                     c0.value = xshift
                     printCnt += 1
         xreg = 0
@@ -1028,6 +1024,7 @@ for i in range(2, Nrow + 1):
                         xreg = listWeek2[j][3]
                         xOT  = listWeek2[j][4] + listWeek2[j][5]
                         xshift = listWeek2[j][8]
+                        if xshift == 0: xshift = 1
                         c0 = newsheet1.cell(row = printCnt, column = 1)
                         c0.value = listWeek2[j][1]
                         c0.border = Border(right = line)
@@ -1036,14 +1033,29 @@ for i in range(2, Nrow + 1):
                         c0.font = Font(italic = 'single')
                         c0.value = listWeek2[j][6]
                         c0 = newsheet1.cell(row = printCnt, column = 3)
+                        c0.font = Font(bold = 'single')
                         c0.value = xreg
                         c0 = newsheet1.cell(row = printCnt, column = 4)
+                        c0.font = Font(bold = 'single')
                         c0.value = xOT
-                        c0 = newsheet1.cell(row = printCnt, column = 9)
+                        c0 = newsheet1.cell(row = printCnt, column = 6)
+                        c0.font = Font(italic = 'single')
                         c0.value = xshift
                         printCnt += 1
         printCnt += 2
         rowCnt = 1 # Reset count parameter for next employee
+
+# Check for empty rows
+for i in range(1, Nrow):
+    c0 = newsheet1.cell(row = i, column = 1).value
+    c1 = newsheet1.cell(row = i, column = 1).value
+    c2 = newsheet1.cell(row = i, column = 3).value
+    c3 = newsheet1.cell(row = i, column = 4).value
+    c4 = newsheet1.cell(row = i, column = 5).value
+    c5 = newsheet1.cell(row = i, column = 6).value
+    if c0 is c1 and c2 == 0 and c3 == 0 and c4 == 0 and c5 == 0:
+        newsheet1.delete_rows(i, 1)
+
 
 # More headers and design options for output
 c0 = newsheet1.cell(row = 1, column = 1)
@@ -1068,8 +1080,6 @@ c0 = newsheet1.cell(row = 5, column = 2)
 c0.value = GrandHrs
 c0 = newsheet1.cell(row = 7, column = 8)
 c0.value = "Employee Number"
-c0 = newsheet1.cell(row = 7, column = 9)
-c0.value = "Number of shifts"
 c0 = newsheet1.cell(row = 7, column = 10)
 c0.value = "Notes"
 

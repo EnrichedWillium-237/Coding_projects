@@ -13,6 +13,8 @@ import openpyxl
 from openpyxl import load_workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 import pandas as pd
+import os
+if os.path.isfile('input.xlsx') is False: print("\n\"File input.xlsx not found!\"\n")
 
 # Input file
 workbook = load_workbook('input.xlsx')
@@ -48,6 +50,11 @@ output_name = "output_sorted.xlsx"
 workbook.save(output_name)
 
 print("\n\n")
+print("====================================")
+print("   Step 1: sorting file started")
+print("====================================")
+print("\n\n")
 print("Input file sorted...\n")
 print("File output written to", output_name)
 print("\n")
+print("Step 1 complete")
