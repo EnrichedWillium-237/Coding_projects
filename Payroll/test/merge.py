@@ -26,9 +26,9 @@ newbook1 = openpyxl.Workbook()
 newsheet1 = newbook1.active
 
 print("\n\n")
-print("======================================")
-print("   Step 3: Merging final spreadsheet  ")
-print("======================================")
+print("=======================================")
+print("   Step 3: Merging final spreadsheet   ")
+print("=======================================")
 print("\n")
 print("\nCreating final spreadsheet...\n")
 
@@ -181,4 +181,4 @@ output_name = "output_merged.xlsx"
 newbook1.save(output_name)
 print("\nSpreadsheet informarion merged.\n")
 print("File output written to", output_name, "\n")
-print("--Step 3 complete. OT calculation finished.--\n")
+print("--Step 3 complete. OT calculation finished.--\n\n")

@@ -41,17 +41,18 @@ for i in range(2, Nrow + 1):
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
     if valNameNxt is not None and valNameNxt not in valName: GrandNames += 1
 print("\n\n")
-print("======================================")
-print("       Step 2: Calculating OT         ")
-print("======================================")
+print("=======================================")
+print("        Step 2: Calculating OT         ")
+print("=======================================")
 print("\n")
 print("Payroll date range:")
 print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
 print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
+print("\n")
 print("Total statistics:")
-print("  Total number of employees:  ", GrandNames)
-print("  Total number of shifts:  ", Nrow - 1)
-print("  Total hours for all names and positions:  ", f'{GrandHrs:.9}')
+print("  Total number of employees:", GrandNames)
+print("  Total number of shifts:   ", Nrow - 1)
+print("  Total hours for all positions:  ", f'{GrandHrs:.9}')
 
 # Setup output file and spreadsheet
 newbook1 = openpyxl.Workbook()

@@ -50,9 +50,9 @@ output_name = "output_sorted.xlsx"
 workbook.save(output_name)
 
 print("\n\n")
-print("======================================")
-print("     Step 1: Sorting input file       ")
-print("======================================")
+print("=======================================")
+print("      Step 1: Sorting input file       ")
+print("=======================================")
 print("\n\n")
 print("Input file sorted.\n")
 print("File output written to", output_name, "\n")
