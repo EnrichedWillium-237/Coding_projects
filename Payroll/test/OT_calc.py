@@ -40,6 +40,7 @@ for i in range(2, Nrow + 1):
     valName = sheet.cell(row = i, column = colName).value
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
     if valNameNxt is not None and valNameNxt not in valName: GrandNames += 1
+
 print("\n\n")
 print("=======================================")
 print("        Step 2: Calculating OT         ")
@@ -59,10 +60,10 @@ newbook1 = openpyxl.Workbook()
 newsheet1 = newbook1.active
 printCnt = 8 # Needed for printing out hours
 printCntInit = 8
-
 rowCnt = 1
 warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOME TIME OFF!!!\n"
 flagMultShiftTot = False
+
 # Main event loop
 for i in range(2, Nrow + 1):
     valName = sheet.cell(row = i, column = colName).value
