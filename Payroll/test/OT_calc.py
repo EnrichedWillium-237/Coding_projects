@@ -41,7 +41,7 @@ for i in range(2, Nrow + 1):
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
     if valNameNxt is not None and valNameNxt not in valName: GrandNames += 1
 
-print("\n\n")
+print("\n\n\n")
 print("=======================================")
 print("        Step 2: Calculating OT         ")
 print("=======================================")
@@ -50,7 +50,7 @@ print("Payroll date range:")
 print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%Y-%m-%d"), "---")
 print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
 print("\n")
-print("Total statistics:")
+print("Global statistics:")
 print("  Total number of employees:", GrandNames)
 print("  Total number of shifts:   ", Nrow - 1)
 print("  Total hours for all positions:  ", f'{GrandHrs:.9}')
@@ -121,7 +121,7 @@ for i in range(2, Nrow + 1):
                 valDateNxt = sheet.cell(row = j + 1, column = colDate).value
                 valRate = sheet.cell(row = j, column = colRate).value
                 valENum = sheet.cell(row = j, column = colENum).value
-                if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
+                if j > 2 and valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
                     flagMultShift1 = True
                     flagMultShiftTot = True
                     if flagDebug1: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
@@ -1013,12 +1013,16 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt, column = 6)
         c0.value = "OT Total"
         c0.border = Border(bottom = line)
-        if listWeek1[0][7] is not None or listWeek1[0][7] == 0:
-            c0 = newsheet1.cell(row = printCnt, column = 8)
+        c0 = newsheet1.cell(row = printCnt, column = 7)
+        c0.value = "Emp # "
+        c0.border = Border(bottom = line)
+        c0.alignment = Alignment(horizontal = 'right')
+        c0 = newsheet1.cell(row = printCnt, column = 8)
+        if listWeek1[0][7] is not None:
             c0.value = listWeek1[0][7]
-        if flagMultShift1 is True or flagMultShift2 is True:
-            c0 = newsheet1.cell(row = printCnt, column = 10)
-            c0.value = "Check OT+12"
+        else: c0.value = listWeek2[0][7]
+        c0.border = Border(bottom = line)
+        c0.alignment = Alignment(horizontal = 'left')
         c0 = newsheet1.cell(row = printCnt + 1, column = 1)
         c0.value = "---Week 1---"
         c0.border = Border(right = line)
@@ -1044,7 +1048,7 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt + 2, column = 9)
         if flagMultShift1 is True:
             c0 = newsheet1.cell(row = printCnt + 2, column = 10)
-            c0.value = "Multiple shifts in same day for week 1. Check for OT+12 by hand."
+            c0.value = "Multiple shifts in same day for WEEK 1. Check for OT+12 by hand."
         if listWeek1[1][0] is None: printCnt += 4
         if listWeek1[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 3, column = 1)
@@ -1110,7 +1114,7 @@ for i in range(2, Nrow + 1):
         c0 = newsheet1.cell(row = printCnt, column = 9)
         if flagMultShift2 is True:
             c0 = newsheet1.cell(row = printCnt, column = 10)
-            c0.value = "Multiple shifts in same day for week 2. Check for OT+12 by hand."
+            c0.value = "Multiple shifts in same day for WEEK 2. Check for OT+12 by hand."
         if listWeek2[1][0] is None: printCnt += 2
         if listWeek2[1][0] is not None:
             c0 = newsheet1.cell(row = printCnt + 1, column = 1)
@@ -1283,10 +1287,8 @@ c0 = newsheet1.cell(row = 5, column = 1)
 c0.value = "Total number of hours:  "
 c0 = newsheet1.cell(row = 5, column = 2)
 c0.value = GrandHrs
-c0 = newsheet1.cell(row = 7, column = 8)
-c0.value = "Employee Number"
-c0 = newsheet1.cell(row = 7, column = 10)
-c0.value = "Notes"
+c0 = newsheet1.cell(row = 8, column = 10)
+c0.value = "Notes:"
 
 c0 = newsheet1.cell(row = 1, column = 1)
 c0.alignment = Alignment(horizontal='right')
@@ -1312,6 +1314,6 @@ print("====================================================\n")
 if flagMultShiftTot is True: print("====================================================")
 if flagMultShiftTot is True: print("---WARNING! Hand-check days with multiple shifts!---")
 if flagMultShiftTot is True: print("====================================================\n")
-print("\nOT calculation done.\n")
+print("\nOT calculation completed. Check OT+12 for days with multiple shifts.\n")
 print("File output written to", output_name,"\n")
-print("--Step 2 complete--")
+print("--Step 2 complete--\n")

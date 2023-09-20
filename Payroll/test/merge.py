@@ -25,7 +25,7 @@ for i in range(1, 10000):
 newbook1 = openpyxl.Workbook()
 newsheet1 = newbook1.active
 
-print("\n\n")
+print("\n\n\n")
 print("=======================================")
 print("   Step 3: Merging final spreadsheet   ")
 print("=======================================")
@@ -59,7 +59,6 @@ for i in range(8, Nrow + 1):
                     if valNote is not None and "Check OT" in valNote:
                         c5 = newsheet1.cell(row = i + 1 + cnt, column = 11)
                         c5.value = "Check OT+12 by hand"
-                        c5.font = Font(bold = 'single')
                         # remove redundant flag for OT+12 calculation
                         for k in range(0, 12):
                             c6 = newsheet1.cell(row = i + cnt - k, column = 11)
