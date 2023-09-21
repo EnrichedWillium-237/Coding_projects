@@ -15,6 +15,7 @@ flagDebug2 = False
 # Input file
 workbook = load_workbook('output_sorted.xlsx')
 
+# Calculate week ranges
 sheet = workbook.active
 Nrow = sheet.max_row
 daterange = sheet['C']
@@ -25,15 +26,19 @@ week1end = week1start + datetime.timedelta(days = 6)
 week2start = week1end + datetime.timedelta(days = 1)
 week2end = max(date_list)
 
+# Column parameters (change if spreadsheet changes)
+colENum    = 1
+colPos     = 2
+colDate    = 3
+colTimeSrt = 4
+colTimeEnd = 5
+colHrs     = 6
+colName    = 7
+colRate    = 8
+
 # Calculation for crosschecks
 GrandHrs = 0
 GrandNames = 0
-colENum = 1
-colPos  = 2
-colDate = 3
-colHrs  = 6
-colName = 7
-colRate = 8
 for i in range(2, Nrow + 1):
     valHrs = sheet.cell(row = i, column = colHrs)
     GrandHrs += valHrs.value
@@ -116,11 +121,13 @@ for i in range(2, Nrow + 1):
             list11 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
-                valPos = sheet.cell(row = j, column = colPos).value
-                valDate = sheet.cell(row = j, column = colDate).value
+                valPos     = sheet.cell(row = j, column = colPos).value
+                valDate    = sheet.cell(row = j, column = colDate).value
                 valDateNxt = sheet.cell(row = j + 1, column = colDate).value
-                valRate = sheet.cell(row = j, column = colRate).value
-                valENum = sheet.cell(row = j, column = colENum).value
+                valRate    = sheet.cell(row = j, column = colRate).value
+                valENum    = sheet.cell(row = j, column = colENum).value
+                valTimeSrt = sheet.cell(row = j, column = colTimeSrt).value
+                valTimeEnd = sheet.cell(row = j, column = colTimeEnd).value
                 if j > 2 and valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
                     flagMultShift1 = True
                     flagMultShiftTot = True
