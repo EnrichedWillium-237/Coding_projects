@@ -35,6 +35,7 @@ colTimeEnd = 5
 colHrs     = 6
 colName    = 7
 colRate    = 8
+timeGap = 8 # gap allowed in hours for OT+12
 
 # Calculation for crosschecks
 GrandHrs = 0
@@ -120,43 +121,53 @@ for i in range(2, Nrow + 1):
             list10 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list11 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
                 valPos     = sheet.cell(row = j, column = colPos).value
                 valDate    = sheet.cell(row = j, column = colDate).value
                 valDateNxt = sheet.cell(row = j + 1, column = colDate).value
                 valRate    = sheet.cell(row = j, column = colRate).value
                 valENum    = sheet.cell(row = j, column = colENum).value
-                valTimeSrt = sheet.cell(row = j, column = colTimeSrt).value
-                valTimeEnd = sheet.cell(row = j, column = colTimeEnd).value
                 if j > 2 and valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
-                    flagMultShift1 = True
+                    flagMultShift1 = True # remove flags when confident with calculation
                     flagMultShiftTot = True
+                    valTimeSrt = float(sheet.cell(row = j + 1, column = colTimeSrt).value[:2]) + float(sheet.cell(row = j + 1, column = colTimeSrt).value[3:4])/6.
+                    valTimeEnd = float(sheet.cell(row = j, column = colTimeEnd).value[:2]) + float(sheet.cell(row = j, column = colTimeEnd).value[3:4])/6.
+                    valTimeDif = valTimeSrt - valTimeEnd
+                    if valTimeDif <= timeGap:
+                        flagMultShift2 = True
+                        flagMultShiftTot = True
                     if flagDebug1: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = colHrs).value
                 if valHrs > 0 and valHrs < 0.01: valHrs = 0
-                if valHrs > 12:
-                    z = valHrs - 12
-                    regHrs = valHrs - z
+                if valHrs > 12 and valTimeDif <= timeGap:
+                    otHrs = valHrs - 12
+                    regHrs = valHrs - otHrs
                 else:
-                    z = 0
+                    otHrs = 0
                     regHrs = valHrs
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
-                if z > 0 and z < 0.01: z = 0
-                if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 4: list4   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 5: list5   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 6: list6   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 7: list7   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 8: list8   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 9: list9   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 10: list10 = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 11: list11 = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmid - 12: list12 = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                if j <= rowmid - 13 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
-                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z)
-            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
+                if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 4: list4   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 5: list5   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 6: list6   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 7: list7   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 8: list8   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 9: list9   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 10: list10 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 11: list11 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 12: list12 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 13: list13 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 14: list14 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 15: list15 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                if j <= rowmid - 16 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
+            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
             if flagDebug1: print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
         if week2Hrs <= 40:
             regHrs = 0
@@ -174,41 +185,56 @@ for i in range(2, Nrow + 1):
             list10 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list11 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmax, rowmid - 1, -1):
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
                 valDateNxt = sheet.cell(row = j + 1, column = colDate).value
                 valRate = sheet.cell(row = j, column = colRate).value
                 valENum = sheet.cell(row = j, column = colENum).value
+                valTimeSrt = sheet.cell(row = j + 1, column = colTimeSrt).value
+                valTimeEnd = sheet.cell(row = j, column = colTimeSrt).value
+                valTimeDif = 0
                 if j > 2 and valDateNxt is not None and valDateNxt.day is valDate.day:
-                    flagMultShift2 = True
+                    flagMultShift1 = True # remove flags when confident with calculation
                     flagMultShiftTot = True
+                    valTimeSrt = float(sheet.cell(row = j + 1, column = colTimeSrt).value[:2]) + float(sheet.cell(row = j + 1, column = colTimeSrt).value[3:4])/6.
+                    valTimeEnd = float(sheet.cell(row = j, column = colTimeEnd).value[:2]) + float(sheet.cell(row = j, column = colTimeEnd).value[3:4])/6.
+                    valTimeDif = valTimeSrt - valTimeEnd
+                    if valTimeDif <= timeGap:
+                        flagMultShift2 = True
+                        flagMultShiftTot = True
                     if flagDebug1: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = colHrs).value
                 if valHrs > 0 and valHrs < 0.01: valHrs = 0
-                if valHrs > 12:
-                    z = valHrs - 12
-                    regHrs = valHrs - z
+                if valHrs > 12 and valTimeDif <= timeGap:
+                    otHrs = valHrs - 12
+                    regHrs = valHrs - otHrs
                 else:
-                    z = 0
+                    otHrs = 0
                     regHrs = valHrs
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
-                if z > 0 and z < 0.01: z = 0
-                if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 3: list4   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 4: list5   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 5: list6   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 6: list7   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 7: list8   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 8: list9   = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 9: list10  = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 10: list11 = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                elif j == rowmax - 11: list12 = [valName, valPos, valHrs, regHrs, z, 0, valRate, valENum, 0]
-                if j <= rowmid - 12 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
-                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", z)
-            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
+                if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 3: list4   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 4: list5   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 5: list6   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 6: list7   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 7: list8   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 8: list9   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 9: list10  = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 10: list11 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 11: list12 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 12: list13 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 13: list14 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 14: list15 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                if j <= rowmid - 15 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
+            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
             if flagDebug1: print(valName, "  Week 2 --- total: ", week2Hrs, " shift+40 total: ", 0, "\n")
 
         # OT +40 for week one
@@ -236,6 +262,9 @@ for i in range(2, Nrow + 1):
             list10 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list11 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in for loop because we're counting backwards
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
@@ -251,41 +280,44 @@ for i in range(2, Nrow + 1):
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
-                    y = 0
+                    otHrs = 0
                 if flag1 is False:
                     OTn = OTn - x
                     if OTn > 0:
-                        y = x
-                        OTcnt += y
+                        otHrs = x
+                        OTcnt += otHrs
                     if OTn <= 0:
-                        y = OT - OTcnt
+                        otHrs = OT - OTcnt
                         flag1 = True
                 if valHrs > 12: # OT +12 calculation
                     z = valHrs - 12
-                    if y > z: z = 0
-                    else: z = z - y
+                    if otHrs > z: z = 0
+                    else: z = z - otHrs
                 else: z = 0
-                regHrs = valHrs - y - z
-                if y + z == 0: regHrs = valHrs
+                regHrs = valHrs - otHrs - z
+                if otHrs + z == 0: regHrs = valHrs
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if z > 0 and z < 0.01: z = 0
-                if y > 0 and y < 0.01: y = 0
-                if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 4: list4   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 5: list5   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 6: list6   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 7: list7   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 8: list8   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 9: list9   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 10: list10 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 11: list11 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmid - 12: list11 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                if j <= rowmid - 13 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
-                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", y)
+                if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 4: list4   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 5: list5   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 6: list6   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 7: list7   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 8: list8   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 9: list9   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 10: list10 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 11: list11 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 12: list12 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 13: list13 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 14: list14 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 15: list15 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                if j <= rowmid - 16 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
 
-            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
+            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
             if flagDebug1: print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1,"\n")
 
         # OT +40 for week two
@@ -312,6 +344,9 @@ for i in range(2, Nrow + 1):
             list10 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list11 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmax, rowmid - 1, -1):
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
@@ -327,41 +362,44 @@ for i in range(2, Nrow + 1):
                 x = valHrs
                 if flag1 is True:
                     OTn = 0
-                    y = 0
+                    otHrs = 0
                 if flag1 is False:
                     OTn = OTn - x
                     if OTn > 0:
-                        y = x
-                        OTcnt += y
+                        otHrs = x
+                        OTcnt += otHrs
                     if OTn <= 0:
-                        y = OT - OTcnt
+                        otHrs = OT - OTcnt
                         flag1 = True
                 if valHrs > 12: # OT +12 calculation
                     z = valHrs - 12
-                    if y > z: z = 0
-                    else: z = z - y
+                    if otHrs > z: z = 0
+                    else: z = z - otHrs
                 else: z = 0
-                regHrs = valHrs - y - z
-                if y + z == 0: regHrs = valHrs
+                regHrs = valHrs - otHrs - z
+                if otHrs + z == 0: regHrs = valHrs
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if z > 0 and z < 0.01: z = 0
-                if y > 0 and y < 0.01: y = 0
-                if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 3: list4   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 4: list5   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 5: list6   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 6: list7   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 7: list8   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 8: list9   = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 9:  list10 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 10: list11 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                elif j == rowmax - 11: list12 = [valName, valPos, valHrs, regHrs, z, y, valRate, valENum, 0]
-                if j <= rowmid - 12 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
-                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", y)
+                if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 3: list4   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 4: list5   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 5: list6   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 6: list7   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 7: list8   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 8: list9   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 9:  list10 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 10: list11 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 11: list12 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 12: list13 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 13: list14 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 14: list15 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                if j <= rowmid - 15 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
 
-            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
+            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
             if flagDebug1: print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2,"\n")
 
         # Sort by position
@@ -379,6 +417,9 @@ for i in range(2, Nrow + 1):
                 list10 = (listWeek1[9])
                 list11 = (listWeek1[10])
                 list12 = (listWeek1[11])
+                list13 = (listWeek1[12])
+                list14 = (listWeek1[13])
+                list15 = (listWeek1[14])
             else:
                 list1  = (listWeek2[0])
                 list2  = (listWeek2[1])
@@ -392,6 +433,9 @@ for i in range(2, Nrow + 1):
                 list10 = (listWeek2[9])
                 list11 = (listWeek2[10])
                 list12 = (listWeek2[11])
+                list13 = (listWeek2[12])
+                list14 = (listWeek2[13])
+                list15 = (listWeek2[14])
             pos1  = list1[1]
             pos2  = list2[1]
             pos3  = list3[1]
@@ -404,6 +448,9 @@ for i in range(2, Nrow + 1):
             pos10 = list10[1]
             pos11 = list11[1]
             pos12 = list12[1]
+            pos13 = list13[1]
+            pos14 = list14[1]
+            pos15 = list15[1]
             hrsPos1 = list1[2]
             RegHrs1 = list1[3]
             totOT12_1 = list1[4]
@@ -465,6 +512,21 @@ for i in range(2, Nrow + 1):
                     RegHrs1 += list12[3]
                     totOT12_1 += list12[4]
                     totOT40_1 += list12[5]
+                if pos13 is not None and pos13 in pos1:
+                    hrsPos1 += list13[2]
+                    RegHrs1 += list13[3]
+                    totOT12_1 += list13[4]
+                    totOT40_1 += list13[5]
+                if pos14 is not None and pos14 in pos1:
+                    hrsPos1 += list14[2]
+                    RegHrs1 += list14[3]
+                    totOT12_1 += list14[4]
+                    totOT40_1 += list14[5]
+                if pos15 is not None and pos15 in pos1:
+                    hrsPos1 += list15[2]
+                    RegHrs1 += list15[3]
+                    totOT12_1 += list15[4]
+                    totOT40_1 += list15[5]
             list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1, list1[6], list1[7], 0]
             # Position 2
             hrsPos2 = 0
@@ -528,6 +590,21 @@ for i in range(2, Nrow + 1):
                         RegHrs2 += list12[3]
                         totOT12_2 += list12[4]
                         totOT40_2 += list12[5]
+                    if pos13 is not None and pos13 in pos2:
+                        hrsPos2 += list13[2]
+                        RegHrs2 += list13[3]
+                        totOT12_2 += list13[4]
+                        totOT40_2 += list13[5]
+                    if pos14 is not None and pos14 in pos2:
+                        hrsPos2 += list14[2]
+                        RegHrs2 += list14[3]
+                        totOT12_2 += list14[4]
+                        totOT40_2 += list14[5]
+                    if pos15 is not None and pos15 in pos2:
+                        hrsPos2 += list15[2]
+                        RegHrs2 += list15[3]
+                        totOT12_2 += list15[4]
+                        totOT40_2 += list15[5]
                 list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2, list2[6], list2[7], 0]
             # Position 3
             hrsPos3 = 0
@@ -586,6 +663,21 @@ for i in range(2, Nrow + 1):
                         RegHrs3 += list12[3]
                         totOT12_3 += list12[4]
                         totOT40_3 += list12[5]
+                    if pos13 is not None and pos13 in pos3:
+                        hrsPos3 += list13[2]
+                        RegHrs3 += list13[3]
+                        totOT12_3 += list13[4]
+                        totOT40_3 += list13[5]
+                    if pos14 is not None and pos14 in pos3:
+                        hrsPos3 += list14[2]
+                        RegHrs3 += list14[3]
+                        totOT12_3 += list14[4]
+                        totOT40_3 += list14[5]
+                    if pos15 is not None and pos15 in pos3:
+                        hrsPos3 += list15[2]
+                        RegHrs3 += list15[3]
+                        totOT12_3 += list15[4]
+                        totOT40_3 += list15[5]
                 list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3, list3[6], list3[7], 0]
             # Position 4
             hrsPos4 = 0
@@ -639,6 +731,21 @@ for i in range(2, Nrow + 1):
                         RegHrs4 += list12[3]
                         totOT12_4 += list12[4]
                         totOT40_4 += list12[5]
+                    if pos13 is not None and pos13 in pos4:
+                        hrsPos4 += list13[2]
+                        RegHrs4 += list13[3]
+                        totOT12_4 += list13[4]
+                        totOT40_4 += list13[5]
+                    if pos14 is not None and pos14 in pos4:
+                        hrsPos4 += list14[2]
+                        RegHrs4 += list14[3]
+                        totOT12_4 += list14[4]
+                        totOT40_4 += list14[5]
+                    if pos15 is not None and pos15 in pos4:
+                        hrsPos4 += list15[2]
+                        RegHrs4 += list15[3]
+                        totOT12_4 += list15[4]
+                        totOT40_4 += list15[5]
                 list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4, list4[6], list4[7], 0]
             # Position 5
             hrsPos5 = 0
@@ -689,6 +796,21 @@ for i in range(2, Nrow + 1):
                         RegHrs5 += list12[3]
                         totOT12_5 += list12[4]
                         totOT40_5 += list12[5]
+                    if pos13 is not None and pos13 in pos5:
+                        hrsPos5 += list13[2]
+                        RegHrs5 += list13[3]
+                        totOT12_5 += list13[4]
+                        totOT40_5 += list13[5]
+                    if pos14 is not None and pos14 in pos5:
+                        hrsPos5 += list14[2]
+                        RegHrs5 += list14[3]
+                        totOT12_5 += list14[4]
+                        totOT40_5 += list14[5]
+                    if pos15 is not None and pos15 in pos5:
+                        hrsPos5 += list15[2]
+                        RegHrs5 += list15[3]
+                        totOT12_5 += list15[4]
+                        totOT40_5 += list15[5]
                 list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5, list5[6], list5[7], 0]
             # Position 6
             hrsPos6 = 0
@@ -734,6 +856,21 @@ for i in range(2, Nrow + 1):
                         RegHrs6 += list12[3]
                         totOT12_6 += list12[4]
                         totOT40_6 += list12[5]
+                    if pos13 is not None and pos13 in pos6:
+                        hrsPos6 += list13[2]
+                        RegHrs6 += list13[3]
+                        totOT12_6 += list13[4]
+                        totOT40_6 += list13[5]
+                    if pos14 is not None and pos14 in pos6:
+                        hrsPos6 += list14[2]
+                        RegHrs6 += list14[3]
+                        totOT12_6 += list14[4]
+                        totOT40_6 += list14[5]
+                    if pos15 is not None and pos15 in pos6:
+                        hrsPos6 += list15[2]
+                        RegHrs6 += list15[3]
+                        totOT12_6 += list15[4]
+                        totOT40_6 += list15[5]
                 list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6, list6[6], list6[7], 0]
             # Position 7
             hrsPos7 = 0
@@ -774,6 +911,21 @@ for i in range(2, Nrow + 1):
                         RegHrs7 += list12[3]
                         totOT12_7 += list12[4]
                         totOT40_7 += list12[5]
+                    if pos13 is not None and pos13 in pos7:
+                        hrsPos7 += list13[2]
+                        RegHrs7 += list13[3]
+                        totOT12_7 += list13[4]
+                        totOT40_7 += list13[5]
+                    if pos14 is not None and pos14 in pos7:
+                        hrsPos7 += list14[2]
+                        RegHrs7 += list14[3]
+                        totOT12_7 += list14[4]
+                        totOT40_7 += list14[5]
+                    if pos15 is not None and pos15 in pos7:
+                        hrsPos7 += list15[2]
+                        RegHrs7 += list15[3]
+                        totOT12_7 += list15[4]
+                        totOT40_7 += list15[5]
                 list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7, list7[6], list7[7], 0]
             # Position 8
             hrsPos8 = 0
@@ -811,6 +963,21 @@ for i in range(2, Nrow + 1):
                         RegHrs8 += list12[3]
                         totOT12_8 += list12[4]
                         totOT40_8 += list12[5]
+                    if pos13 is not None and pos13 in pos8:
+                        hrsPos8 += list13[2]
+                        RegHrs8 += list13[3]
+                        totOT12_8 += list13[4]
+                        totOT40_8 += list13[5]
+                    if pos14 is not None and pos14 in pos8:
+                        hrsPos8 += list14[2]
+                        RegHrs8 += list14[3]
+                        totOT12_8 += list14[4]
+                        totOT40_8 += list14[5]
+                    if pos15 is not None and pos15 in pos8:
+                        hrsPos8 += list15[2]
+                        RegHrs8 += list15[3]
+                        totOT12_8 += list15[4]
+                        totOT40_8 += list15[5]
                 list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8, list8[6], list8[7], 0]
             # Position 9
             hrsPos9 = 0
@@ -843,6 +1010,21 @@ for i in range(2, Nrow + 1):
                         RegHrs9 += list12[3]
                         totOT12_9 += list12[4]
                         totOT40_9 += list12[5]
+                    if pos13 is not None and pos13 in pos9:
+                        hrsPos9 += list13[2]
+                        RegHrs9 += list13[3]
+                        totOT12_9 += list13[4]
+                        totOT40_9 += list13[5]
+                    if pos14 is not None and pos14 in pos9:
+                        hrsPos9 += list14[2]
+                        RegHrs9 += list14[3]
+                        totOT12_9 += list14[4]
+                        totOT40_9 += list14[5]
+                    if pos15 is not None and pos15 in pos9:
+                        hrsPos9 += list15[2]
+                        RegHrs9 += list15[3]
+                        totOT12_9 += list15[4]
+                        totOT40_9 += list15[5]
                 list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9, list9[6], list9[7], 0]
             # Position 10
             hrsPos10 = 0
@@ -870,6 +1052,21 @@ for i in range(2, Nrow + 1):
                         RegHrs10 += list12[3]
                         totOT12_10 += list12[4]
                         totOT40_10 += list12[5]
+                    if pos13 is not None and pos13 in pos10:
+                        hrsPos10 += list13[2]
+                        RegHrs10 += list13[3]
+                        totOT12_10 += list13[4]
+                        totOT40_10 += list13[5]
+                    if pos14 is not None and pos14 in pos10:
+                        hrsPos10 += list14[2]
+                        RegHrs10 += list14[3]
+                        totOT12_10 += list14[4]
+                        totOT40_10 += list14[5]
+                    if pos15 is not None and pos15 in pos10:
+                        hrsPos10 += list15[2]
+                        RegHrs10 += list15[3]
+                        totOT12_10 += list15[4]
+                        totOT40_10 += list15[5]
                 list10 = [valName, pos10, hrsPos10, RegHrs10, totOT12_10, totOT40_10, list10[6], list10[7], 0]
             # Position 11
             hrsPos11 = 0
@@ -894,6 +1091,21 @@ for i in range(2, Nrow + 1):
                         RegHrs11 += list12[3]
                         totOT12_11 += list12[4]
                         totOT40_11 += list12[5]
+                    if pos13 is not None and pos13 in pos11:
+                        hrsPos11 += list13[2]
+                        RegHrs11 += list13[3]
+                        totOT12_11 += list13[4]
+                        totOT40_11 += list13[5]
+                    if pos14 is not None and pos14 in pos11:
+                        hrsPos11 += list14[2]
+                        RegHrs11 += list14[3]
+                        totOT12_11 += list14[4]
+                        totOT40_11 += list14[5]
+                    if pos15 is not None and pos15 in pos11:
+                        hrsPos11 += list15[2]
+                        RegHrs11 += list15[3]
+                        totOT12_11 += list15[4]
+                        totOT40_11 += list15[5]
                 list11 = [valName, pos11, hrsPos11, RegHrs11, totOT12_11, totOT40_11, list11[6], list11[7], 0]
             # Position 12
             hrsPos12 = 0
@@ -913,7 +1125,98 @@ for i in range(2, Nrow + 1):
                     RegHrs12 += list12[3]
                     totOT12_12 += list12[4]
                     totOT40_12 += list12[5]
+                    if pos13 is not None and pos13 in pos12:
+                        hrsPos12 += list13[2]
+                        RegHrs12 += list13[3]
+                        totOT12_12 += list13[4]
+                        totOT40_12 += list13[5]
+                    if pos14 is not None and pos14 in pos12:
+                        hrsPos12 += list14[2]
+                        RegHrs12 += list14[3]
+                        totOT12_12 += list14[4]
+                        totOT40_12 += list14[5]
+                    if pos15 is not None and pos15 in pos12:
+                        hrsPos12 += list15[2]
+                        RegHrs12 += list15[3]
+                        totOT12_12 += list15[4]
+                        totOT40_12 += list15[5]
                 list12 = [valName, pos12, hrsPos12, RegHrs12, totOT12_12, totOT40_12, list12[6], list12[7], 0]
+            # Position 13
+            hrsPos13 = 0
+            RegHrs13 = 0
+            totOT12_13 = 0
+            totOT40_13 = 0
+            if pos13 is not None:
+                if (    pos12 is not None and pos11 is not None and pos10 is not None and
+                        pos9 is not None and pos8 is not None and pos7 is not None and
+                        pos6 is not None and pos5 is not None and pos4 is not None and
+                        pos3 is not None and pos2 is not None and pos1 is not None and
+                        pos13 not in pos1 and pos13 not in pos2 and pos13 not in pos3 and
+                        pos13 not in pos4 and pos13 not in pos5 and pos13 not in pos6 and
+                        pos13 not in pos7 and pos13 not in pos8 and pos13 not in pos9 and
+                        pos13 not in pos10 and pos13 not in pos11 and pos13 not in pos12):
+                    hrsPos13 += list13[2]
+                    RegHrs13 += list13[3]
+                    totOT12_13 += list13[4]
+                    totOT40_13 += list13[5]
+                    if pos14 is not None and pos14 in pos14:
+                        hrsPos13 += list14[2]
+                        RegHrs13 += list14[3]
+                        totOT12_13 += list14[4]
+                        totOT40_13 += list14[5]
+                    if pos15 is not None and pos15 in pos13:
+                        hrsPos13 += list15[2]
+                        RegHrs13 += list15[3]
+                        totOT12_13 += list15[4]
+                        totOT40_13 += list15[5]
+                list13 = [valName, pos13, hrsPos13, RegHrs13, totOT12_13, totOT40_13, list13[6], list13[7], 0]
+            # Position 14
+            hrsPos14 = 0
+            RegHrs14 = 0
+            totOT12_14 = 0
+            totOT40_14 = 0
+            if pos14 is not None:
+                if (    pos13 is not None and pos12 is not None and pos11 is not None and
+                        pos10 is not None and pos9 is not None and pos8 is not None and
+                        pos7 is not None and pos6 is not None and pos5 is not None and
+                        pos4 is not None and pos3 is not None and pos2 is not None and
+                        pos1 is not None and
+                        pos14 not in pos1 and pos14 not in pos2 and pos14 not in pos3 and
+                        pos14 not in pos4 and pos14 not in pos5 and pos14 not in pos6 and
+                        pos14 not in pos7 and pos14 not in pos8 and pos14 not in pos9 and
+                        pos14 not in pos10 and pos14 not in pos11 and pos14 not in pos12 and
+                        pos14 not in pos13):
+                    hrsPos14 += list14[2]
+                    RegHrs14 += list14[3]
+                    totOT12_14 += list14[4]
+                    totOT40_14 += list14[5]
+                    if pos15 is not None and pos15 in pos14:
+                        hrsPos14 += list15[2]
+                        RegHrs14 += list15[3]
+                        totOT12_14 += list15[4]
+                        totOT40_14 += list15[5]
+                list14 = [valName, pos14, hrsPos14, RegHrs14, totOT12_14, totOT40_14, list14[6], list14[7], 0]
+            # Position 15
+            hrsPos15 = 0
+            RegHrs15 = 0
+            totOT12_15 = 0
+            totOT40_15 = 0
+            if pos15 is not None:
+                if (    pos14 is not None and pos13 is not None and pos12 is not None and
+                        pos11 is not None and pos10 is not None and pos9 is not None and
+                        pos8 is not None and pos7 is not None and pos6 is not None and
+                        pos5 is not None and pos4 is not None and pos3 is not None and
+                        pos2 is not None and pos1 is not None and
+                        pos15 not in pos1 and pos15 not in pos2 and pos15 not in pos3 and
+                        pos15 not in pos4 and pos15 not in pos5 and pos15 not in pos6 and
+                        pos15 not in pos7 and pos15 not in pos8 and pos15 not in pos9 and
+                        pos15 not in pos10 and pos15 not in pos11 and pos15 not in pos12 and
+                        pos15 not in pos13 and pos15 not in pos14):
+                    hrsPos15 += list15[2]
+                    RegHrs15 += list15[3]
+                    totOT12_15 += list15[4]
+                    totOT40_15 += list15[5]
+                list15 = [valName, pos15, hrsPos15, RegHrs15, totOT12_15, totOT40_15, list15[6], list15[7], 0]
 
 
             if (    list2[1] is not None and (list2[1] is list1[1])):
@@ -950,7 +1253,31 @@ for i in range(2, Nrow + 1):
                     list12[1] is list4[1] or list12[1] is list5[1] or list12[1] is list6[1] or list12[1] is list7[1] or
                     list12[1] is list8[1] or list12[1] is list9[1] or list12[1] is list10[1] or list12[1] is list11[1])):
                 list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list13[1] is not None and (list13[1] is list1[1] or list13[1] is list2[1] or list13[1] is list3[1] or
+                    list13[1] is list4[1] or list13[1] is list5[1] or list13[1] is list6[1] or list13[1] is list7[1] or
+                    list13[1] is list8[1] or list13[1] is list9[1] or list13[1] is list10[1] or list13[1] is list11[1] or
+                    list13[1] is list12[1])):
+                list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list14[1] is not None and (list14[1] is list1[1] or list14[1] is list2[1] or list14[1] is list3[1] or
+                    list14[1] is list4[1] or list14[1] is list5[1] or list14[1] is list6[1] or list14[1] is list7[1] or
+                    list14[1] is list8[1] or list14[1] is list9[1] or list14[1] is list10[1] or list14[1] is list11[1] or
+                    list14[1] is list12[1] or list14[1] is list13[1])):
+                list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list15[1] is not None and (list15[1] is list1[1] or list15[1] is list2[1] or list15[1] is list3[1] or
+                    list15[1] is list4[1] or list15[1] is list5[1] or list15[1] is list6[1] or list15[1] is list7[1] or
+                    list15[1] is list8[1] or list15[1] is list9[1] or list15[1] is list10[1] or list15[1] is list11[1] or
+                    list15[1] is list12[1] or list15[1] is list13[1] or list15[1] is list14[1])):
+                list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
 
+            if list14[1] is None and list15[1] is not None:
+                list14 = list15
+                list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if list13[1] is None and list14[1] is not None:
+                list13 = list14
+                list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if list12[1] is None and list13[1] is not None:
+                list12 = list13
+                list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
             if list11[1] is None and list12[1] is not None:
                 list11 = list12
                 list12 = [None, None, 0, 0, 0, 0, 0, None, 0]
@@ -981,20 +1308,20 @@ for i in range(2, Nrow + 1):
             if list2[1] is None and list3[1] is not None:
                 list2 = list3
                 list3 = [None, None, 0, 0, 0, 0, 0, None, 0]
-            if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
-            else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12]
+            if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
 
         if flagDebug2:
             print("\n", valName)
             print("--Week 1 totals--")
             print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:   Rate:")
-            for j in range(0, 12):
+            for j in range(0, 14):
                 if listWeek1[j][0] is not None:
                     if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                         print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5], " ", listWeek1[j][6])
             print("--Week 2 totals--")
             print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:   Rate:")
-            for j in range(0, 12):
+            for j in range(0, 14):
                 if listWeek2[j][0] is not None:
                     if (listWeek2[j][2] != 0. or listWeek2[j][5] != 0.):
                         print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4], " ", listWeek2[j][5], " ", listWeek2[j][6])
@@ -1075,7 +1402,7 @@ for i in range(2, Nrow + 1):
             c0.value = listWeek1[1][4] + listWeek1[1][5]
             c0 = newsheet1.cell(row = printCnt + 3, column = 9)
             printCnt += 5
-            for j in range(2, 12):
+            for j in range(2, 15):
                 if listWeek1[j][0] is not None:
                     if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
@@ -1141,7 +1468,7 @@ for i in range(2, Nrow + 1):
             c0.value = listWeek2[1][4] + listWeek2[1][5]
             c0 = newsheet1.cell(row = printCnt + 1, column = 9)
             printCnt += 3
-            for j in range(2, 12):
+            for j in range(2, 15):
                 if listWeek2[j][0] is not None:
                     if (listWeek2[j][2] != 0. or listWeek2[j][5] != 0.):
                         c0 = newsheet1.cell(row = printCnt - 1, column = 1)
@@ -1181,7 +1508,7 @@ for i in range(2, Nrow + 1):
         c0.font = Font(italic = 'single')
         c0.alignment = Alignment(horizontal = 'right')
         c0.border = Border(bottom = line)
-        for j in range(0, 12):
+        for j in range(0, 15):
             if listWeek1[j][1] is not None:
                 if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                     xreg = listWeek1[j][3]
@@ -1213,6 +1540,24 @@ for i in range(2, Nrow + 1):
                     if listWeek2[8][1] is not None and listWeek2[8][1] in listWeek1[j][1]:
                         xreg += listWeek2[8][3]
                         xOT  += listWeek2[8][4] + listWeek2[8][5]
+                    if listWeek2[9][1] is not None and listWeek2[9][1] in listWeek1[j][1]:
+                        xreg += listWeek2[9][3]
+                        xOT  += listWeek2[9][4] + listWeek2[9][5]
+                    if listWeek2[10][1] is not None and listWeek2[10][1] in listWeek1[j][1]:
+                        xreg += listWeek2[10][3]
+                        xOT  += listWeek2[10][4] + listWeek2[10][5]
+                    if listWeek2[11][1] is not None and listWeek2[11][1] in listWeek1[j][1]:
+                        xreg += listWeek2[11][3]
+                        xOT  += listWeek2[11][4] + listWeek2[11][5]
+                    if listWeek2[12][1] is not None and listWeek2[12][1] in listWeek1[j][1]:
+                        xreg += listWeek2[12][3]
+                        xOT  += listWeek2[12][4] + listWeek2[12][5]
+                    if listWeek2[13][1] is not None and listWeek2[13][1] in listWeek1[j][1]:
+                        xreg += listWeek2[13][3]
+                        xOT  += listWeek2[13][4] + listWeek2[13][5]
+                    if listWeek2[14][1] is not None and listWeek2[14][1] in listWeek1[j][1]:
+                        xreg += listWeek2[14][3]
+                        xOT  += listWeek2[14][4] + listWeek2[14][5]
                     c0 = newsheet1.cell(row = printCnt, column = 1)
                     c0.value = listWeek1[j][1]
                     c0.border = Border(right = line)
@@ -1229,18 +1574,24 @@ for i in range(2, Nrow + 1):
                     printCnt += 1
         xreg = 0
         xOT = 0
-        for j in range(0, 12):
+        for j in range(0, 15):
             if listWeek2[j][1] is not None:
                 if (listWeek2[j][2] != 0. or listWeek2[j][5] != 0.):
-                    if   (listWeek1[0][1] is not None and listWeek2[j][1].__contains__(listWeek1[0][1]) ): continue
-                    elif (listWeek1[1][1] is not None and listWeek2[j][1].__contains__(listWeek1[1][1]) ): continue
-                    elif (listWeek1[2][1] is not None and listWeek2[j][1].__contains__(listWeek1[2][1]) ): continue
-                    elif (listWeek1[3][1] is not None and listWeek2[j][1].__contains__(listWeek1[3][1]) ): continue
-                    elif (listWeek1[4][1] is not None and listWeek2[j][1].__contains__(listWeek1[4][1]) ): continue
-                    elif (listWeek1[5][1] is not None and listWeek2[j][1].__contains__(listWeek1[5][1]) ): continue
-                    elif (listWeek1[6][1] is not None and listWeek2[j][1].__contains__(listWeek1[6][1]) ): continue
-                    elif (listWeek1[7][1] is not None and listWeek2[j][1].__contains__(listWeek1[7][1]) ): continue
-                    elif (listWeek1[8][1] is not None and listWeek2[j][1].__contains__(listWeek1[8][1]) ): continue
+                    if   (listWeek1[0][1]  is not None and listWeek2[j][1].__contains__(listWeek1[0][1]) ):  continue
+                    elif (listWeek1[1][1]  is not None and listWeek2[j][1].__contains__(listWeek1[1][1]) ):  continue
+                    elif (listWeek1[2][1]  is not None and listWeek2[j][1].__contains__(listWeek1[2][1]) ):  continue
+                    elif (listWeek1[3][1]  is not None and listWeek2[j][1].__contains__(listWeek1[3][1]) ):  continue
+                    elif (listWeek1[4][1]  is not None and listWeek2[j][1].__contains__(listWeek1[4][1]) ):  continue
+                    elif (listWeek1[5][1]  is not None and listWeek2[j][1].__contains__(listWeek1[5][1]) ):  continue
+                    elif (listWeek1[6][1]  is not None and listWeek2[j][1].__contains__(listWeek1[6][1]) ):  continue
+                    elif (listWeek1[7][1]  is not None and listWeek2[j][1].__contains__(listWeek1[7][1]) ):  continue
+                    elif (listWeek1[8][1]  is not None and listWeek2[j][1].__contains__(listWeek1[8][1]) ):  continue
+                    elif (listWeek1[9][1]  is not None and listWeek2[j][1].__contains__(listWeek1[9][1]) ):  continue
+                    elif (listWeek1[10][1] is not None and listWeek2[j][1].__contains__(listWeek1[10][1]) ): continue
+                    elif (listWeek1[11][1] is not None and listWeek2[j][1].__contains__(listWeek1[11][1]) ): continue
+                    elif (listWeek1[12][1] is not None and listWeek2[j][1].__contains__(listWeek1[12][1]) ): continue
+                    elif (listWeek1[13][1] is not None and listWeek2[j][1].__contains__(listWeek1[13][1]) ): continue
+                    elif (listWeek1[14][1] is not None and listWeek2[j][1].__contains__(listWeek1[14][1]) ): continue
                     else:
                         xreg = listWeek2[j][3]
                         xOT  = listWeek2[j][4] + listWeek2[j][5]
