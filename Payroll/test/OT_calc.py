@@ -109,6 +109,7 @@ for i in range(2, Nrow + 1):
             dayHrsGap = 0
             flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = colName).value
+            
             list1  = [None, None, 0, 0, 0, 0, 0, None, 0]
             list2  = [None, None, 0, 0, 0, 0, 0, None, 0]
             list3  = [None, None, 0, 0, 0, 0, 0, None, 0]
@@ -124,6 +125,9 @@ for i in range(2, Nrow + 1):
             list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
                 valPos     = sheet.cell(row = j, column = colPos).value
                 valDate    = sheet.cell(row = j, column = colDate).value
@@ -165,9 +169,12 @@ for i in range(2, Nrow + 1):
                 elif j == rowmid - 13: list13 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmid - 14: list14 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmid - 15: list15 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
-                if j <= rowmid - 16 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                elif j == rowmid - 16: list16 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 17: list17 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmid - 18: list18 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                if j <= rowmid - 19 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
                 if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
-            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
             if flagDebug1: print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
         if week2Hrs <= 40:
             regHrs = 0
@@ -188,6 +195,9 @@ for i in range(2, Nrow + 1):
             list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmax, rowmid - 1, -1):
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
@@ -232,9 +242,12 @@ for i in range(2, Nrow + 1):
                 elif j == rowmax - 12: list13 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmax - 13: list14 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmax - 14: list15 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
-                if j <= rowmid - 15 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                elif j == rowmax - 15: list16 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 16: list17 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                elif j == rowmax - 17: list18 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
+                if j <= rowmid - 18 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
                 if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
-            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
             if flagDebug1: print(valName, "  Week 2 --- total: ", week2Hrs, " shift+40 total: ", 0, "\n")
 
         # OT +40 for week one
@@ -265,6 +278,9 @@ for i in range(2, Nrow + 1):
             list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in for loop because we're counting backwards
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
@@ -314,10 +330,13 @@ for i in range(2, Nrow + 1):
                 elif j == rowmid - 13: list13 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmid - 14: list14 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmid - 15: list15 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
-                if j <= rowmid - 16 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                elif j == rowmid - 16: list16 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 17: list17 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmid - 18: list18 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                if j <= rowmid - 19 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
                 if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
 
-            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
             if flagDebug1: print(valName,"  Week 1 --- total: ", week1Hrs," shift+40 total: ",OT40week1,"\n")
 
         # OT +40 for week two
@@ -347,6 +366,9 @@ for i in range(2, Nrow + 1):
             list13 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list14 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
             for j in range(rowmax, rowmid - 1, -1):
                 valPos = sheet.cell(row = j, column = colPos).value
                 valDate = sheet.cell(row = j, column = colDate).value
@@ -396,10 +418,13 @@ for i in range(2, Nrow + 1):
                 elif j == rowmax - 12: list13 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmax - 13: list14 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmax - 14: list15 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
-                if j <= rowmid - 15 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
+                elif j == rowmax - 15: list16 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 16: list17 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                elif j == rowmax - 17: list18 = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
+                if j <= rowmid - 18 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
                 if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
 
-            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
             if flagDebug1: print(valName,"  Week 2 --- total: ", week2Hrs," shift+40 total: ",OT40week2,"\n")
 
         # Sort by position
@@ -420,6 +445,9 @@ for i in range(2, Nrow + 1):
                 list13 = (listWeek1[12])
                 list14 = (listWeek1[13])
                 list15 = (listWeek1[14])
+                list16 = (listWeek1[15])
+                list17 = (listWeek1[16])
+                list18 = (listWeek1[17])
             else:
                 list1  = (listWeek2[0])
                 list2  = (listWeek2[1])
@@ -436,6 +464,9 @@ for i in range(2, Nrow + 1):
                 list13 = (listWeek2[12])
                 list14 = (listWeek2[13])
                 list15 = (listWeek2[14])
+                list16 = (listWeek2[15])
+                list17 = (listWeek2[16])
+                list18 = (listWeek2[17])
             pos1  = list1[1]
             pos2  = list2[1]
             pos3  = list3[1]
@@ -451,6 +482,9 @@ for i in range(2, Nrow + 1):
             pos13 = list13[1]
             pos14 = list14[1]
             pos15 = list15[1]
+            pos16 = list16[1]
+            pos17 = list17[1]
+            pos18 = list18[1]
             hrsPos1 = list1[2]
             RegHrs1 = list1[3]
             totOT12_1 = list1[4]
@@ -527,6 +561,21 @@ for i in range(2, Nrow + 1):
                     RegHrs1 += list15[3]
                     totOT12_1 += list15[4]
                     totOT40_1 += list15[5]
+                if pos16 is not None and pos16 in pos1:
+                    hrsPos1 += list16[2]
+                    RegHrs1 += list16[3]
+                    totOT12_1 += list16[4]
+                    totOT40_1 += list16[5]
+                if pos17 is not None and pos17 in pos1:
+                    hrsPos1 += list17[2]
+                    RegHrs1 += list17[3]
+                    totOT12_1 += list17[4]
+                    totOT40_1 += list17[5]
+                if pos18 is not None and pos18 in pos1:
+                    hrsPos1 += list18[2]
+                    RegHrs1 += list18[3]
+                    totOT12_1 += list18[4]
+                    totOT40_1 += list18[5]
             list1 = [valName, pos1, hrsPos1, RegHrs1, totOT12_1, totOT40_1, list1[6], list1[7], 0]
             # Position 2
             hrsPos2 = 0
@@ -605,6 +654,21 @@ for i in range(2, Nrow + 1):
                         RegHrs2 += list15[3]
                         totOT12_2 += list15[4]
                         totOT40_2 += list15[5]
+                    if pos16 is not None and pos16 in pos2:
+                        hrsPos2 += list16[2]
+                        RegHrs2 += list16[3]
+                        totOT12_2 += list16[4]
+                        totOT40_2 += list16[5]
+                    if pos17 is not None and pos17 in pos2:
+                        hrsPos2 += list17[2]
+                        RegHrs2 += list17[3]
+                        totOT12_2 += list17[4]
+                        totOT40_2 += list17[5]
+                    if pos18 is not None and pos18 in pos2:
+                        hrsPos2 += list18[2]
+                        RegHrs2 += list18[3]
+                        totOT12_2 += list18[4]
+                        totOT40_2 += list18[5]
                 list2 = [valName, pos2, hrsPos2, RegHrs2, totOT12_2, totOT40_2, list2[6], list2[7], 0]
             # Position 3
             hrsPos3 = 0
@@ -678,6 +742,21 @@ for i in range(2, Nrow + 1):
                         RegHrs3 += list15[3]
                         totOT12_3 += list15[4]
                         totOT40_3 += list15[5]
+                    if pos16 is not None and pos16 in pos3:
+                        hrsPos3 += list16[2]
+                        RegHrs3 += list16[3]
+                        totOT12_3 += list16[4]
+                        totOT40_3 += list16[5]
+                    if pos17 is not None and pos17 in pos3:
+                        hrsPos3 += list17[2]
+                        RegHrs3 += list17[3]
+                        totOT12_3 += list17[4]
+                        totOT40_3 += list17[5]
+                    if pos18 is not None and pos18 in pos3:
+                        hrsPos3 += list18[2]
+                        RegHrs3 += list18[3]
+                        totOT12_3 += list18[4]
+                        totOT40_3 += list18[5]
                 list3 = [valName, pos3, hrsPos3, RegHrs3, totOT12_3, totOT40_3, list3[6], list3[7], 0]
             # Position 4
             hrsPos4 = 0
@@ -746,6 +825,21 @@ for i in range(2, Nrow + 1):
                         RegHrs4 += list15[3]
                         totOT12_4 += list15[4]
                         totOT40_4 += list15[5]
+                    if pos16 is not None and pos16 in pos4:
+                        hrsPos4 += list16[2]
+                        RegHrs4 += list16[3]
+                        totOT12_4 += list16[4]
+                        totOT40_4 += list16[5]
+                    if pos17 is not None and pos17 in pos4:
+                        hrsPos4 += list17[2]
+                        RegHrs4 += list17[3]
+                        totOT12_4 += list17[4]
+                        totOT40_4 += list17[5]
+                    if pos18 is not None and pos18 in pos4:
+                        hrsPos4 += list18[2]
+                        RegHrs4 += list18[3]
+                        totOT12_4 += list18[4]
+                        totOT40_4 += list18[5]
                 list4 = [valName, pos4, hrsPos4, RegHrs4, totOT12_4, totOT40_4, list4[6], list4[7], 0]
             # Position 5
             hrsPos5 = 0
@@ -811,6 +905,21 @@ for i in range(2, Nrow + 1):
                         RegHrs5 += list15[3]
                         totOT12_5 += list15[4]
                         totOT40_5 += list15[5]
+                    if pos16 is not None and pos16 in pos5:
+                        hrsPos5 += list16[2]
+                        RegHrs5 += list16[3]
+                        totOT12_5 += list16[4]
+                        totOT40_5 += list16[5]
+                    if pos17 is not None and pos17 in pos5:
+                        hrsPos5 += list17[2]
+                        RegHrs5 += list17[3]
+                        totOT12_5 += list17[4]
+                        totOT40_5 += list17[5]
+                    if pos18 is not None and pos18 in pos5:
+                        hrsPos5 += list18[2]
+                        RegHrs5 += list18[3]
+                        totOT12_5 += list18[4]
+                        totOT40_5 += list18[5]
                 list5 = [valName, pos5, hrsPos5, RegHrs5, totOT12_5, totOT40_5, list5[6], list5[7], 0]
             # Position 6
             hrsPos6 = 0
@@ -871,6 +980,21 @@ for i in range(2, Nrow + 1):
                         RegHrs6 += list15[3]
                         totOT12_6 += list15[4]
                         totOT40_6 += list15[5]
+                    if pos16 is not None and pos16 in pos6:
+                        hrsPos6 += list16[2]
+                        RegHrs6 += list16[3]
+                        totOT12_6 += list16[4]
+                        totOT40_6 += list16[5]
+                    if pos17 is not None and pos17 in pos6:
+                        hrsPos6 += list17[2]
+                        RegHrs6 += list17[3]
+                        totOT12_6 += list17[4]
+                        totOT40_6 += list17[5]
+                    if pos18 is not None and pos18 in pos6:
+                        hrsPos6 += list18[2]
+                        RegHrs6 += list18[3]
+                        totOT12_6 += list18[4]
+                        totOT40_6 += list18[5]
                 list6 = [valName, pos6, hrsPos6, RegHrs6, totOT12_6, totOT40_6, list6[6], list6[7], 0]
             # Position 7
             hrsPos7 = 0
@@ -926,6 +1050,21 @@ for i in range(2, Nrow + 1):
                         RegHrs7 += list15[3]
                         totOT12_7 += list15[4]
                         totOT40_7 += list15[5]
+                    if pos16 is not None and pos16 in pos7:
+                        hrsPos7 += list16[2]
+                        RegHrs7 += list16[3]
+                        totOT12_7 += list16[4]
+                        totOT40_7 += list16[5]
+                    if pos17 is not None and pos17 in pos7:
+                        hrsPos7 += list17[2]
+                        RegHrs7 += list17[3]
+                        totOT12_7 += list17[4]
+                        totOT40_7 += list17[5]
+                    if pos18 is not None and pos18 in pos7:
+                        hrsPos7 += list18[2]
+                        RegHrs7 += list18[3]
+                        totOT12_7 += list18[4]
+                        totOT40_7 += list18[5]
                 list7 = [valName, pos7, hrsPos7, RegHrs7, totOT12_7, totOT40_7, list7[6], list7[7], 0]
             # Position 8
             hrsPos8 = 0
@@ -978,6 +1117,21 @@ for i in range(2, Nrow + 1):
                         RegHrs8 += list15[3]
                         totOT12_8 += list15[4]
                         totOT40_8 += list15[5]
+                    if pos16 is not None and pos16 in pos8:
+                        hrsPos8 += list16[2]
+                        RegHrs8 += list16[3]
+                        totOT12_8 += list16[4]
+                        totOT40_8 += list16[5]
+                    if pos17 is not None and pos17 in pos8:
+                        hrsPos8 += list17[2]
+                        RegHrs8 += list17[3]
+                        totOT12_8 += list17[4]
+                        totOT40_8 += list17[5]
+                    if pos18 is not None and pos18 in pos8:
+                        hrsPos8 += list18[2]
+                        RegHrs8 += list18[3]
+                        totOT12_8 += list18[4]
+                        totOT40_8 += list18[5]
                 list8 = [valName, pos8, hrsPos8, RegHrs8, totOT12_8, totOT40_8, list8[6], list8[7], 0]
             # Position 9
             hrsPos9 = 0
@@ -1025,6 +1179,21 @@ for i in range(2, Nrow + 1):
                         RegHrs9 += list15[3]
                         totOT12_9 += list15[4]
                         totOT40_9 += list15[5]
+                    if pos16 is not None and pos16 in pos9:
+                        hrsPos9 += list16[2]
+                        RegHrs9 += list16[3]
+                        totOT12_9 += list16[4]
+                        totOT40_9 += list16[5]
+                    if pos17 is not None and pos17 in pos9:
+                        hrsPos9 += list17[2]
+                        RegHrs9 += list17[3]
+                        totOT12_9 += list17[4]
+                        totOT40_9 += list17[5]
+                    if pos18 is not None and pos18 in pos9:
+                        hrsPos9 += list18[2]
+                        RegHrs9 += list18[3]
+                        totOT12_9 += list18[4]
+                        totOT40_9 += list18[5]
                 list9 = [valName, pos9, hrsPos9, RegHrs9, totOT12_9, totOT40_9, list9[6], list9[7], 0]
             # Position 10
             hrsPos10 = 0
@@ -1067,6 +1236,21 @@ for i in range(2, Nrow + 1):
                         RegHrs10 += list15[3]
                         totOT12_10 += list15[4]
                         totOT40_10 += list15[5]
+                    if pos16 is not None and pos16 in pos10:
+                        hrsPos10 += list16[2]
+                        RegHrs10 += list16[3]
+                        totOT12_10 += list16[4]
+                        totOT40_10 += list16[5]
+                    if pos17 is not None and pos17 in pos10:
+                        hrsPos10 += list17[2]
+                        RegHrs10 += list17[3]
+                        totOT12_10 += list17[4]
+                        totOT40_10 += list17[5]
+                    if pos18 is not None and pos18 in pos10:
+                        hrsPos10 += list18[2]
+                        RegHrs10 += list18[3]
+                        totOT12_10 += list18[4]
+                        totOT40_10 += list18[5]
                 list10 = [valName, pos10, hrsPos10, RegHrs10, totOT12_10, totOT40_10, list10[6], list10[7], 0]
             # Position 11
             hrsPos11 = 0
@@ -1106,6 +1290,21 @@ for i in range(2, Nrow + 1):
                         RegHrs11 += list15[3]
                         totOT12_11 += list15[4]
                         totOT40_11 += list15[5]
+                    if pos16 is not None and pos16 in pos11:
+                        hrsPos11 += list16[2]
+                        RegHrs11 += list16[3]
+                        totOT12_11 += list16[4]
+                        totOT40_11 += list16[5]
+                    if pos17 is not None and pos17 in pos11:
+                        hrsPos11 += list17[2]
+                        RegHrs11 += list17[3]
+                        totOT12_11 += list17[4]
+                        totOT40_11 += list17[5]
+                    if pos18 is not None and pos18 in pos11:
+                        hrsPos11 += list18[2]
+                        RegHrs11 += list18[3]
+                        totOT12_11 += list18[4]
+                        totOT40_11 += list18[5]
                 list11 = [valName, pos11, hrsPos11, RegHrs11, totOT12_11, totOT40_11, list11[6], list11[7], 0]
             # Position 12
             hrsPos12 = 0
@@ -1140,6 +1339,21 @@ for i in range(2, Nrow + 1):
                         RegHrs12 += list15[3]
                         totOT12_12 += list15[4]
                         totOT40_12 += list15[5]
+                    if pos16 is not None and pos16 in pos12:
+                        hrsPos12 += list16[2]
+                        RegHrs12 += list16[3]
+                        totOT12_12 += list16[4]
+                        totOT40_12 += list16[5]
+                    if pos17 is not None and pos17 in pos12:
+                        hrsPos12 += list17[2]
+                        RegHrs12 += list17[3]
+                        totOT12_12 += list17[4]
+                        totOT40_12 += list17[5]
+                    if pos18 is not None and pos18 in pos12:
+                        hrsPos12 += list18[2]
+                        RegHrs12 += list18[3]
+                        totOT12_12 += list18[4]
+                        totOT40_12 += list18[5]
                 list12 = [valName, pos12, hrsPos12, RegHrs12, totOT12_12, totOT40_12, list12[6], list12[7], 0]
             # Position 13
             hrsPos13 = 0
@@ -1169,6 +1383,21 @@ for i in range(2, Nrow + 1):
                         RegHrs13 += list15[3]
                         totOT12_13 += list15[4]
                         totOT40_13 += list15[5]
+                    if pos16 is not None and pos16 in pos13:
+                        hrsPos13 += list16[2]
+                        RegHrs13 += list16[3]
+                        totOT12_13 += list16[4]
+                        totOT40_13 += list16[5]
+                    if pos17 is not None and pos17 in pos13:
+                        hrsPos13 += list17[2]
+                        RegHrs13 += list17[3]
+                        totOT12_13 += list17[4]
+                        totOT40_13 += list17[5]
+                    if pos18 is not None and pos18 in pos13:
+                        hrsPos13 += list18[2]
+                        RegHrs13 += list18[3]
+                        totOT12_13 += list18[4]
+                        totOT40_13 += list18[5]
                 list13 = [valName, pos13, hrsPos13, RegHrs13, totOT12_13, totOT40_13, list13[6], list13[7], 0]
             # Position 14
             hrsPos14 = 0
@@ -1195,6 +1424,21 @@ for i in range(2, Nrow + 1):
                         RegHrs14 += list15[3]
                         totOT12_14 += list15[4]
                         totOT40_14 += list15[5]
+                    if pos16 is not None and pos16 in pos14:
+                        hrsPos14 += list16[2]
+                        RegHrs14 += list16[3]
+                        totOT12_14 += list16[4]
+                        totOT40_14 += list16[5]
+                    if pos17 is not None and pos17 in pos14:
+                        hrsPos14 += list17[2]
+                        RegHrs14 += list17[3]
+                        totOT12_14 += list17[4]
+                        totOT40_14 += list17[5]
+                    if pos18 is not None and pos18 in pos14:
+                        hrsPos14 += list18[2]
+                        RegHrs14 += list18[3]
+                        totOT12_14 += list18[4]
+                        totOT40_14 += list18[5]
                 list14 = [valName, pos14, hrsPos14, RegHrs14, totOT12_14, totOT40_14, list14[6], list14[7], 0]
             # Position 15
             hrsPos15 = 0
@@ -1216,7 +1460,104 @@ for i in range(2, Nrow + 1):
                     RegHrs15 += list15[3]
                     totOT12_15 += list15[4]
                     totOT40_15 += list15[5]
+                    if pos16 is not None and pos16 in pos15:
+                        hrsPos15 += list16[2]
+                        RegHrs15 += list16[3]
+                        totOT12_15 += list16[4]
+                        totOT40_15 += list16[5]
+                    if pos17 is not None and pos17 in pos15:
+                        hrsPos15 += list17[2]
+                        RegHrs15 += list17[3]
+                        totOT12_15 += list17[4]
+                        totOT40_15 += list17[5]
+                    if pos18 is not None and pos18 in pos15:
+                        hrsPos15 += list18[2]
+                        RegHrs15 += list18[3]
+                        totOT12_15 += list18[4]
+                        totOT40_15 += list18[5]
                 list15 = [valName, pos15, hrsPos15, RegHrs15, totOT12_15, totOT40_15, list15[6], list15[7], 0]
+            # Position 16
+            hrsPos16 = 0
+            RegHrs16 = 0
+            totOT12_16 = 0
+            totOT40_16 = 0
+            if pos16 is not None:
+                if (    pos15 is not None and pos14 is not None and pos13 is not None and
+                        pos12 is not None and pos11 is not None and pos10 is not None and
+                        pos9 is not None and pos8 is not None and pos7 is not None and
+                        pos6 is not None and pos5 is not None and pos4 is not None and
+                        pos3 is not None and pos2 is not None and pos1 is not None and
+                        pos16 not in pos1 and pos16 not in pos2 and pos16 not in pos3 and
+                        pos16 not in pos4 and pos16 not in pos5 and pos16 not in pos6 and
+                        pos16 not in pos7 and pos16 not in pos8 and pos16 not in pos9 and
+                        pos16 not in pos10 and pos16 not in pos11 and pos16 not in pos12 and
+                        pos16 not in pos13 and pos16 not in pos14 and pos16 not in pos15):
+                    hrsPos16 += list16[2]
+                    RegHrs16 += list16[3]
+                    totOT12_16 += list16[4]
+                    totOT40_16 += list16[5]
+                    if pos17 is not None and pos17 in pos16:
+                        hrsPos16 += list17[2]
+                        RegHrs16 += list17[3]
+                        totOT12_16 += list17[4]
+                        totOT40_16 += list17[5]
+                    if pos18 is not None and pos18 in pos16:
+                        hrsPos16 += list18[2]
+                        RegHrs16 += list18[3]
+                        totOT12_16 += list18[4]
+                        totOT40_16 += list18[5]
+                list16 = [valName, pos16, hrsPos16, RegHrs16, totOT12_16, totOT40_16, list16[6], list16[7], 0]
+            # Position 17
+            hrsPos17 = 0
+            RegHrs17 = 0
+            totOT12_17 = 0
+            totOT40_17 = 0
+            if pos17 is not None:
+                if (    pos16 is not None and pos15 is not None and pos14 is not None and
+                        pos13 is not None and pos12 is not None and pos11 is not None and
+                        pos10 is not None and pos9 is not None and pos8 is not None and
+                        pos7 is not None and pos6 is not None and pos5 is not None and
+                        pos4 is not None and pos3 is not None and pos2 is not None and
+                        pos1 is not None and
+                        pos17 not in pos1 and pos17 not in pos2 and pos17 not in pos3 and
+                        pos17 not in pos4 and pos17 not in pos5 and pos17 not in pos6 and
+                        pos17 not in pos7 and pos17 not in pos8 and pos17 not in pos9 and
+                        pos17 not in pos10 and pos17 not in pos11 and pos17 not in pos12 and
+                        pos17 not in pos13 and pos17 not in pos14 and pos17 not in pos15 and
+                        pos17 not in pos16):
+                    hrsPos17 += list17[2]
+                    RegHrs17 += list17[3]
+                    totOT12_17 += list17[4]
+                    totOT40_17 += list17[5]
+                    if pos18 is not None and pos18 in pos17:
+                        hrsPos17 += list18[2]
+                        RegHrs17 += list18[3]
+                        totOT12_17 += list18[4]
+                        totOT40_17 += list18[5]
+                list17 = [valName, pos17, hrsPos17, RegHrs17, totOT12_17, totOT40_17, list17[6], list17[7], 0]
+            # Position 18
+            hrsPos18 = 0
+            RegHrs18 = 0
+            totOT12_18 = 0
+            totOT40_18 = 0
+            if pos18 is not None:
+                if (    pos17 is not None and pos16 is not None and pos15 is not None and
+                        pos14 is not None and pos13 is not None and pos12 is not None and
+                        pos11 is not None and pos10 is not None and pos9 is not None and
+                        pos8 is not None and pos7 is not None and pos6 is not None and
+                        pos5 is not None and pos4 is not None and pos3 is not None and
+                        pos2 is not None and pos1 is not None and
+                        pos18 not in pos1 and pos18 not in pos2 and pos18 not in pos3 and
+                        pos18 not in pos4 and pos18 not in pos5 and pos18 not in pos6 and
+                        pos18 not in pos7 and pos18 not in pos8 and pos18 not in pos9 and
+                        pos18 not in pos10 and pos18 not in pos11 and pos18 not in pos12 and
+                        pos18 not in pos13 and pos18 not in pos14 and pos18 not in pos15 and
+                        pos18 not in pos16 and pos18 not in pos17):
+                    hrsPos18 += list18[2]
+                    RegHrs18 += list18[3]
+                    totOT12_18 += list18[4]
+                    totOT40_18 += list18[5]
+                list18 = [valName, pos18, hrsPos18, RegHrs18, totOT12_18, totOT40_18, list18[6], list18[7], 0]
 
 
             if (    list2[1] is not None and (list2[1] is list1[1])):
@@ -1268,7 +1609,31 @@ for i in range(2, Nrow + 1):
                     list15[1] is list8[1] or list15[1] is list9[1] or list15[1] is list10[1] or list15[1] is list11[1] or
                     list15[1] is list12[1] or list15[1] is list13[1] or list15[1] is list14[1])):
                 list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list16[1] is not None and (list16[1] is list1[1] or list16[1] is list2[1] or list16[1] is list3[1] or
+                    list16[1] is list4[1] or list16[1] is list5[1] or list16[1] is list6[1] or list16[1] is list7[1] or
+                    list16[1] is list8[1] or list16[1] is list9[1] or list16[1] is list10[1] or list16[1] is list11[1] or
+                    list16[1] is list12[1] or list16[1] is list13[1] or list16[1] is list14[1])):
+                list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list17[1] is not None and (list17[1] is list1[1] or list17[1] is list2[1] or list17[1] is list3[1] or
+                    list17[1] is list4[1] or list17[1] is list5[1] or list17[1] is list6[1] or list17[1] is list7[1] or
+                    list17[1] is list8[1] or list17[1] is list9[1] or list17[1] is list10[1] or list17[1] is list11[1] or
+                    list17[1] is list12[1] or list17[1] is list13[1] or list17[1] is list14[1])):
+                list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if (    list18[1] is not None and (list18[1] is list1[1] or list18[1] is list2[1] or list18[1] is list3[1] or
+                    list18[1] is list4[1] or list18[1] is list5[1] or list18[1] is list6[1] or list18[1] is list7[1] or
+                    list18[1] is list8[1] or list18[1] is list9[1] or list18[1] is list10[1] or list18[1] is list11[1] or
+                    list18[1] is list12[1] or list18[1] is list13[1] or list18[1] is list14[1])):
+                list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
 
+            if list17[1] is None and list18[1] is not None:
+                list17 = list18
+                list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if list16[1] is None and list17[1] is not None:
+                list16 = list17
+                list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
+            if list15[1] is None and list16[1] is not None:
+                list15 = list16
+                list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
             if list14[1] is None and list15[1] is not None:
                 list14 = list15
                 list15 = [None, None, 0, 0, 0, 0, 0, None, 0]
@@ -1308,20 +1673,20 @@ for i in range(2, Nrow + 1):
             if list2[1] is None and list3[1] is not None:
                 list2 = list3
                 list3 = [None, None, 0, 0, 0, 0, 0, None, 0]
-            if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
-            else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15]
+            if j == 0: listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
+            else:      listWeek2 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
 
         if flagDebug2:
             print("\n", valName)
             print("--Week 1 totals--")
             print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:   Rate:")
-            for j in range(0, 14):
+            for j in range(0, 17):
                 if listWeek1[j][0] is not None:
                     if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                         print(listWeek1[j][1], " ", listWeek1[j][2], " ", listWeek1[j][3], " ", listWeek1[j][4], " ", listWeek1[j][5], " ", listWeek1[j][6])
             print("--Week 2 totals--")
             print("    Position:\t\t  total hrs:   reg hrs:   OT12:   OT40:   Rate:")
-            for j in range(0, 14):
+            for j in range(0, 17):
                 if listWeek2[j][0] is not None:
                     if (listWeek2[j][2] != 0. or listWeek2[j][5] != 0.):
                         print(listWeek2[j][1], " ", listWeek2[j][2], " ", listWeek2[j][3], " ", listWeek2[j][4], " ", listWeek2[j][5], " ", listWeek2[j][6])
@@ -1558,6 +1923,15 @@ for i in range(2, Nrow + 1):
                     if listWeek2[14][1] is not None and listWeek2[14][1] in listWeek1[j][1]:
                         xreg += listWeek2[14][3]
                         xOT  += listWeek2[14][4] + listWeek2[14][5]
+                    if listWeek2[15][1] is not None and listWeek2[15][1] in listWeek1[j][1]:
+                        xreg += listWeek2[15][3]
+                        xOT  += listWeek2[15][4] + listWeek2[15][5]
+                    if listWeek2[16][1] is not None and listWeek2[16][1] in listWeek1[j][1]:
+                        xreg += listWeek2[16][3]
+                        xOT  += listWeek2[16][4] + listWeek2[16][5]
+                    if listWeek2[17][1] is not None and listWeek2[17][1] in listWeek1[j][1]:
+                        xreg += listWeek2[17][3]
+                        xOT  += listWeek2[17][4] + listWeek2[17][5]
                     c0 = newsheet1.cell(row = printCnt, column = 1)
                     c0.value = listWeek1[j][1]
                     c0.border = Border(right = line)
@@ -1592,6 +1966,9 @@ for i in range(2, Nrow + 1):
                     elif (listWeek1[12][1] is not None and listWeek2[j][1].__contains__(listWeek1[12][1]) ): continue
                     elif (listWeek1[13][1] is not None and listWeek2[j][1].__contains__(listWeek1[13][1]) ): continue
                     elif (listWeek1[14][1] is not None and listWeek2[j][1].__contains__(listWeek1[14][1]) ): continue
+                    elif (listWeek1[15][1] is not None and listWeek2[j][1].__contains__(listWeek1[15][1]) ): continue
+                    elif (listWeek1[16][1] is not None and listWeek2[j][1].__contains__(listWeek1[16][1]) ): continue
+                    elif (listWeek1[17][1] is not None and listWeek2[j][1].__contains__(listWeek1[17][1]) ): continue
                     else:
                         xreg = listWeek2[j][3]
                         xOT  = listWeek2[j][4] + listWeek2[j][5]
