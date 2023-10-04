@@ -109,7 +109,6 @@ for i in range(2, Nrow + 1):
             dayHrsGap = 0
             flagMultShift1 = False
             valName = sheet.cell(row = rowmid-1, column = colName).value
-            
             list1  = [None, None, 0, 0, 0, 0, 0, None, 0]
             list2  = [None, None, 0, 0, 0, 0, 0, None, 0]
             list3  = [None, None, 0, 0, 0, 0, 0, None, 0]
@@ -131,28 +130,57 @@ for i in range(2, Nrow + 1):
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
                 valPos     = sheet.cell(row = j, column = colPos).value
                 valDate    = sheet.cell(row = j, column = colDate).value
-                valDateNxt = sheet.cell(row = j + 1, column = colDate).value
+                valDateNxt = sheet.cell(row = j - 1, column = colDate).value
                 valRate    = sheet.cell(row = j, column = colRate).value
                 valENum    = sheet.cell(row = j, column = colENum).value
-                if j > 2 and valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
-                    flagMultShift1 = True # remove flags when confident with calculation
-                    flagMultShiftTot = True
-                    valTimeSrt = float(sheet.cell(row = j + 1, column = colTimeSrt).value[:2]) + float(sheet.cell(row = j + 1, column = colTimeSrt).value[3:4])/6.
-                    valTimeEnd = float(sheet.cell(row = j, column = colTimeEnd).value[:2]) + float(sheet.cell(row = j, column = colTimeEnd).value[3:4])/6.
-                    valTimeDif = valTimeSrt - valTimeEnd
-                    if valTimeDif <= timeGap:
-                        flagMultShift2 = True
-                        flagMultShiftTot = True
-                    if flagDebug1: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 valHrs = sheet.cell(row = j, column = colHrs).value
+                valHrsNxt = sheet.cell(row = j - 1, column = colHrs).value
+                dayCnt = 1
+                kmax = 9
+                dayHrsTot = valHrs
+                if j < 10: kmax = j
+                if j > 2:
+                    if valDateNxt.day is valDate.day:
+                        dayCnt += 1
+                        dayHrsTot += valHrsNxt
+                        print("j ",j," name: ",valName," valNameNxt: ",valNameNxt," valDate: ",valDate.day," valDateNxt: ",valDateNxt.day," dayCnt: ",dayCnt," dayHrsTot: ",dayHrsTot)
+                        # if valName.__contains__("Borleske"):
+                        #     print(j, "  Date: ", valDate.day," DateNext: ", valDateNxt.day," valHrs: ", valHrs,"valHrsNxt: ", valHrsNxt," dayCnt: ",dayCnt,"\n")
+                    if valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
+                        flagMultShift1 = True # remove flags when confident with calculation
+                        flagMultShiftTot = True
+                        valTimeSrt = float(sheet.cell(row = j + 1, column = colTimeSrt).value[:2]) + float(sheet.cell(row = j + 1, column = colTimeSrt).value[3:4])/6.
+                        valTimeEnd = float(sheet.cell(row = j, column = colTimeEnd).value[:2]) + float(sheet.cell(row = j, column = colTimeEnd).value[3:4])/6.
+                        valTimeDif = valTimeSrt - valTimeEnd
+                        if valTimeDif <= timeGap:
+                            flagMultShift2 = True
+                            flagMultShiftTot = True
+                    if flagDebug1: print("---Multiple shifts in same day this week. Evaluate OT+12 by hand!---")
                 if valHrs > 0 and valHrs < 0.01: valHrs = 0
-                if valHrs > 12 and valTimeDif <= timeGap:
-                    otHrs = valHrs - 12
-                    regHrs = valHrs - otHrs
-                else:
-                    otHrs = 0
-                    regHrs = valHrs
+                if dayCnt == 1: # Single shift in a day
+                    if valHrs > 12:
+                        otHrs = valHrs - 12
+                        regHrs = valHrs - otHrs
+                    else:
+                        otHrs = 0
+                        regHrs = valHrs
+                if dayCnt > 1 and dayHrsTot < 12: # multiple shifts, no OT+12
+                    if valHrs > 12:
+                        otHrs = valHrs - 12
+                        regHrs = valHrs - otHrs
+                    else:
+                        otHrs = 0
+                        regHrs = valHrs
+                if dayCnt > 1 and dayHrsTot > 12: # multiple shifts with OT+12
+                    if valHrs > 12 and valTimeDif <= timeGap:
+                        otHrs = valHrs - 12
+                        regHrs = valHrs - otHrs
+                    else:
+                        otHrs = 0
+                        regHrs = valHrs
+
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
+                if regHrs < 0: regHrs = 0
                 if otHrs > 0 and otHrs < 0.01: otHrs = 0
                 if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
@@ -174,6 +202,8 @@ for i in range(2, Nrow + 1):
                 elif j == rowmid - 18: list18 = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 if j <= rowmid - 19 and valName.__contains__("EXPRESS 1MGR") is not True: print(warnShift, "  ", valName)
                 if flagDebug1: print(valName, "  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
+                # if valName.__contains__("Borleske"):
+                #     print("  ", valPos, "  Rate:", valRate, "  Total:", valHrs, "  Standard: ", regHrs, "  OT+12:", otHrs)
             listWeek1 = [list1, list2, list3, list4, list5, list6, list7, list8, list9, list10, list11, list12, list13, list14, list15, list16, list17, list18]
             if flagDebug1: print(valName, "  Week 1 --- total: ", week1Hrs, " shift+40 total: ", 0, "\n")
         if week2Hrs <= 40:
