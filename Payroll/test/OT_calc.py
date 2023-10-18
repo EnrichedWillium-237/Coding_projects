@@ -13,7 +13,7 @@ flagDebug1 = False
 flagDebug2 = False
 
 # Input file
-workbook = load_workbook('output_sorted.xlsx')
+workbook = load_workbook('outputs/output_sorted.xlsx')
 
 # Calculate week ranges
 sheet = workbook.active
@@ -2070,7 +2070,7 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-output_name = "output_detail.xlsx"
+output_name = "outputs/output_detail.xlsx"
 newbook1.save(output_name)
 print("\n")
 print("====================================================")

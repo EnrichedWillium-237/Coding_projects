@@ -11,7 +11,7 @@ from datetime import datetime, date, timedelta
 flagDebug = False
 
 # Input file
-workbook = load_workbook('output_detail.xlsx')
+workbook = load_workbook('outputs/output_detail.xlsx')
 sheet = workbook.active
 for i in range(1, 10000):
     val0 = sheet.cell(row = i, column = 1).value
@@ -176,7 +176,7 @@ for i in range(len(indx)):
     newsheet1.delete_rows(idx = indx[i] + 1 - i)
 
 
-output_name = "output_merged.xlsx"
+output_name = "outputs/output_merged.xlsx"
 newbook1.save(output_name)
 print("\nSpreadsheet informarion merged.\n")
 print("File output written to", output_name, "\n")
