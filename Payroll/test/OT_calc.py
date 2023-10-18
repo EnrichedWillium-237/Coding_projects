@@ -1,5 +1,5 @@
 # Code for calculating OT values
-# Reads in file "output_sorted.xlsx"
+# Reads in file "input_sorted.xlsx"
 # Calculates overtime hours
 
 # Source files
@@ -13,7 +13,7 @@ flagDebug1 = False
 flagDebug2 = False
 
 # Input file
-workbook = load_workbook('outputs/output_sorted.xlsx')
+workbook = load_workbook('OT_calculation/input_sorted.xlsx')
 
 # Calculate week ranges
 sheet = workbook.active
@@ -143,7 +143,7 @@ for i in range(2, Nrow + 1):
                     if valDateNxt.day is valDate.day:
                         dayCnt += 1
                         dayHrsTot += valHrsNxt
-                        print("j ",j," name: ",valName," valNameNxt: ",valNameNxt," valDate: ",valDate.day," valDateNxt: ",valDateNxt.day," dayCnt: ",dayCnt," dayHrsTot: ",dayHrsTot)
+                        ###print("j ",j," name: ",valName," valNameNxt: ",valNameNxt," valDate: ",valDate.day," valDateNxt: ",valDateNxt.day," dayCnt: ",dayCnt," dayHrsTot: ",dayHrsTot)
                         # if valName.__contains__("Borleske"):
                         #     print(j, "  Date: ", valDate.day," DateNext: ", valDateNxt.day," valHrs: ", valHrs,"valHrsNxt: ", valHrsNxt," dayCnt: ",dayCnt,"\n")
                     if valDateNxt is not None and valName is not valNameNxt and valDateNxt.day is valDate.day:
@@ -2034,22 +2034,27 @@ for i in range(1, Nrow):
 # More headers and design options for output
 c0 = newsheet1.cell(row = 1, column = 1)
 c0.value = "Week 1 dates:  "
+c0.font = Font(bold = 'single')
 c0 = newsheet1.cell(row = 1, column = 2)
 c0.value = week1start.strftime("%Y-%m-%d") + "  to  " + week1end.strftime("%Y-%m-%d")
 c0 = newsheet1.cell(row = 2, column = 1)
 c0.value = "Week 2 dates:  "
+c0.font = Font(bold = 'single')
 c0 = newsheet1.cell(row = 2, column = 2)
 c0.value = week2start.strftime("%Y-%m-%d") + "  to  " + week2end.strftime("%Y-%m-%d")
 c0 = newsheet1.cell(row = 3, column = 1)
 c0.value = "Total number of employees:  "
+c0.font = Font(bold = 'single')
 c0 = newsheet1.cell(row = 3, column = 2)
 c0.value = GrandNames
 c0 = newsheet1.cell(row = 4, column = 1)
 c0.value = "Total number of shifts:  "
+c0.font = Font(bold = 'single')
 c0 = newsheet1.cell(row = 4, column = 2)
 c0.value = Nrow - 1
 c0 = newsheet1.cell(row = 5, column = 1)
 c0.value = "Total number of hours:  "
+c0.font = Font(bold = 'single')
 c0 = newsheet1.cell(row = 5, column = 2)
 c0.value = GrandHrs
 c0 = newsheet1.cell(row = 8, column = 10)
@@ -2070,7 +2075,7 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-output_name = "outputs/output_detail.xlsx"
+output_name = "OT_calculation/OT_calculation_details.xlsx"
 newbook1.save(output_name)
 print("\n")
 print("====================================================")
