@@ -1,4 +1,4 @@
 from distutils.core import setup
 import py2exe
 
-setup(console=['calcOT.py'])
+setup(console=['payroll_calcOT.py'])

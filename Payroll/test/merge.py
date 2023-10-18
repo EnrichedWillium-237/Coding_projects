@@ -11,7 +11,7 @@ from datetime import datetime, date, timedelta
 flagDebug = False
 
 # Input file
-workbook = load_workbook('OT_calculation/OT_calculation_details.xlsx')
+workbook = load_workbook('output/OT_calculation_details.xlsx')
 sheet = workbook.active
 for i in range(1, 10000):
     val0 = sheet.cell(row = i, column = 1).value
@@ -175,8 +175,13 @@ indx.sort()
 for i in range(len(indx)):
     newsheet1.delete_rows(idx = indx[i] + 1 - i)
 
+# Clean-up extra notes
+for i in range(8, Nrow + 1):
+    c0 = newsheet1.cell(row = i, column = 1)
+    if c0 is None:
+        newsheet.delete_rows(i)
 
-output_name = "OT_calculation/OT_calculation_final.xlsx"
+output_name = "output/OT_calculation_final.xlsx"
 newbook1.save(output_name)
 print("\nSpreadsheet informarion merged.\n")
 print("File output written to", output_name, "\n")

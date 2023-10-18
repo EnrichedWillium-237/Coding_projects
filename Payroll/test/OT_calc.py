@@ -13,7 +13,7 @@ flagDebug1 = False
 flagDebug2 = False
 
 # Input file
-workbook = load_workbook('OT_calculation/input_sorted.xlsx')
+workbook = load_workbook('output/input_sorted.xlsx')
 
 # Calculate week ranges
 sheet = workbook.active
@@ -2075,7 +2075,7 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-output_name = "OT_calculation/OT_calculation_details.xlsx"
+output_name = "output/OT_calculation_details.xlsx"
 newbook1.save(output_name)
 print("\n")
 print("====================================================")
