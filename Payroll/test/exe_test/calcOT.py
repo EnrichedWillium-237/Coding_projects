@@ -1,5 +1,94 @@
+# Code for calculating overtime values
+# "sort.py" alphabetizes and sorts payroll input by employee name LAST then FIRST.
+#
+# Instructions:
+#
+# Download .csv file "Assigned Shift Details - General" with the following parameters:
+# "Employee Number", "Position Name", "Date", "Start Time", "End Time", "Duration", "Employee First Name",
+# "Employee Last Name", "Employee Pay Rate".
+# Save .csv file as "input.xlsx" and put in same directory as this code.
+
+# Source files
+import openpyxl
+from openpyxl import load_workbook
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+import pandas as pd
+import sys
+import os
+if os.path.isfile('input.xlsx') is False: print("\n\"File input.xlsx not found!\"\n")
+
+# Input file
+workbook = load_workbook('input.xlsx')
+
+# create output directory if one does not exist
+newpath = "./outputs"
+if not os.path.exists(newpath):
+    os.makedirs(newpath)
+
+df = pd.read_excel('input.xlsx')
+# df['Employee Name'] = df['Employee Last Name'] + ' ' + df['Employee First Name']
+df_sorted = df.sort_values(
+    by = ['Employee Last Name', 'Employee First Name', 'Date'],
+    ascending = [True, True, True]
+)
+df_sorted['Employee Name'] = df_sorted['Employee First Name'] + ' ' + df_sorted['Employee Last Name']
+df_sorted.to_excel('outputs/output_sorted.xlsx', header = True, index = False)
+
+sheet = workbook.active
+label_0 = sheet.cell(row = 1, column = 1).value
+label_1 = sheet.cell(row = 1, column = 2).value
+label_2 = sheet.cell(row = 1, column = 3).value
+label_3 = sheet.cell(row = 1, column = 4).value
+label_4 = sheet.cell(row = 1, column = 5).value
+label_5 = sheet.cell(row = 1, column = 6).value
+label_6 = sheet.cell(row = 1, column = 7).value
+label_7 = sheet.cell(row = 1, column = 8).value
+label_8 = sheet.cell(row = 1, column = 9).value
+if ("Employee Number" not in label_0 or "Position Name" not in label_1 or "Date" not in label_2 or
+    "Start Time" not in label_3 or "End Time" not in label_4 or "Duration" not in label_5 or
+    "Employee First Name" not in label_6 or "Employee Last Name" not in label_7 or "Employee Pay Rate" not in label_8):
+    print("\n\n")
+    print("===================================================")
+    print("---WARNING!!! INCORRECT SPREADSHEET HEADERS!!!---  ")
+    print("                                                   ")
+    print("            ---Fix then try again!---              ")
+    print("===================================================")
+    print("\n\n")
+    sys.exit(0)
+
+workbook = load_workbook('outputs/output_sorted.xlsx')
+sheet = workbook.active
+for c in sheet["J"]:
+    new_cell = c.offset(column = -3)
+    new_cell.value = c.value
+for c in sheet["I"]:
+    new_cell = c.offset(column = -1)
+    new_cell.value = c.value
+sheet.delete_cols(10)
+sheet.delete_cols(9)
+sheet.column_dimensions["A"].width = 15
+sheet.column_dimensions["B"].width = 40
+sheet.column_dimensions["C"].width = 22
+sheet.column_dimensions["D"].width = 12
+sheet.column_dimensions["E"].width = 12
+sheet.column_dimensions["F"].width = 10
+sheet.column_dimensions["G"].width = 20
+sheet.column_dimensions["H"].width = 20
+output_name = "outputs/input_sorted.xlsx"
+workbook.save(output_name)
+
+print("\n\n\n")
+print("=======================================")
+print("      Step 1: Sorting input file       ")
+print("=======================================")
+print("\n\n")
+print("Input file sorted by last name, first name.\n")
+print("--Step 1 complete--\n")
+
+###-----------------------------------------------------------------------------------------------------###
+
 # Code for calculating OT values
-# Reads in file "output_sorted.xlsx"
+# Reads in file "input_sorted.xlsx"
 # Calculates overtime hours
 
 # Source files
@@ -13,7 +102,7 @@ flagDebug1 = False
 flagDebug2 = False
 
 # Input file
-workbook = load_workbook('output_sorted.xlsx')
+workbook = load_workbook('outputs/input_sorted.xlsx')
 
 # Calculate week ranges
 sheet = workbook.active
@@ -2070,7 +2159,7 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-output_name = "output_detail.xlsx"
+output_name = "outputs/output_detail.xlsx"
 newbook1.save(output_name)
 print("\n")
 print("====================================================")
@@ -2082,3 +2171,190 @@ if flagMultShiftTot is True: print("============================================
 print("\nOT calculation completed. Check OT+12 for days with multiple shifts.\n")
 print("File output written to", output_name,"\n")
 print("--Step 2 complete--\n")
+
+
+###-----------------------------------------------------------------------------------------------------###
+
+# Code for organizing payroll overtime calculation.
+# Reads in output_detail.xlsx
+
+# Source files
+import openpyxl
+from openpyxl import load_workbook
+from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
+from openpyxl.styles import Alignment, Border, Side, Font
+from datetime import datetime, date, timedelta
+
+flagDebug = False
+
+# Input file
+workbook = load_workbook('outputs/output_detail.xlsx')
+sheet = workbook.active
+for i in range(1, 10000):
+    val0 = sheet.cell(row = i, column = 1).value
+    val1 = sheet.cell(row = i + 1, column = 1).value
+    val2 = sheet.cell(row = i + 2, column = 1).value
+    if val0 is None and val1 is None and val2 is None:
+        continue
+    Nrow = i
+
+# Setup output file and spreadsheet
+newbook1 = openpyxl.Workbook()
+newsheet1 = newbook1.active
+
+print("\n\n\n")
+print("=======================================")
+print("   Step 3: Merging final spreadsheet   ")
+print("=======================================")
+print("\n")
+print("\nCreating final spreadsheet...\n")
+
+for i in range(8, Nrow + 1):
+    val0 = sheet.cell(row = i - 1, column = 1).value
+    val1 = sheet.cell(row = i, column = 1).value
+    if val1 is not None:
+        if val0 is None:
+            valName = val1
+            valENum = sheet.cell(row = i, column = 8).value
+            valNote = sheet.cell(row = i, column = 10).value
+        if "---Total" in val1:
+            cnt = 0
+            for j in range(0, 12):
+                pos  = sheet.cell(row = i + 1 + j, column = 1).value
+                reg  = sheet.cell(row = i + 1 + j, column = 3).value
+                ot   = sheet.cell(row = i + 1 + j, column = 4).value
+                rate = sheet.cell(row = i + 1 + j, column = 2).value
+                if pos is None: break
+                else:
+                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 2)
+                    c0.value = valName
+                    c0 = newsheet1.cell(row = i + 1 + cnt, column = 3)
+                    c0.value = pos
+                    if valENum is not None:
+                        c4 = newsheet1.cell(row = i + 1 + cnt, column = 1)
+                        c4.value = valENum
+                    if valNote is not None and "Check OT" in valNote:
+                        c5 = newsheet1.cell(row = i + 1 + cnt, column = 11)
+                        c5.value = "Check OT+12 by hand"
+                        # remove redundant flag for OT+12 calculation
+                        for k in range(0, 12):
+                            c6 = newsheet1.cell(row = i + cnt - k, column = 11)
+                            c7 = newsheet1.cell(row = i + cnt - k, column = 2)
+                            if c6.value is not None and c7.value is valName:
+                                c5.value = " "
+                    cat = "Unarmed"
+                    if pos.__contains__("Training"): cat = "Training"
+                    elif pos.__contains__("Admin Work"): cat = "Admin"
+                    elif pos.__contains__("ARMED") or pos.__contains__("Armed"): cat = "Armed"
+                    elif pos.__contains__("Sick"): cat = "Sick"
+                    elif pos.__contains__("Covid") or pos.__contains__("COVID"): cat = "Covid"
+                    if reg != 0 and ot == 0:
+                        c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
+                        c0.value = reg
+                        c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
+                        c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate
+                        c3 = newsheet1.cell(row = i + 1 + cnt, column = 8)
+                        c3.value = c0.value*c2.value
+                        cnt += 1
+                    if reg == 0 and ot != 0:
+                        c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
+                        c0.value = ot
+                        if pos.__contains__("Training"): cat = "Training"
+                        if cat.__contains__("Unarmed"): cat = "OT Unarmed"
+                        if pos.__contains__("Admin"): cat = "OT Admin"
+                        if pos.__contains__("ARMED") or pos.__contains__("Armed"): cat = "OT Armed"
+                        c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
+                        c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate * 1.5
+                        c3 = newsheet1.cell(row = i + 1 + cnt, column = 8)
+                        c3.value = c0.value * c2.value
+                        cnt += 1
+                    if reg != 0 and ot != 0:
+                        c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
+                        c0.value = reg
+                        c1 = newsheet1.cell(row = i + 1 + cnt, column = 4)
+                        c1.value = cat
+                        c2 = newsheet1.cell(row = i + 1 + cnt, column = 7)
+                        c2.value = rate
+                        c3 = newsheet1.cell(row = i + 1 + cnt, column = 8)
+                        c3.value = c0.value*c2.value
+                        c0 = newsheet1.cell(row = i + 2 + cnt, column = 2)
+                        c0.value = valName
+                        c0 = newsheet1.cell(row = i + 2 + cnt, column = 3)
+                        c0.value = pos
+                        c0 = newsheet1.cell(row = i + 2 + cnt, column = 6)
+                        c0.value = ot
+                        if valENum is not None:
+                            c4 = newsheet1.cell(row = i + 2 + cnt, column = 1)
+                            c4.value = valENum
+                        if pos.__contains__("Training"): cat = "Training"
+                        if cat.__contains__("Unarmed"): cat = "OT Unarmed"
+                        if pos.__contains__("Admin"): cat = "OT Admin"
+                        if pos.__contains__("ARMED") or pos.__contains__("Armed"): cat = "OT Armed"
+                        c1 = newsheet1.cell(row = i + 2 + cnt, column = 4)
+                        c1.value = cat
+                        c2 = newsheet1.cell(row = i + 2 + cnt, column = 7)
+                        c2.value = rate * 1.5
+                        c3 = newsheet1.cell(row = i + 2 + cnt, column = 8)
+                        c3.value = c0.value*c2.value
+                        cnt += 2
+
+
+c0 = newsheet1.cell(row = 1, column = 1)
+c0.value = "Employee Number"
+c0 = newsheet1.cell(row = 1, column = 2)
+c0.value = "Employee Name"
+c0 = newsheet1.cell(row = 1, column = 3)
+c0.value = "Position"
+c0 = newsheet1.cell(row = 1, column = 4)
+c0.value = "Category"
+c0 = newsheet1.cell(row = 1, column = 5)
+c0.value = "Number of Shifts"
+c0 = newsheet1.cell(row = 1, column = 6)
+c0.value = "Number of Hours"
+c0 = newsheet1.cell(row = 1, column = 7)
+c0.value = "Pay Rate"
+c0 = newsheet1.cell(row = 1, column = 8)
+c0.value = "Total Pay"
+c0 = newsheet1.cell(row = 1, column = 9)
+c0.value = "Reimbursement/Deductions"
+c0 = newsheet1.cell(row = 1, column = 10)
+c0.value = "Grand Total"
+c0 = newsheet1.cell(row = 1, column = 11)
+c0.value = "Notes"
+
+newsheet1.column_dimensions["A"].width = 20
+newsheet1.column_dimensions["B"].width = 25
+newsheet1.column_dimensions["C"].width = 48
+newsheet1.column_dimensions["D"].width = 12
+newsheet1.column_dimensions["E"].width = 12
+newsheet1.column_dimensions["F"].width = 14
+newsheet1.column_dimensions["G"].width = 12
+newsheet1.column_dimensions["H"].width = 12
+newsheet1.column_dimensions["I"].width = 12
+newsheet1.column_dimensions["J"].width = 12
+newsheet1.column_dimensions["K"].width = 12
+
+# Delete empty rows
+indx = []
+for i in range(len(tuple(newsheet1.rows))):
+    flag = False
+    for cell in tuple(newsheet1.rows)[i]:
+        if cell.value != None:
+            flag = True
+            break
+    if flag == False:
+        indx.append(i)
+indx.sort()
+for i in range(len(indx)):
+    newsheet1.delete_rows(idx = indx[i] + 1 - i)
+
+
+output_name = "outputs/output_merged.xlsx"
+newbook1.save(output_name)
+print("\nSpreadsheet informarion merged.\n")
+print("File output written to", output_name, "\n")
+print("--Step 3 complete. OT calculation finished.--\n\n")
