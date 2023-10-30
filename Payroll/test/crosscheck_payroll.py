@@ -11,13 +11,13 @@ from openpyxl.styles import Alignment, Border, Side, Font
 import sys
 import os
 
-# Payroll file location
-workbook = load_workbook('payroll_with_OT.xlsx')
-
 # create output directory if one does not exist
 newpath = "./output"
 if not os.path.exists(newpath):
     os.makedirs(newpath)
+
+# Payroll file location
+workbook = load_workbook('payroll_with_OT.xlsx')
 
 # Payroll output
 newbook1 = openpyxl.Workbook()
@@ -169,18 +169,18 @@ rate10sick = 0
 rate11sick = 0
 rate12sick = 0
 
-for i in range (2, Nrow):
+for i in range (2, Nrow + 2):
 #for i in range(2, 25):
 
     valID = sheet.cell(row = i, column = 1)
     valName = sheet.cell(row = i, column = 2)
-    valCat = sheet.cell(row = i, column = 3)
-    valHours = sheet.cell(row = i, column = 4)
-    valRate = sheet.cell(row = i, column = 5)
-    valTot = sheet.cell(row = i, column = 6)
-    valReim = sheet.cell(row = i, column = 7)
-    valGross = sheet.cell(row = i, column = 8)
-    valNote = sheet.cell(row = i, column = 9)
+    valCat = sheet.cell(row = i, column = 4)
+    valHours = sheet.cell(row = i, column = 6)
+    valRate = sheet.cell(row = i, column = 7)
+    valTot = sheet.cell(row = i, column = 8)
+    valReim = sheet.cell(row = i, column = 9)
+    valGross = sheet.cell(row = i, column = 10)
+    valNote = sheet.cell(row = i, column = 11)
 
     valID = valID.value
     Name = valName.value
@@ -189,13 +189,13 @@ for i in range (2, Nrow):
     if Hours is None:
         Hours = 0
     Rate = valRate.value
-    Tot = valTot.value
     Reim = valReim.value
     if Reim is None:
         Reim = 0
 #    Gross = Tot + Reim # calculate reimbursements
-    valGross = valGross.value
     Note = valNote.value
+    Tot = Rate * Hours
+    valGross = Tot + Reim
     Gross += valGross
     Tot_nxt = Tot
 
@@ -247,11 +247,11 @@ for i in range (2, Nrow):
         k = nrowsEmp
         l = 0
         for j in range(i-k+1, i+1):
-            valRate = sheet.cell(row = j, column = 5)
+            valRate = sheet.cell(row = j, column = 7)
             Rate = valRate.value
-            valHours_tmp = sheet.cell(row = j, column = 4)
+            valHours_tmp = sheet.cell(row = j, column = 6)
             Hours_tmp = valHours_tmp.value
-            valCat_tmp = sheet.cell(row = j, column = 3)
+            valCat_tmp = sheet.cell(row = j, column = 4)
             Cat = valCat_tmp.value
             l += 1
             if l == 1:
@@ -1566,7 +1566,6 @@ for i in range (2, Nrow):
         c1.value = Name
         l = 1
         for j in range(Ncell, Ncell+k):
-            #print(j, Ncell, k,Ncell+k, jrow, rate1,rate1unarmed,rate1armed,rate1admin,rate1OT,"\t",rate2,rate2unarmed,rate2armed,rate2admin,rate2OT)
             c1 = newsheet1.cell(row = j-k+1, column = 4)
             c1.value = "Unarmed:"
             c1 = newsheet1.cell(row = j-k+1, column = 6)

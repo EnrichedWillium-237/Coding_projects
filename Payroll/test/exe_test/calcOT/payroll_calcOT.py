@@ -88,7 +88,6 @@ print("--Step 1 complete--\n")
 
 ###----------------------------------------------------------------------------------------------###
 
-
 # Code for calculating OT values
 # Reads in file "input_sorted.xlsx"
 # Calculates overtime hours

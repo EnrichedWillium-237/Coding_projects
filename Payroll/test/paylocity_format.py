@@ -37,13 +37,18 @@ n = 0
 for i in range (2, Nrow + 1):
     valID = sheet.cell(row = i, column = 1)
     valName = sheet.cell(row = i, column = 2)
-    valCat = sheet.cell(row = i, column = 3)
-    valHours = sheet.cell(row = i, column = 4)
-    valRate = sheet.cell(row = i, column = 5)
-    valTot = sheet.cell(row = i, column = 6)
-    valReim = sheet.cell(row = i, column = 7)
-    valGross = sheet.cell(row = i, column = 8)
-    valNote = sheet.cell(row = i, column = 9)
+    valCat = sheet.cell(row = i, column = 4)
+    valHours = sheet.cell(row = i, column = 6)
+    valRate = sheet.cell(row = i, column = 7)
+    valReim = sheet.cell(row = i, column = 9)
+    valNote = sheet.cell(row = i, column = 11)
+    if valReim.value is None:
+        Reim = 0
+    else:
+        Reim = valReim.value
+    if (valHours.value is not None and valRate.value is not None):
+        valTot = valHours.value * valRate.value
+        valGross = valTot + Reim
 
     c0 = newsheet1.cell(row = i + n, column = 1)
     c0.value = valID.value
@@ -73,14 +78,23 @@ for i in range (2, Nrow + 1):
     if (valCat.value == "OT Armed"):
         c0 = newsheet1.cell(row = i + n, column = 3)
         c0.value = "OTARM"
-    if (valCat.value == "Holiday"):
+    if (valCat.value == "Holiday Unarmed"):
+        c0 = newsheet1.cell(row = i + n, column = 3)
+        c0.value = "HOL"
+    if (valCat.value == "Holiday Armed"):
+        c0 = newsheet1.cell(row = i + n, column = 3)
+        c0.value = "HOL"
+    if (valCat.value == "Holiday Admin"):
+        c0 = newsheet1.cell(row = i + n, column = 3)
+        c0.value = "HOL"
+    if (valCat.value == "Holiday Training"):
         c0 = newsheet1.cell(row = i + n, column = 3)
         c0.value = "HOL"
 
     c0 = newsheet1.cell(row = i + n, column = 4)
     c0.value = valHours.value
     c0 = newsheet1.cell(row = i + n, column = 5)
-    c0.value = valTot.value
+    c0.value = valTot
     c0 = newsheet1.cell(row = i + n, column = 6)
     c0.value = valRate.value
 
