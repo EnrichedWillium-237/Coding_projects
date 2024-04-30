@@ -43,8 +43,7 @@ timeGap = 8 # gap allowed in hours for OT+12
 # Calculation for crosschecks
 GrandHrs = 0
 GrandNames = 0
-### for i in range(2, Nrow + 1):
-for i in range(695, 774+1):
+for i in range(2, Nrow + 1):
     valHrs = sheet.cell(row = i, column = colHrs)
     GrandHrs += valHrs.value
     valName = sheet.cell(row = i, column = colName).value
@@ -75,11 +74,10 @@ warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOM
 flagMultShiftTot = False
 
 # Main event loop
-### for i in range(2, Nrow + 1):
-for i in range(695, 774+1):
+for i in range(2, Nrow + 1):
     valName = sheet.cell(row = i, column = colName).value
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
-    if valNameNxt is not None and valNameNxt.__contains__(valName):
+    if valNameNxt is not None and valNameNxt == valName:
         rowCnt += 1
     else:
         rowmin = i - rowCnt + 1
@@ -527,87 +525,87 @@ for i in range(695, 774+1):
             totOT40_1 = list1[5]
             # Position 1
             if pos1 is not None:
-                if pos2 is not None and pos2 in pos1:
+                if pos2 is not None and pos2 == pos1:
                     hrsPos1 += list2[2]
                     RegHrs1 += list2[3]
                     totOT12_1 += list2[4]
                     totOT40_1 += list2[5]
-                if pos3 is not None and pos3 in pos1:
+                if pos3 is not None and pos3 == pos1:
                     hrsPos1 += list3[2]
                     RegHrs1 += list3[3]
                     totOT12_1 += list3[4]
                     totOT40_1 += list3[5]
-                if pos4 is not None and pos4 in pos1:
+                if pos4 is not None and pos4 == pos1:
                     hrsPos1 += list4[2]
                     RegHrs1 += list4[3]
                     totOT12_1 += list4[4]
                     totOT40_1 += list4[5]
-                if pos5 is not None and pos5 in pos1:
+                if pos5 is not None and pos5 == pos1:
                     hrsPos1 += list5[2]
                     RegHrs1 += list5[3]
                     totOT12_1 += list5[4]
                     totOT40_1 += list5[5]
-                if pos6 is not None and pos6 in pos1:
+                if pos6 is not None and pos6 == pos1:
                     hrsPos1 += list6[2]
                     RegHrs1 += list6[3]
                     totOT12_1 += list6[4]
                     totOT40_1 += list6[5]
-                if pos7 is not None and pos7 in pos1:
+                if pos7 is not None and pos7 == pos1:
                     hrsPos1 += list7[2]
                     RegHrs1 += list7[3]
                     totOT12_1 += list7[4]
                     totOT40_1 += list7[5]
-                if pos8 is not None and pos8 in pos1:
+                if pos8 is not None and pos8 == pos1:
                     hrsPos1 += list8[2]
                     RegHrs1 += list8[3]
                     totOT12_1 += list8[4]
                     totOT40_1 += list8[5]
-                if pos9 is not None and pos9 in pos1:
+                if pos9 is not None and pos9 == pos1:
                     hrsPos1 += list9[2]
                     RegHrs1 += list9[3]
                     totOT12_1 += list9[4]
                     totOT40_1 += list9[5]
-                if pos10 is not None and pos10 in pos1:
+                if pos10 is not None and pos10 == pos1:
                     hrsPos1 += list10[2]
                     RegHrs1 += list10[3]
                     totOT12_1 += list10[4]
                     totOT40_1 += list10[5]
-                if pos11 is not None and pos11 in pos1:
+                if pos11 is not None and pos11 == pos1:
                     hrsPos1 += list11[2]
                     RegHrs1 += list11[3]
                     totOT12_1 += list11[4]
                     totOT40_1 += list11[5]
-                if pos12 is not None and pos12 in pos1:
+                if pos12 is not None and pos12 == pos1:
                     hrsPos1 += list12[2]
                     RegHrs1 += list12[3]
                     totOT12_1 += list12[4]
                     totOT40_1 += list12[5]
-                if pos13 is not None and pos13 in pos1:
+                if pos13 is not None and pos13 == pos1:
                     hrsPos1 += list13[2]
                     RegHrs1 += list13[3]
                     totOT12_1 += list13[4]
                     totOT40_1 += list13[5]
-                if pos14 is not None and pos14 in pos1:
+                if pos14 is not None and pos14 == pos1:
                     hrsPos1 += list14[2]
                     RegHrs1 += list14[3]
                     totOT12_1 += list14[4]
                     totOT40_1 += list14[5]
-                if pos15 is not None and pos15 in pos1:
+                if pos15 is not None and pos15 == pos1:
                     hrsPos1 += list15[2]
                     RegHrs1 += list15[3]
                     totOT12_1 += list15[4]
                     totOT40_1 += list15[5]
-                if pos16 is not None and pos16 in pos1:
+                if pos16 is not None and pos16 == pos1:
                     hrsPos1 += list16[2]
                     RegHrs1 += list16[3]
                     totOT12_1 += list16[4]
                     totOT40_1 += list16[5]
-                if pos17 is not None and pos17 in pos1:
+                if pos17 is not None and pos17 == pos1:
                     hrsPos1 += list17[2]
                     RegHrs1 += list17[3]
                     totOT12_1 += list17[4]
                     totOT40_1 += list17[5]
-                if pos18 is not None and pos18 in pos1:
+                if pos18 is not None and pos18 == pos1:
                     hrsPos1 += list18[2]
                     RegHrs1 += list18[3]
                     totOT12_1 += list18[4]
@@ -620,87 +618,87 @@ for i in range(695, 774+1):
             totOT40_2 = 0
             if pos2 is not None:
                 if (    pos1 is not None and
-                        pos2 not in pos1):
+                        pos2 != pos1):
                     hrsPos2 = list2[2]
                     RegHrs2 = list2[3]
                     totOT12_2 = list2[4]
                     totOT40_2 = list2[5]
-                    if pos3 is not None and pos3 in pos2:
+                    if pos3 is not None and pos3 == pos2:
                         hrsPos2 += list3[2]
                         RegHrs2 += list3[3]
                         totOT12_2 += list3[4]
                         totOT40_2 += list3[5]
-                    if pos4 is not None and pos4 in pos2:
+                    if pos4 is not None and pos4 == pos2:
                         hrsPos2 += list4[2]
                         RegHrs2 += list4[3]
                         totOT12_2 += list4[4]
                         totOT40_2 += list4[5]
-                    if pos5 is not None and pos5 in pos2:
+                    if pos5 is not None and pos5 == pos2:
                         hrsPos2 += list5[2]
                         RegHrs2 += list5[3]
                         totOT12_2 += list5[4]
                         totOT40_2 += list5[5]
-                    if pos6 is not None and pos6 in pos2:
+                    if pos6 is not None and pos6 == pos2:
                         hrsPos2 += list6[2]
                         RegHrs2 += list6[3]
                         totOT12_2 += list6[4]
                         totOT40_2 += list6[5]
-                    if pos7 is not None and pos7 in pos2:
+                    if pos7 is not None and pos7 == pos2:
                         hrsPos2 += list7[2]
                         RegHrs2 += list7[3]
                         totOT12_2 += list7[4]
                         totOT40_2 += list7[5]
-                    if pos8 is not None and pos8 in pos2:
+                    if pos8 is not None and pos8 == pos2:
                         hrsPos2 += list8[2]
                         RegHrs2 += list8[3]
                         totOT12_2 += list8[4]
                         totOT40_2 += list8[5]
-                    if pos9 is not None and pos9 in pos2:
+                    if pos9 is not None and pos9 == pos2:
                         hrsPos2 += list9[2]
                         RegHrs2 += list9[3]
                         totOT12_2 += list9[4]
                         totOT40_2 += list9[5]
-                    if pos10 is not None and pos10 in pos2:
+                    if pos10 is not None and pos10 == pos2:
                         hrsPos2 += list10[2]
                         RegHrs2 += list10[3]
                         totOT12_2 += list10[4]
                         totOT40_2 += list10[5]
-                    if pos11 is not None and pos11 in pos2:
+                    if pos11 is not None and pos11 == pos2:
                         hrsPos2 += list11[2]
                         RegHrs2 += list11[3]
                         totOT12_2 += list11[4]
                         totOT40_2 += list11[5]
-                    if pos12 is not None and pos12 in pos2:
+                    if pos12 is not None and pos12 == pos2:
                         hrsPos2 += list12[2]
                         RegHrs2 += list12[3]
                         totOT12_2 += list12[4]
                         totOT40_2 += list12[5]
-                    if pos13 is not None and pos13 in pos2:
+                    if pos13 is not None and pos13 == pos2:
                         hrsPos2 += list13[2]
                         RegHrs2 += list13[3]
                         totOT12_2 += list13[4]
                         totOT40_2 += list13[5]
-                    if pos14 is not None and pos14 in pos2:
+                    if pos14 is not None and pos14 == pos2:
                         hrsPos2 += list14[2]
                         RegHrs2 += list14[3]
                         totOT12_2 += list14[4]
                         totOT40_2 += list14[5]
-                    if pos15 is not None and pos15 in pos2:
+                    if pos15 is not None and pos15 == pos2:
                         hrsPos2 += list15[2]
                         RegHrs2 += list15[3]
                         totOT12_2 += list15[4]
                         totOT40_2 += list15[5]
-                    if pos16 is not None and pos16 in pos2:
+                    if pos16 is not None and pos16 == pos2:
                         hrsPos2 += list16[2]
                         RegHrs2 += list16[3]
                         totOT12_2 += list16[4]
                         totOT40_2 += list16[5]
-                    if pos17 is not None and pos17 in pos2:
+                    if pos17 is not None and pos17 == pos2:
                         hrsPos2 += list17[2]
                         RegHrs2 += list17[3]
                         totOT12_2 += list17[4]
                         totOT40_2 += list17[5]
-                    if pos18 is not None and pos18 in pos2:
+                    if pos18 is not None and pos18 == pos2:
                         hrsPos2 += list18[2]
                         RegHrs2 += list18[3]
                         totOT12_2 += list18[4]
@@ -713,82 +711,82 @@ for i in range(695, 774+1):
             totOT40_3 = 0
             if pos3 is not None:
                 if (    pos2 is not None and pos1 is not None and
-                        pos3 not in pos1 and pos3 not in pos2):
+                        pos3 != pos1 and pos3 != pos2):
                     hrsPos3 += list3[2]
                     RegHrs3 += list3[3]
                     totOT12_3 += list3[4]
                     totOT40_3 += list3[5]
-                    if pos4 is not None and pos4 in pos3:
+                    if pos4 is not None and pos4 == pos3:
                         hrsPos3 += list4[2]
                         RegHrs3 += list4[3]
                         totOT12_3 += list4[4]
                         totOT40_3 += list4[5]
-                    if pos5 is not None and pos5 in pos3:
+                    if pos5 is not None and pos5 == pos3:
                         hrsPos3 += list5[2]
                         RegHrs3 += list5[3]
                         totOT12_3 += list5[4]
                         totOT40_3 += list5[5]
-                    if pos6 is not None and pos6 in pos3:
+                    if pos6 is not None and pos6 == pos3:
                         hrsPos3 += list6[2]
                         RegHrs3 += list6[3]
                         totOT12_3 += list6[4]
                         totOT40_3 += list6[5]
-                    if pos7 is not None and pos7 in pos3:
+                    if pos7 is not None and pos7 == pos3:
                         hrsPos3 += list7[2]
                         RegHrs3 += list7[3]
                         totOT12_3 += list7[4]
                         totOT40_3 += list7[5]
-                    if pos8 is not None and pos8 in pos3:
+                    if pos8 is not None and pos8 == pos3:
                         hrsPos3 += list8[2]
                         RegHrs3 += list8[3]
                         totOT12_3 += list8[4]
                         totOT40_3 += list8[5]
-                    if pos9 is not None and pos9 in pos3:
+                    if pos9 is not None and pos9 == pos3:
                         hrsPos3 += list9[2]
                         RegHrs3 += list9[3]
                         totOT12_3 += list9[4]
                         totOT40_3 += list9[5]
-                    if pos10 is not None and pos10 in pos3:
+                    if pos10 is not None and pos10 == pos3:
                         hrsPos3 += list10[2]
                         RegHrs3 += list10[3]
                         totOT12_3 += list10[4]
                         totOT40_3 += list10[5]
-                    if pos11 is not None and pos11 in pos3:
+                    if pos11 is not None and pos11 == pos3:
                         hrsPos3 += list11[2]
                         RegHrs3 += list11[3]
                         totOT12_3 += list11[4]
                         totOT40_3 += list11[5]
-                    if pos12 is not None and pos12 in pos3:
+                    if pos12 is not None and pos12 == pos3:
                         hrsPos3 += list12[2]
                         RegHrs3 += list12[3]
                         totOT12_3 += list12[4]
                         totOT40_3 += list12[5]
-                    if pos13 is not None and pos13 in pos3:
+                    if pos13 is not None and pos13 == pos3:
                         hrsPos3 += list13[2]
                         RegHrs3 += list13[3]
                         totOT12_3 += list13[4]
                         totOT40_3 += list13[5]
-                    if pos14 is not None and pos14 in pos3:
+                    if pos14 is not None and pos14 == pos3:
                         hrsPos3 += list14[2]
                         RegHrs3 += list14[3]
                         totOT12_3 += list14[4]
                         totOT40_3 += list14[5]
-                    if pos15 is not None and pos15 in pos3:
+                    if pos15 is not None and pos15 == pos3:
                         hrsPos3 += list15[2]
                         RegHrs3 += list15[3]
                         totOT12_3 += list15[4]
                         totOT40_3 += list15[5]
-                    if pos16 is not None and pos16 in pos3:
+                    if pos16 is not None and pos16 == pos3:
                         hrsPos3 += list16[2]
                         RegHrs3 += list16[3]
                         totOT12_3 += list16[4]
                         totOT40_3 += list16[5]
-                    if pos17 is not None and pos17 in pos3:
+                    if pos17 is not None and pos17 == pos3:
                         hrsPos3 += list17[2]
                         RegHrs3 += list17[3]
                         totOT12_3 += list17[4]
                         totOT40_3 += list17[5]
-                    if pos18 is not None and pos18 in pos3:
+                    if pos18 is not None and pos18 == pos3:
                         hrsPos3 += list18[2]
                         RegHrs3 += list18[3]
                         totOT12_3 += list18[4]
@@ -801,77 +799,77 @@ for i in range(695, 774+1):
             totOT40_4 = 0
             if pos4 is not None:
                 if (    pos3 is not None and pos2 is not None and pos1 is not None and
-                        pos4 not in pos1 and pos4 not in pos2 and pos4 not in pos3):
+                        pos4 != pos1 and pos4 != pos2 and pos4 != pos3):
                     hrsPos4 += list4[2]
                     RegHrs4 += list4[3]
                     totOT12_4 += list4[4]
                     totOT40_4 += list4[5]
-                    if pos5 is not None and pos5 in pos4:
+                    if pos5 is not None and pos5 == pos4:
                         hrsPos4 += list5[2]
                         RegHrs4 += list5[3]
                         totOT12_4 += list5[4]
                         totOT40_4 += list5[5]
-                    if pos6 is not None and pos6 in pos4:
+                    if pos6 is not None and pos6 == pos4:
                         hrsPos4 += list6[2]
                         RegHrs4 += list6[3]
                         totOT12_4 += list6[4]
                         totOT40_4 += list6[5]
-                    if pos7 is not None and pos7 in pos4:
+                    if pos7 is not None and pos7 == pos4:
                         hrsPos4 += list7[2]
                         RegHrs4 += list7[3]
                         totOT12_4 += list7[4]
                         totOT40_4 += list7[5]
-                    if pos8 is not None and pos8 in pos4:
+                    if pos8 is not None and pos8 == pos4:
                         hrsPos4 += list8[2]
                         RegHrs4 += list8[3]
                         totOT12_4 += list8[4]
                         totOT40_4 += list8[5]
-                    if pos9 is not None and pos9 in pos4:
+                    if pos9 is not None and pos9 == pos4:
                         hrsPos4 += list9[2]
                         RegHrs4 += list9[3]
                         totOT12_4 += list9[4]
                         totOT40_4 += list9[5]
-                    if pos10 is not None and pos10 in pos4:
+                    if pos10 is not None and pos10 == pos4:
                         hrsPos4 += list10[2]
                         RegHrs4 += list10[3]
                         totOT12_4 += list10[4]
                         totOT40_4 += list10[5]
-                    if pos11 is not None and pos11 in pos4:
+                    if pos11 is not None and pos11 == pos4:
                         hrsPos4 += list11[2]
                         RegHrs4 += list11[3]
                         totOT12_4 += list11[4]
                         totOT40_4 += list11[5]
-                    if pos12 is not None and pos12 in pos4:
+                    if pos12 is not None and pos12 == pos4:
                         hrsPos4 += list12[2]
                         RegHrs4 += list12[3]
                         totOT12_4 += list12[4]
                         totOT40_4 += list12[5]
-                    if pos13 is not None and pos13 in pos4:
+                    if pos13 is not None and pos13 == pos4:
                         hrsPos4 += list13[2]
                         RegHrs4 += list13[3]
                         totOT12_4 += list13[4]
                         totOT40_4 += list13[5]
-                    if pos14 is not None and pos14 in pos4:
+                    if pos14 is not None and pos14 == pos4:
                         hrsPos4 += list14[2]
                         RegHrs4 += list14[3]
                         totOT12_4 += list14[4]
                         totOT40_4 += list14[5]
-                    if pos15 is not None and pos15 in pos4:
+                    if pos15 is not None and pos15 == pos4:
                         hrsPos4 += list15[2]
                         RegHrs4 += list15[3]
                         totOT12_4 += list15[4]
                         totOT40_4 += list15[5]
-                    if pos16 is not None and pos16 in pos4:
+                    if pos16 is not None and pos16 == pos4:
                         hrsPos4 += list16[2]
                         RegHrs4 += list16[3]
                         totOT12_4 += list16[4]
                         totOT40_4 += list16[5]
-                    if pos17 is not None and pos17 in pos4:
+                    if pos17 is not None and pos17 == pos4:
                         hrsPos4 += list17[2]
                         RegHrs4 += list17[3]
                         totOT12_4 += list17[4]
                         totOT40_4 += list17[5]
-                    if pos18 is not None and pos18 in pos4:
+                    if pos18 is not None and pos18 == pos4:
                         hrsPos4 += list18[2]
                         RegHrs4 += list18[3]
                         totOT12_4 += list18[4]
@@ -885,73 +883,73 @@ for i in range(695, 774+1):
             if pos5 is not None:
                 if (    pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
-                        pos5 not in pos1 and pos5 not in pos2 and pos5 not in pos3 and
-                        pos5 not in pos4):
+                        pos5 != pos1 and pos5 != pos2 and pos5 != pos3 and
+                        pos5 != pos4):
                     hrsPos5 += list5[2]
                     RegHrs5 += list5[3]
                     totOT12_5 += list5[4]
                     totOT40_5 += list5[5]
-                    if pos6 is not None and pos6 in pos5:
+                    if pos6 is not None and pos6 == pos5:
                         hrsPos5 += list6[2]
                         RegHrs5 += list6[3]
                         totOT12_5 += list6[4]
                         totOT40_5 += list6[5]
-                    if pos7 is not None and pos7 in pos5:
+                    if pos7 is not None and pos7 == pos5:
                         hrsPos5 += list7[2]
                         RegHrs5 += list7[3]
                         totOT12_5 += list7[4]
                         totOT40_5 += list7[5]
-                    if pos8 is not None and pos8 in pos5:
+                    if pos8 is not None and pos8 == pos5:
                         hrsPos5 += list8[2]
                         RegHrs5 += list8[3]
                         totOT12_5 += list8[4]
                         totOT40_5 += list8[5]
-                    if pos9 is not None and pos9 in pos5:
+                    if pos9 is not None and pos9 == pos5:
                         hrsPos5 += list9[2]
                         RegHrs5 += list9[3]
                         totOT12_5 += list9[4]
                         totOT40_5 += list9[5]
-                    if pos10 is not None and pos10 in pos5:
+                    if pos10 is not None and pos10 == pos5:
                         hrsPos5 += list10[2]
                         RegHrs5 += list10[3]
                         totOT12_5 += list10[4]
                         totOT40_5 += list10[5]
-                    if pos11 is not None and pos11 in pos5:
+                    if pos11 is not None and pos11 == pos5:
                         hrsPos5 += list11[2]
                         RegHrs5 += list11[3]
                         totOT12_5 += list11[4]
                         totOT40_5 += list11[5]
-                    if pos12 is not None and pos12 in pos5:
+                    if pos12 is not None and pos12 == pos5:
                         hrsPos5 += list12[2]
                         RegHrs5 += list12[3]
                         totOT12_5 += list12[4]
                         totOT40_5 += list12[5]
-                    if pos13 is not None and pos13 in pos5:
+                    if pos13 is not None and pos13 == pos5:
                         hrsPos5 += list13[2]
                         RegHrs5 += list13[3]
                         totOT12_5 += list13[4]
                         totOT40_5 += list13[5]
-                    if pos14 is not None and pos14 in pos5:
+                    if pos14 is not None and pos14 == pos5:
                         hrsPos5 += list14[2]
                         RegHrs5 += list14[3]
                         totOT12_5 += list14[4]
                         totOT40_5 += list14[5]
-                    if pos15 is not None and pos15 in pos5:
+                    if pos15 is not None and pos15 == pos5:
                         hrsPos5 += list15[2]
                         RegHrs5 += list15[3]
                         totOT12_5 += list15[4]
                         totOT40_5 += list15[5]
-                    if pos16 is not None and pos16 in pos5:
+                    if pos16 is not None and pos16 == pos5:
                         hrsPos5 += list16[2]
                         RegHrs5 += list16[3]
                         totOT12_5 += list16[4]
                         totOT40_5 += list16[5]
-                    if pos17 is not None and pos17 in pos5:
+                    if pos17 is not None and pos17 == pos5:
                         hrsPos5 += list17[2]
                         RegHrs5 += list17[3]
                         totOT12_5 += list17[4]
                         totOT40_5 += list17[5]
-                    if pos18 is not None and pos18 in pos5:
+                    if pos18 is not None and pos18 == pos5:
                         hrsPos5 += list18[2]
                         RegHrs5 += list18[3]
                         totOT12_5 += list18[4]
@@ -965,68 +963,68 @@ for i in range(695, 774+1):
             if pos6 is not None:
                 if (    pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
-                        pos6 not in pos1 and pos6 not in pos2 and pos6 not in pos3 and
-                        pos6 not in pos4 and pos6 not in pos5):
+                        pos6 != pos1 and pos6 != pos2 and pos6 != pos3 and
+                        pos6 != pos4 and pos6 != pos5):
                     hrsPos6 += list6[2]
                     RegHrs6 += list6[3]
                     totOT12_6 += list6[4]
                     totOT40_6 += list6[5]
-                    if pos7 is not None and pos7 in pos6:
+                    if pos7 is not None and pos7 == pos6:
                         hrsPos6 += list7[2]
                         RegHrs6 += list7[3]
                         totOT12_6 += list7[4]
                         totOT40_6 += list7[5]
-                    if pos8 is not None and pos8 in pos6:
+                    if pos8 is not None and pos8 == pos6:
                         hrsPos6 += list8[2]
                         RegHrs6 += list8[3]
                         totOT12_6 += list8[4]
                         totOT40_6 += list8[5]
-                    if pos9 is not None and pos9 in pos6:
+                    if pos9 is not None and pos9 == pos6:
                         hrsPos6 += list9[2]
                         RegHrs6 += list9[3]
                         totOT12_6 += list9[4]
                         totOT40_6 += list9[5]
-                    if pos10 is not None and pos10 in pos6:
+                    if pos10 is not None and pos10 == pos6:
                         hrsPos6 += list10[2]
                         RegHrs6 += list10[3]
                         totOT12_6 += list10[4]
                         totOT40_6 += list10[5]
-                    if pos11 is not None and pos11 in pos6:
+                    if pos11 is not None and pos11 == pos6:
                         hrsPos6 += list11[2]
                         RegHrs6 += list11[3]
                         totOT12_6 += list11[4]
                         totOT40_6 += list11[5]
-                    if pos12 is not None and pos12 in pos6:
+                    if pos12 is not None and pos12 == pos6:
                         hrsPos6 += list12[2]
                         RegHrs6 += list12[3]
                         totOT12_6 += list12[4]
                         totOT40_6 += list12[5]
-                    if pos13 is not None and pos13 in pos6:
+                    if pos13 is not None and pos13 == pos6:
                         hrsPos6 += list13[2]
                         RegHrs6 += list13[3]
                         totOT12_6 += list13[4]
                         totOT40_6 += list13[5]
-                    if pos14 is not None and pos14 in pos6:
+                    if pos14 is not None and pos14 == pos6:
                         hrsPos6 += list14[2]
                         RegHrs6 += list14[3]
                         totOT12_6 += list14[4]
                         totOT40_6 += list14[5]
-                    if pos15 is not None and pos15 in pos6:
+                    if pos15 is not None and pos15 == pos6:
                         hrsPos6 += list15[2]
                         RegHrs6 += list15[3]
                         totOT12_6 += list15[4]
                         totOT40_6 += list15[5]
-                    if pos16 is not None and pos16 in pos6:
+                    if pos16 is not None and pos16 == pos6:
                         hrsPos6 += list16[2]
                         RegHrs6 += list16[3]
                         totOT12_6 += list16[4]
                         totOT40_6 += list16[5]
-                    if pos17 is not None and pos17 in pos6:
+                    if pos17 is not None and pos17 == pos6:
                         hrsPos6 += list17[2]
                         RegHrs6 += list17[3]
                         totOT12_6 += list17[4]
                         totOT40_6 += list17[5]
-                    if pos18 is not None and pos18 in pos6:
+                    if pos18 is not None and pos18 == pos6:
                         hrsPos6 += list18[2]
                         RegHrs6 += list18[3]
                         totOT12_6 += list18[4]
@@ -1040,63 +1038,63 @@ for i in range(695, 774+1):
             if pos7 is not None:
                 if (    pos6 is not None and pos5 is not None and pos4 is not None and
                         pos3 is not None and pos2 is not None and pos1 is not None and
-                        pos7 not in pos1 and pos7 not in pos2 and pos7 not in pos3 and
-                        pos7 not in pos4 and pos7 not in pos5 and pos7 not in pos6):
+                        pos7 != pos1 and pos7 != pos2 and pos7 != pos3 and
+                        pos7 != pos4 and pos7 != pos5 and pos7 != pos6):
                     hrsPos7 += list7[2]
                     RegHrs7 += list7[3]
                     totOT12_7 += list7[4]
                     totOT40_7 += list7[5]
-                    if pos8 is not None and pos8 in pos7:
+                    if pos8 is not None and pos8 == pos7:
                         hrsPos7 += list8[2]
                         RegHrs7 += list8[3]
                         totOT12_7 += list8[4]
                         totOT40_7 += list8[5]
-                    if pos9 is not None and pos9 in pos7:
+                    if pos9 is not None and pos9 == pos7:
                         hrsPos7 += list9[2]
                         RegHrs7 += list9[3]
                         totOT12_7 += list9[4]
                         totOT40_7 += list9[5]
-                    if pos10 is not None and pos10 in pos7:
+                    if pos10 is not None and pos10 == pos7:
                         hrsPos7 += list10[2]
                         RegHrs7 += list10[3]
                         totOT12_7 += list10[4]
                         totOT40_7 += list10[5]
-                    if pos11 is not None and pos11 in pos7:
+                    if pos11 is not None and pos11 == pos7:
                         hrsPos7 += list11[2]
                         RegHrs7 += list11[3]
                         totOT12_7 += list11[4]
                         totOT40_7 += list11[5]
-                    if pos12 is not None and pos12 in pos7:
+                    if pos12 is not None and pos12 == pos7:
                         hrsPos7 += list12[2]
                         RegHrs7 += list12[3]
                         totOT12_7 += list12[4]
                         totOT40_7 += list12[5]
-                    if pos13 is not None and pos13 in pos7:
+                    if pos13 is not None and pos13 == pos7:
                         hrsPos7 += list13[2]
                         RegHrs7 += list13[3]
                         totOT12_7 += list13[4]
                         totOT40_7 += list13[5]
-                    if pos14 is not None and pos14 in pos7:
+                    if pos14 is not None and pos14 == pos7:
                         hrsPos7 += list14[2]
                         RegHrs7 += list14[3]
                         totOT12_7 += list14[4]
                         totOT40_7 += list14[5]
-                    if pos15 is not None and pos15 in pos7:
+                    if pos15 is not None and pos15 == pos7:
                         hrsPos7 += list15[2]
                         RegHrs7 += list15[3]
                         totOT12_7 += list15[4]
                         totOT40_7 += list15[5]
-                    if pos16 is not None and pos16 in pos7:
+                    if pos16 is not None and pos16 == pos7:
                         hrsPos7 += list16[2]
                         RegHrs7 += list16[3]
                         totOT12_7 += list16[4]
                         totOT40_7 += list16[5]
-                    if pos17 is not None and pos17 in pos7:
+                    if pos17 is not None and pos17 == pos7:
                         hrsPos7 += list17[2]
                         RegHrs7 += list17[3]
                         totOT12_7 += list17[4]
                         totOT40_7 += list17[5]
-                    if pos18 is not None and pos18 in pos7:
+                    if pos18 is not None and pos18 == pos7:
                         hrsPos7 += list18[2]
                         RegHrs7 += list18[3]
                         totOT12_7 += list18[4]
@@ -1111,59 +1109,59 @@ for i in range(695, 774+1):
                 if (    pos7 is not None and pos6 is not None and pos5 is not None and
                         pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
-                        pos8 not in pos1 and pos8 not in pos2 and pos8 not in pos3 and
-                        pos8 not in pos4 and pos8 not in pos5 and pos8 not in pos6 and
-                        pos8 not in pos7):
+                        pos8 != pos1 and pos8 != pos2 and pos8 != pos3 and
+                        pos8 != pos4 and pos8 != pos5 and pos8 != pos6 and
+                        pos8 != pos7):
                     hrsPos8 += list8[2]
                     RegHrs8 += list8[3]
                     totOT12_8 += list8[4]
                     totOT40_8 += list8[5]
-                    if pos9 is not None and pos9 in pos8:
+                    if pos9 is not None and pos9 == pos8:
                         hrsPos8 += list9[2]
                         RegHrs8 += list9[3]
                         totOT12_8 += list9[4]
                         totOT40_8 += list9[5]
-                    if pos10 is not None and pos10 in pos8:
+                    if pos10 is not None and pos10 == pos8:
                         hrsPos8 += list10[2]
                         RegHrs8 += list10[3]
                         totOT12_8 += list10[4]
                         totOT40_8 += list10[5]
-                    if pos11 is not None and pos11 in pos8:
+                    if pos11 is not None and pos11 == pos8:
                         hrsPos8 += list11[2]
                         RegHrs8 += list11[3]
                         totOT12_8 += list11[4]
                         totOT40_8 += list11[5]
-                    if pos12 is not None and pos12 in pos8:
+                    if pos12 is not None and pos12 == pos8:
                         hrsPos8 += list12[2]
                         RegHrs8 += list12[3]
                         totOT12_8 += list12[4]
                         totOT40_8 += list12[5]
-                    if pos13 is not None and pos13 in pos8:
+                    if pos13 is not None and pos13 == pos8:
                         hrsPos8 += list13[2]
                         RegHrs8 += list13[3]
                         totOT12_8 += list13[4]
                         totOT40_8 += list13[5]
-                    if pos14 is not None and pos14 in pos8:
+                    if pos14 is not None and pos14 == pos8:
                         hrsPos8 += list14[2]
                         RegHrs8 += list14[3]
                         totOT12_8 += list14[4]
                         totOT40_8 += list14[5]
-                    if pos15 is not None and pos15 in pos8:
+                    if pos15 is not None and pos15 == pos8:
                         hrsPos8 += list15[2]
                         RegHrs8 += list15[3]
                         totOT12_8 += list15[4]
                         totOT40_8 += list15[5]
-                    if pos16 is not None and pos16 in pos8:
+                    if pos16 is not None and pos16 == pos8:
                         hrsPos8 += list16[2]
                         RegHrs8 += list16[3]
                         totOT12_8 += list16[4]
                         totOT40_8 += list16[5]
-                    if pos17 is not None and pos17 in pos8:
+                    if pos17 is not None and pos17 == pos8:
                         hrsPos8 += list17[2]
                         RegHrs8 += list17[3]
                         totOT12_8 += list17[4]
                         totOT40_8 += list17[5]
-                    if pos18 is not None and pos18 in pos8:
+                    if pos18 is not None and pos18 == pos8:
                         hrsPos8 += list18[2]
                         RegHrs8 += list18[3]
                         totOT12_8 += list18[4]
@@ -1178,54 +1176,54 @@ for i in range(695, 774+1):
                 if (    pos8 is not None and pos7 is not None and pos6 is not None and
                         pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
-                        pos9 not in pos1 and pos9 not in pos2 and pos9 not in pos3 and
-                        pos9 not in pos4 and pos9 not in pos5 and pos9 not in pos6 and
-                        pos9 not in pos7 and pos9 not in pos8):
+                        pos9 != pos1 and pos9 != pos2 and pos9 != pos3 and
+                        pos9 != pos4 and pos9 != pos5 and pos9 != pos6 and
+                        pos9 != pos7 and pos9 != pos8):
                     hrsPos9 += list9[2]
                     RegHrs9 += list9[3]
                     totOT12_9 += list9[4]
                     totOT40_9 += list9[5]
-                    if pos10 is not None and pos10 in pos9:
+                    if pos10 is not None and pos10 == pos9:
                         hrsPos9 += list10[2]
                         RegHrs9 += list10[3]
                         totOT12_9 += list10[4]
                         totOT40_9 += list10[5]
-                    if pos11 is not None and pos11 in pos9:
+                    if pos11 is not None and pos11 == pos9:
                         hrsPos9 += list11[2]
                         RegHrs9 += list11[3]
                         totOT12_9 += list11[4]
                         totOT40_9 += list11[5]
-                    if pos12 is not None and pos12 in pos9:
+                    if pos12 is not None and pos12 == pos9:
                         hrsPos9 += list12[2]
                         RegHrs9 += list12[3]
                         totOT12_9 += list12[4]
                         totOT40_9 += list12[5]
-                    if pos13 is not None and pos13 in pos9:
+                    if pos13 is not None and pos13 == pos9:
                         hrsPos9 += list13[2]
                         RegHrs9 += list13[3]
                         totOT12_9 += list13[4]
                         totOT40_9 += list13[5]
-                    if pos14 is not None and pos14 in pos9:
+                    if pos14 is not None and pos14 == pos9:
                         hrsPos9 += list14[2]
                         RegHrs9 += list14[3]
                         totOT12_9 += list14[4]
                         totOT40_9 += list14[5]
-                    if pos15 is not None and pos15 in pos9:
+                    if pos15 is not None and pos15 == pos9:
                         hrsPos9 += list15[2]
                         RegHrs9 += list15[3]
                         totOT12_9 += list15[4]
                         totOT40_9 += list15[5]
-                    if pos16 is not None and pos16 in pos9:
+                    if pos16 is not None and pos16 == pos9:
                         hrsPos9 += list16[2]
                         RegHrs9 += list16[3]
                         totOT12_9 += list16[4]
                         totOT40_9 += list16[5]
-                    if pos17 is not None and pos17 in pos9:
+                    if pos17 is not None and pos17 == pos9:
                         hrsPos9 += list17[2]
                         RegHrs9 += list17[3]
                         totOT12_9 += list17[4]
                         totOT40_9 += list17[5]
-                    if pos18 is not None and pos18 in pos9:
+                    if pos18 is not None and pos18 == pos9:
                         hrsPos9 += list18[2]
                         RegHrs9 += list18[3]
                         totOT12_9 += list18[4]
@@ -1240,49 +1238,49 @@ for i in range(695, 774+1):
                 if (    pos9 is not None and pos8 is not None and pos7 is not None and
                         pos6 is not None and pos5 is not None and pos4 is not None and
                         pos3 is not None and pos2 is not None and pos1 is not None and
-                        pos10 not in pos1 and pos10 not in pos2 and pos10 not in pos3 and
-                        pos10 not in pos4 and pos10 not in pos5 and pos10 not in pos6 and
-                        pos10 not in pos7 and pos10 not in pos8 and pos10 not in pos9):
+                        pos10 != pos1 and pos10 != pos2 and pos10 != pos3 and
+                        pos10 != pos4 and pos10 != pos5 and pos10 != pos6 and
+                        pos10 != pos7 and pos10 != pos8 and pos10 != pos9):
                     hrsPos10 += list10[2]
                     RegHrs10 += list10[3]
                     totOT12_10 += list10[4]
                     totOT40_10 += list10[5]
-                    if pos11 is not None and pos11 in pos10:
+                    if pos11 is not None and pos11 == pos10:
                         hrsPos10 += list11[2]
                         RegHrs10 += list11[3]
                         totOT12_10 += list11[4]
                         totOT40_10 += list11[5]
-                    if pos12 is not None and pos12 in pos10:
+                    if pos12 is not None and pos12 == pos10:
                         hrsPos10 += list12[2]
                         RegHrs10 += list12[3]
                         totOT12_10 += list12[4]
                         totOT40_10 += list12[5]
-                    if pos13 is not None and pos13 in pos10:
+                    if pos13 is not None and pos13 == pos10:
                         hrsPos10 += list13[2]
                         RegHrs10 += list13[3]
                         totOT12_10 += list13[4]
                         totOT40_10 += list13[5]
-                    if pos14 is not None and pos14 in pos10:
+                    if pos14 is not None and pos14 == pos10:
                         hrsPos10 += list14[2]
                         RegHrs10 += list14[3]
                         totOT12_10 += list14[4]
                         totOT40_10 += list14[5]
-                    if pos15 is not None and pos15 in pos10:
+                    if pos15 is not None and pos15 == pos10:
                         hrsPos10 += list15[2]
                         RegHrs10 += list15[3]
                         totOT12_10 += list15[4]
                         totOT40_10 += list15[5]
-                    if pos16 is not None and pos16 in pos10:
+                    if pos16 is not None and pos16 == pos10:
                         hrsPos10 += list16[2]
                         RegHrs10 += list16[3]
                         totOT12_10 += list16[4]
                         totOT40_10 += list16[5]
-                    if pos17 is not None and pos17 in pos10:
+                    if pos17 is not None and pos17 == pos10:
                         hrsPos10 += list17[2]
                         RegHrs10 += list17[3]
                         totOT12_10 += list17[4]
                         totOT40_10 += list17[5]
-                    if pos18 is not None and pos18 in pos10:
+                    if pos18 is not None and pos18 == pos10:
                         hrsPos10 += list18[2]
                         RegHrs10 += list18[3]
                         totOT12_10 += list18[4]
@@ -1298,45 +1296,45 @@ for i in range(695, 774+1):
                         pos7 is not None and pos6 is not None and pos5 is not None and
                         pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
-                        pos11 not in pos1 and pos11 not in pos2 and pos11 not in pos3 and
-                        pos11 not in pos4 and pos11 not in pos5 and pos11 not in pos6 and
-                        pos11 not in pos7 and pos11 not in pos8 and pos11 not in pos9 and
-                        pos11 not in pos10):
+                        pos11 != pos1 and pos11 != pos2 and pos11 != pos3 and
+                        pos11 != pos4 and pos11 != pos5 and pos11 != pos6 and
+                        pos11 != pos7 and pos11 != pos8 and pos11 != pos9 and
+                        pos11 != pos10):
                     hrsPos11 += list11[2]
                     RegHrs11 += list11[3]
                     totOT12_11 += list11[4]
                     totOT40_11 += list11[5]
-                    if pos12 is not None and pos12 in pos11:
+                    if pos12 is not None and pos12 == pos11:
                         hrsPos11 += list12[2]
                         RegHrs11 += list12[3]
                         totOT12_11 += list12[4]
                         totOT40_11 += list12[5]
-                    if pos13 is not None and pos13 in pos11:
+                    if pos13 is not None and pos13 == pos11:
                         hrsPos11 += list13[2]
                         RegHrs11 += list13[3]
                         totOT12_11 += list13[4]
                         totOT40_11 += list13[5]
-                    if pos14 is not None and pos14 in pos11:
+                    if pos14 is not None and pos14 == pos11:
                         hrsPos11 += list14[2]
                         RegHrs11 += list14[3]
                         totOT12_11 += list14[4]
                         totOT40_11 += list14[5]
-                    if pos15 is not None and pos15 in pos11:
+                    if pos15 is not None and pos15 == pos11:
                         hrsPos11 += list15[2]
                         RegHrs11 += list15[3]
                         totOT12_11 += list15[4]
                         totOT40_11 += list15[5]
-                    if pos16 is not None and pos16 in pos11:
+                    if pos16 is not None and pos16 == pos11:
                         hrsPos11 += list16[2]
                         RegHrs11 += list16[3]
                         totOT12_11 += list16[4]
                         totOT40_11 += list16[5]
-                    if pos17 is not None and pos17 in pos11:
+                    if pos17 is not None and pos17 == pos11:
                         hrsPos11 += list17[2]
                         RegHrs11 += list17[3]
                         totOT12_11 += list17[4]
                         totOT40_11 += list17[5]
-                    if pos18 is not None and pos18 in pos11:
+                    if pos18 is not None and pos18 == pos11:
                         hrsPos11 += list18[2]
                         RegHrs11 += list18[3]
                         totOT12_11 += list18[4]
@@ -1352,40 +1350,40 @@ for i in range(695, 774+1):
                         pos8 is not None and pos7 is not None and pos6 is not None and
                         pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
-                        pos12 not in pos1 and pos12 not in pos2 and pos12 not in pos3 and
-                        pos12 not in pos4 and pos12 not in pos5 and pos12 not in pos6 and
-                        pos12 not in pos7 and pos12 not in pos8 and pos12 not in pos9 and
-                        pos12 not in pos10 and pos12 not in pos11):
+                        pos12 != pos1 and pos12 != pos2 and pos12 != pos3 and
+                        pos12 != pos4 and pos12 != pos5 and pos12 != pos6 and
+                        pos12 != pos7 and pos12 != pos8 and pos12 != pos9 and
+                        pos12 != pos10 and pos12 != pos11):
                     hrsPos12 += list12[2]
                     RegHrs12 += list12[3]
                     totOT12_12 += list12[4]
                     totOT40_12 += list12[5]
-                    if pos13 is not None and pos13 in pos12:
+                    if pos13 is not None and pos13 == pos12:
                         hrsPos12 += list13[2]
                         RegHrs12 += list13[3]
                         totOT12_12 += list13[4]
                         totOT40_12 += list13[5]
-                    if pos14 is not None and pos14 in pos12:
+                    if pos14 is not None and pos14 == pos12:
                         hrsPos12 += list14[2]
                         RegHrs12 += list14[3]
                         totOT12_12 += list14[4]
                         totOT40_12 += list14[5]
-                    if pos15 is not None and pos15 in pos12:
+                    if pos15 is not None and pos15 == pos12:
                         hrsPos12 += list15[2]
                         RegHrs12 += list15[3]
                         totOT12_12 += list15[4]
                         totOT40_12 += list15[5]
-                    if pos16 is not None and pos16 in pos12:
+                    if pos16 is not None and pos16 == pos12:
                         hrsPos12 += list16[2]
                         RegHrs12 += list16[3]
                         totOT12_12 += list16[4]
                         totOT40_12 += list16[5]
-                    if pos17 is not None and pos17 in pos12:
+                    if pos17 is not None and pos17 == pos12:
                         hrsPos12 += list17[2]
                         RegHrs12 += list17[3]
                         totOT12_12 += list17[4]
                         totOT40_12 += list17[5]
-                    if pos18 is not None and pos18 in pos12:
+                    if pos18 is not None and pos18 == pos12:
                         hrsPos12 += list18[2]
                         RegHrs12 += list18[3]
                         totOT12_12 += list18[4]
@@ -1401,35 +1399,35 @@ for i in range(695, 774+1):
                         pos9 is not None and pos8 is not None and pos7 is not None and
                         pos6 is not None and pos5 is not None and pos4 is not None and
                         pos3 is not None and pos2 is not None and pos1 is not None and
-                        pos13 not in pos1 and pos13 not in pos2 and pos13 not in pos3 and
-                        pos13 not in pos4 and pos13 not in pos5 and pos13 not in pos6 and
-                        pos13 not in pos7 and pos13 not in pos8 and pos13 not in pos9 and
-                        pos13 not in pos10 and pos13 not in pos11 and pos13 not in pos12):
+                        pos13 != pos1 and pos13 != pos2 and pos13 != pos3 and
+                        pos13 != pos4 and pos13 != pos5 and pos13 != pos6 and
+                        pos13 != pos7 and pos13 != pos8 and pos13 != pos9 and
+                        pos13 != pos10 and pos13 != pos11 and pos13 != pos12):
                     hrsPos13 += list13[2]
                     RegHrs13 += list13[3]
                     totOT12_13 += list13[4]
                     totOT40_13 += list13[5]
-                    if pos14 is not None and pos14 in pos14:
+                    if pos14 is not None and pos14 == pos14:
                         hrsPos13 += list14[2]
                         RegHrs13 += list14[3]
                         totOT12_13 += list14[4]
                         totOT40_13 += list14[5]
-                    if pos15 is not None and pos15 in pos13:
+                    if pos15 is not None and pos15 == pos13:
                         hrsPos13 += list15[2]
                         RegHrs13 += list15[3]
                         totOT12_13 += list15[4]
                         totOT40_13 += list15[5]
-                    if pos16 is not None and pos16 in pos13:
+                    if pos16 is not None and pos16 == pos13:
                         hrsPos13 += list16[2]
                         RegHrs13 += list16[3]
                         totOT12_13 += list16[4]
                         totOT40_13 += list16[5]
-                    if pos17 is not None and pos17 in pos13:
+                    if pos17 is not None and pos17 == pos13:
                         hrsPos13 += list17[2]
                         RegHrs13 += list17[3]
                         totOT12_13 += list17[4]
                         totOT40_13 += list17[5]
-                    if pos18 is not None and pos18 in pos13:
+                    if pos18 is not None and pos18 == pos13:
                         hrsPos13 += list18[2]
                         RegHrs13 += list18[3]
                         totOT12_13 += list18[4]
@@ -1446,31 +1444,31 @@ for i in range(695, 774+1):
                         pos7 is not None and pos6 is not None and pos5 is not None and
                         pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
-                        pos14 not in pos1 and pos14 not in pos2 and pos14 not in pos3 and
-                        pos14 not in pos4 and pos14 not in pos5 and pos14 not in pos6 and
-                        pos14 not in pos7 and pos14 not in pos8 and pos14 not in pos9 and
-                        pos14 not in pos10 and pos14 not in pos11 and pos14 not in pos12 and
-                        pos14 not in pos13):
+                        pos14 != pos1 and pos14 != pos2 and pos14 != pos3 and
+                        pos14 != pos4 and pos14 != pos5 and pos14 != pos6 and
+                        pos14 != pos7 and pos14 != pos8 and pos14 != pos9 and
+                        pos14 != pos10 and pos14 != pos11 and pos14 != pos12 and
+                        pos14 != pos13):
                     hrsPos14 += list14[2]
                     RegHrs14 += list14[3]
                     totOT12_14 += list14[4]
                     totOT40_14 += list14[5]
-                    if pos15 is not None and pos15 in pos14:
+                    if pos15 is not None and pos15 == pos14:
                         hrsPos14 += list15[2]
                         RegHrs14 += list15[3]
                         totOT12_14 += list15[4]
                         totOT40_14 += list15[5]
-                    if pos16 is not None and pos16 in pos14:
+                    if pos16 is not None and pos16 == pos14:
                         hrsPos14 += list16[2]
                         RegHrs14 += list16[3]
                         totOT12_14 += list16[4]
                         totOT40_14 += list16[5]
-                    if pos17 is not None and pos17 in pos14:
+                    if pos17 is not None and pos17 == pos14:
                         hrsPos14 += list17[2]
                         RegHrs14 += list17[3]
                         totOT12_14 += list17[4]
                         totOT40_14 += list17[5]
-                    if pos18 is not None and pos18 in pos14:
+                    if pos18 is not None and pos18 == pos14:
                         hrsPos14 += list18[2]
                         RegHrs14 += list18[3]
                         totOT12_14 += list18[4]
@@ -1487,26 +1485,26 @@ for i in range(695, 774+1):
                         pos8 is not None and pos7 is not None and pos6 is not None and
                         pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
-                        pos15 not in pos1 and pos15 not in pos2 and pos15 not in pos3 and
-                        pos15 not in pos4 and pos15 not in pos5 and pos15 not in pos6 and
-                        pos15 not in pos7 and pos15 not in pos8 and pos15 not in pos9 and
-                        pos15 not in pos10 and pos15 not in pos11 and pos15 not in pos12 and
-                        pos15 not in pos13 and pos15 not in pos14):
+                        pos15 != pos1 and pos15 != pos2 and pos15 != pos3 and
+                        pos15 != pos4 and pos15 != pos5 and pos15 != pos6 and
+                        pos15 != pos7 and pos15 != pos8 and pos15 != pos9 and
+                        pos15 != pos10 and pos15 != pos11 and pos15 != pos12 and
+                        pos15 != pos13 and pos15 != pos14):
                     hrsPos15 += list15[2]
                     RegHrs15 += list15[3]
                     totOT12_15 += list15[4]
                     totOT40_15 += list15[5]
-                    if pos16 is not None and pos16 in pos15:
+                    if pos16 is not None and pos16 == pos15:
                         hrsPos15 += list16[2]
                         RegHrs15 += list16[3]
                         totOT12_15 += list16[4]
                         totOT40_15 += list16[5]
-                    if pos17 is not None and pos17 in pos15:
+                    if pos17 is not None and pos17 == pos15:
                         hrsPos15 += list17[2]
                         RegHrs15 += list17[3]
                         totOT12_15 += list17[4]
                         totOT40_15 += list17[5]
-                    if pos18 is not None and pos18 in pos15:
+                    if pos18 is not None and pos18 == pos15:
                         hrsPos15 += list18[2]
                         RegHrs15 += list18[3]
                         totOT12_15 += list18[4]
@@ -1523,21 +1521,21 @@ for i in range(695, 774+1):
                         pos9 is not None and pos8 is not None and pos7 is not None and
                         pos6 is not None and pos5 is not None and pos4 is not None and
                         pos3 is not None and pos2 is not None and pos1 is not None and
-                        pos16 not in pos1 and pos16 not in pos2 and pos16 not in pos3 and
-                        pos16 not in pos4 and pos16 not in pos5 and pos16 not in pos6 and
-                        pos16 not in pos7 and pos16 not in pos8 and pos16 not in pos9 and
-                        pos16 not in pos10 and pos16 not in pos11 and pos16 not in pos12 and
-                        pos16 not in pos13 and pos16 not in pos14 and pos16 not in pos15):
+                        pos16 != pos1 and pos16 != pos2 and pos16 != pos3 and
+                        pos16 != pos4 and pos16 != pos5 and pos16 != pos6 and
+                        pos16 != pos7 and pos16 != pos8 and pos16 != pos9 and
+                        pos16 != pos10 and pos16 != pos11 and pos16 != pos12 and
+                        pos16 != pos13 and pos16 != pos14 and pos16 != pos15):
                     hrsPos16 += list16[2]
                     RegHrs16 += list16[3]
                     totOT12_16 += list16[4]
                     totOT40_16 += list16[5]
-                    if pos17 is not None and pos17 in pos16:
+                    if pos17 is not None and pos17 == pos16:
                         hrsPos16 += list17[2]
                         RegHrs16 += list17[3]
                         totOT12_16 += list17[4]
                         totOT40_16 += list17[5]
-                    if pos18 is not None and pos18 in pos16:
+                    if pos18 is not None and pos18 == pos16:
                         hrsPos16 += list18[2]
                         RegHrs16 += list18[3]
                         totOT12_16 += list18[4]
@@ -1555,17 +1553,17 @@ for i in range(695, 774+1):
                         pos7 is not None and pos6 is not None and pos5 is not None and
                         pos4 is not None and pos3 is not None and pos2 is not None and
                         pos1 is not None and
-                        pos17 not in pos1 and pos17 not in pos2 and pos17 not in pos3 and
-                        pos17 not in pos4 and pos17 not in pos5 and pos17 not in pos6 and
-                        pos17 not in pos7 and pos17 not in pos8 and pos17 not in pos9 and
-                        pos17 not in pos10 and pos17 not in pos11 and pos17 not in pos12 and
-                        pos17 not in pos13 and pos17 not in pos14 and pos17 not in pos15 and
-                        pos17 not in pos16):
+                        pos17 != pos1 and pos17 != pos2 and pos17 != pos3 and
+                        pos17 != pos4 and pos17 != pos5 and pos17 != pos6 and
+                        pos17 != pos7 and pos17 != pos8 and pos17 != pos9 and
+                        pos17 != pos10 and pos17 != pos11 and pos17 != pos12 and
+                        pos17 != pos13 and pos17 != pos14 and pos17 != pos15 and
+                        pos17 != pos16):
                     hrsPos17 += list17[2]
                     RegHrs17 += list17[3]
                     totOT12_17 += list17[4]
                     totOT40_17 += list17[5]
-                    if pos18 is not None and pos18 in pos17:
+                    if pos18 is not None and pos18 == pos17:
                         hrsPos17 += list18[2]
                         RegHrs17 += list18[3]
                         totOT12_17 += list18[4]
@@ -1583,12 +1581,12 @@ for i in range(695, 774+1):
                         pos8 is not None and pos7 is not None and pos6 is not None and
                         pos5 is not None and pos4 is not None and pos3 is not None and
                         pos2 is not None and pos1 is not None and
-                        pos18 not in pos1 and pos18 not in pos2 and pos18 not in pos3 and
-                        pos18 not in pos4 and pos18 not in pos5 and pos18 not in pos6 and
-                        pos18 not in pos7 and pos18 not in pos8 and pos18 not in pos9 and
-                        pos18 not in pos10 and pos18 not in pos11 and pos18 not in pos12 and
-                        pos18 not in pos13 and pos18 not in pos14 and pos18 not in pos15 and
-                        pos18 not in pos16 and pos18 not in pos17):
+                        pos18 != pos1 and pos18 != pos2 and pos18 != pos3 and
+                        pos18 != pos4 and pos18 != pos5 and pos18 != pos6 and
+                        pos18 != pos7 and pos18 != pos8 and pos18 != pos9 and
+                        pos18 != pos10 and pos18 != pos11 and pos18 != pos12 and
+                        pos18 != pos13 and pos18 != pos14 and pos18 != pos15 and
+                        pos18 != pos16 and pos18 != pos17):
                     hrsPos18 += list18[2]
                     RegHrs18 += list18[3]
                     totOT12_18 += list18[4]
@@ -1914,58 +1912,58 @@ for i in range(695, 774+1):
                 if (listWeek1[j][2] != 0. or listWeek1[j][5] != 0.):
                     xreg = listWeek1[j][3]
                     xOT  = listWeek1[j][4] + listWeek1[j][5]
-                    if listWeek2[0][1] is not None and listWeek2[0][1] in listWeek1[j][1]:
+                    if listWeek2[0][1] is not None and listWeek2[0][1] == listWeek1[j][1]:
                         xreg += listWeek2[0][3]
                         xOT  += listWeek2[0][4] + listWeek2[0][5]
-                    if listWeek2[1][1] is not None and listWeek2[1][1] in listWeek1[j][1]:
+                    if listWeek2[1][1] is not None and listWeek2[1][1] == listWeek1[j][1]:
                         xreg += listWeek2[1][3]
                         xOT  += listWeek2[1][4] + listWeek2[1][5]
-                    if listWeek2[2][1] is not None and listWeek2[2][1] in listWeek1[j][1]:
+                    if listWeek2[2][1] is not None and listWeek2[2][1] == listWeek1[j][1]:
                         xreg += listWeek2[2][3]
                         xOT  += listWeek2[2][4] + listWeek2[2][5]
-                    if listWeek2[3][1] is not None and listWeek2[3][1] in listWeek1[j][1]:
+                    if listWeek2[3][1] is not None and listWeek2[3][1] == listWeek1[j][1]:
                         xreg += listWeek2[3][3]
                         xOT  += listWeek2[3][4] + listWeek2[3][5]
-                    if listWeek2[4][1] is not None and listWeek2[4][1] in listWeek1[j][1]:
+                    if listWeek2[4][1] is not None and listWeek2[4][1] == listWeek1[j][1]:
                         xreg += listWeek2[4][3]
                         xOT  += listWeek2[4][4] + listWeek2[4][5]
-                    if listWeek2[5][1] is not None and listWeek2[5][1] in listWeek1[j][1]:
+                    if listWeek2[5][1] is not None and listWeek2[5][1] == listWeek1[j][1]:
                         xreg += listWeek2[5][3]
                         xOT  += listWeek2[5][4] + listWeek2[5][5]
-                    if listWeek2[6][1] is not None and listWeek2[6][1] in listWeek1[j][1]:
+                    if listWeek2[6][1] is not None and listWeek2[6][1] == listWeek1[j][1]:
                         xreg += listWeek2[6][3]
                         xOT  += listWeek2[6][4] + listWeek2[6][5]
-                    if listWeek2[7][1] is not None and listWeek2[7][1] in listWeek1[j][1]:
+                    if listWeek2[7][1] is not None and listWeek2[7][1] == listWeek1[j][1]:
                         xreg += listWeek2[7][3]
                         xOT  += listWeek2[7][4] + listWeek2[7][5]
-                    if listWeek2[8][1] is not None and listWeek2[8][1] in listWeek1[j][1]:
+                    if listWeek2[8][1] is not None and listWeek2[8][1] == listWeek1[j][1]:
                         xreg += listWeek2[8][3]
                         xOT  += listWeek2[8][4] + listWeek2[8][5]
-                    if listWeek2[9][1] is not None and listWeek2[9][1] in listWeek1[j][1]:
+                    if listWeek2[9][1] is not None and listWeek2[9][1] == listWeek1[j][1]:
                         xreg += listWeek2[9][3]
                         xOT  += listWeek2[9][4] + listWeek2[9][5]
-                    if listWeek2[10][1] is not None and listWeek2[10][1] in listWeek1[j][1]:
+                    if listWeek2[10][1] is not None and listWeek2[10][1] == listWeek1[j][1]:
                         xreg += listWeek2[10][3]
                         xOT  += listWeek2[10][4] + listWeek2[10][5]
-                    if listWeek2[11][1] is not None and listWeek2[11][1] in listWeek1[j][1]:
+                    if listWeek2[11][1] is not None and listWeek2[11][1] == listWeek1[j][1]:
                         xreg += listWeek2[11][3]
                         xOT  += listWeek2[11][4] + listWeek2[11][5]
-                    if listWeek2[12][1] is not None and listWeek2[12][1] in listWeek1[j][1]:
+                    if listWeek2[12][1] is not None and listWeek2[12][1] == listWeek1[j][1]:
                         xreg += listWeek2[12][3]
                         xOT  += listWeek2[12][4] + listWeek2[12][5]
-                    if listWeek2[13][1] is not None and listWeek2[13][1] in listWeek1[j][1]:
+                    if listWeek2[13][1] is not None and listWeek2[13][1] == listWeek1[j][1]:
                         xreg += listWeek2[13][3]
                         xOT  += listWeek2[13][4] + listWeek2[13][5]
-                    if listWeek2[14][1] is not None and listWeek2[14][1] in listWeek1[j][1]:
+                    if listWeek2[14][1] is not None and listWeek2[14][1] == listWeek1[j][1]:
                         xreg += listWeek2[14][3]
                         xOT  += listWeek2[14][4] + listWeek2[14][5]
-                    if listWeek2[15][1] is not None and listWeek2[15][1] in listWeek1[j][1]:
+                    if listWeek2[15][1] is not None and listWeek2[15][1] == listWeek1[j][1]:
                         xreg += listWeek2[15][3]
                         xOT  += listWeek2[15][4] + listWeek2[15][5]
-                    if listWeek2[16][1] is not None and listWeek2[16][1] in listWeek1[j][1]:
+                    if listWeek2[16][1] is not None and listWeek2[16][1] == listWeek1[j][1]:
                         xreg += listWeek2[16][3]
                         xOT  += listWeek2[16][4] + listWeek2[16][5]
-                    if listWeek2[17][1] is not None and listWeek2[17][1] in listWeek1[j][1]:
+                    if listWeek2[17][1] is not None and listWeek2[17][1] == listWeek1[j][1]:
                         xreg += listWeek2[17][3]
                         xOT  += listWeek2[17][4] + listWeek2[17][5]
                     c0 = newsheet1.cell(row = printCnt, column = 1)
@@ -1987,24 +1985,24 @@ for i in range(695, 774+1):
         for j in range(0, 15):
             if listWeek2[j][1] is not None:
                 if (listWeek2[j][2] != 0. or listWeek2[j][5] != 0.):
-                    if   (listWeek1[0][1]  is not None and listWeek2[j][1].__contains__(listWeek1[0][1]) ):  continue
-                    elif (listWeek1[1][1]  is not None and listWeek2[j][1].__contains__(listWeek1[1][1]) ):  continue
-                    elif (listWeek1[2][1]  is not None and listWeek2[j][1].__contains__(listWeek1[2][1]) ):  continue
-                    elif (listWeek1[3][1]  is not None and listWeek2[j][1].__contains__(listWeek1[3][1]) ):  continue
-                    elif (listWeek1[4][1]  is not None and listWeek2[j][1].__contains__(listWeek1[4][1]) ):  continue
-                    elif (listWeek1[5][1]  is not None and listWeek2[j][1].__contains__(listWeek1[5][1]) ):  continue
-                    elif (listWeek1[6][1]  is not None and listWeek2[j][1].__contains__(listWeek1[6][1]) ):  continue
-                    elif (listWeek1[7][1]  is not None and listWeek2[j][1].__contains__(listWeek1[7][1]) ):  continue
-                    elif (listWeek1[8][1]  is not None and listWeek2[j][1].__contains__(listWeek1[8][1]) ):  continue
-                    elif (listWeek1[9][1]  is not None and listWeek2[j][1].__contains__(listWeek1[9][1]) ):  continue
-                    elif (listWeek1[10][1] is not None and listWeek2[j][1].__contains__(listWeek1[10][1]) ): continue
-                    elif (listWeek1[11][1] is not None and listWeek2[j][1].__contains__(listWeek1[11][1]) ): continue
-                    elif (listWeek1[12][1] is not None and listWeek2[j][1].__contains__(listWeek1[12][1]) ): continue
-                    elif (listWeek1[13][1] is not None and listWeek2[j][1].__contains__(listWeek1[13][1]) ): continue
-                    elif (listWeek1[14][1] is not None and listWeek2[j][1].__contains__(listWeek1[14][1]) ): continue
-                    elif (listWeek1[15][1] is not None and listWeek2[j][1].__contains__(listWeek1[15][1]) ): continue
-                    elif (listWeek1[16][1] is not None and listWeek2[j][1].__contains__(listWeek1[16][1]) ): continue
-                    elif (listWeek1[17][1] is not None and listWeek2[j][1].__contains__(listWeek1[17][1]) ): continue
+                    if   (listWeek1[0][1]  is not None and listWeek2[j][1] == listWeek1[0][1]  ):  continue
+                    elif (listWeek1[1][1]  is not None and listWeek2[j][1] == listWeek1[1][1]  ):  continue
+                    elif (listWeek1[2][1]  is not None and listWeek2[j][1] == listWeek1[2][1]  ):  continue
+                    elif (listWeek1[3][1]  is not None and listWeek2[j][1] == listWeek1[3][1]  ):  continue
+                    elif (listWeek1[4][1]  is not None and listWeek2[j][1] == listWeek1[4][1]  ):  continue
+                    elif (listWeek1[5][1]  is not None and listWeek2[j][1] == listWeek1[5][1]  ):  continue
+                    elif (listWeek1[6][1]  is not None and listWeek2[j][1] == listWeek1[6][1]  ):  continue
+                    elif (listWeek1[7][1]  is not None and listWeek2[j][1] == listWeek1[7][1]  ):  continue
+                    elif (listWeek1[8][1]  is not None and listWeek2[j][1] == listWeek1[8][1]  ):  continue
+                    elif (listWeek1[9][1]  is not None and listWeek2[j][1] == listWeek1[9][1]  ):  continue
+                    elif (listWeek1[10][1] is not None and listWeek2[j][1] == listWeek1[10][1] ): continue
+                    elif (listWeek1[11][1] is not None and listWeek2[j][1] == listWeek1[11][1] ): continue
+                    elif (listWeek1[12][1] is not None and listWeek2[j][1] == listWeek1[12][1] ): continue
+                    elif (listWeek1[13][1] is not None and listWeek2[j][1] == listWeek1[13][1] ): continue
+                    elif (listWeek1[14][1] is not None and listWeek2[j][1] == listWeek1[14][1] ): continue
+                    elif (listWeek1[15][1] is not None and listWeek2[j][1] == listWeek1[15][1] ): continue
+                    elif (listWeek1[16][1] is not None and listWeek2[j][1] == listWeek1[16][1] ): continue
+                    elif (listWeek1[17][1] is not None and listWeek2[j][1] == listWeek1[17][1] ): continue
                     else:
                         xreg = listWeek2[j][3]
                         xOT  = listWeek2[j][4] + listWeek2[j][5]
