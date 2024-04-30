@@ -13,7 +13,7 @@ flagDebug = False
 # Input file
 workbook = load_workbook('output/OT_calculation_details.xlsx')
 sheet = workbook.active
-for i in range(1, 10000):
+for i in range(1, 3000):
     val0 = sheet.cell(row = i, column = 1).value
     val1 = sheet.cell(row = i + 1, column = 1).value
     val2 = sheet.cell(row = i + 2, column = 1).value

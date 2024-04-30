@@ -22,7 +22,10 @@ daterange = sheet['C']
 date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
 import datetime
 week1start = min(date_list)
+print( week1start)
+print(datetime.timedelta(days = 6))
 week1end = week1start + datetime.timedelta(days = 6)
+print(week1end)
 week2start = week1end + datetime.timedelta(days = 1)
 week2end = max(date_list)
 
@@ -40,7 +43,8 @@ timeGap = 8 # gap allowed in hours for OT+12
 # Calculation for crosschecks
 GrandHrs = 0
 GrandNames = 0
-for i in range(2, Nrow + 1):
+### for i in range(2, Nrow + 1):
+for i in range(695, 774+1):
     valHrs = sheet.cell(row = i, column = colHrs)
     GrandHrs += valHrs.value
     valName = sheet.cell(row = i, column = colName).value
@@ -71,7 +75,8 @@ warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOM
 flagMultShiftTot = False
 
 # Main event loop
-for i in range(2, Nrow + 1):
+### for i in range(2, Nrow + 1):
+for i in range(695, 774+1):
     valName = sheet.cell(row = i, column = colName).value
     valNameNxt = sheet.cell(row = i + 1, column = colName).value
     if valNameNxt is not None and valNameNxt.__contains__(valName):
@@ -127,6 +132,7 @@ for i in range(2, Nrow + 1):
             list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
+
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
                 valPos     = sheet.cell(row = j, column = colPos).value
                 valDate    = sheet.cell(row = j, column = colDate).value
