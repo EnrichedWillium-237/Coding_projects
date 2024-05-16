@@ -21,7 +21,7 @@ if os.path.isfile('input.xlsx') is False: print("\n\"File input.xlsx not found!\
 workbook = load_workbook('input.xlsx')
 
 # create output directory if one does not exist
-newpath = "./OT_calculation"
+newpath = "./output"
 if not os.path.exists(newpath):
     os.makedirs(newpath)
 
@@ -32,7 +32,7 @@ df_sorted = df.sort_values(
     ascending = [True, True, True]
 )
 df_sorted['Employee Name'] = df_sorted['Employee First Name'] + ' ' + df_sorted['Employee Last Name']
-df_sorted.to_excel('OT_calculation/input_sorted.xlsx', header = True, index = False)
+df_sorted.to_excel('output/input_sorted.xlsx', header = True, index = False)
 
 sheet = workbook.active
 label_0 = sheet.cell(row = 1, column = 1).value
@@ -56,7 +56,7 @@ if ("Employee Number" not in label_0 or "Position Name" not in label_1 or "Date"
     print("\n\n")
     sys.exit(0)
 
-workbook = load_workbook('OT_calculation/input_sorted.xlsx')
+workbook = load_workbook('output/input_sorted.xlsx')
 sheet = workbook.active
 for c in sheet["J"]:
     new_cell = c.offset(column = -3)
@@ -74,7 +74,7 @@ sheet.column_dimensions["E"].width = 12
 sheet.column_dimensions["F"].width = 10
 sheet.column_dimensions["G"].width = 20
 sheet.column_dimensions["H"].width = 20
-output_name = "OT_calculation/input_sorted.xlsx"
+output_name = "output/input_sorted.xlsx"
 workbook.save(output_name)
 
 print("\n\n\n")

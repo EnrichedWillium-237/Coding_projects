@@ -13,7 +13,7 @@ flagDebug1 = False
 flagDebug2 = False
 
 # Input file
-workbook = load_workbook('OT_calculation/input_sorted.xlsx')
+workbook = load_workbook('output/input_sorted.xlsx')
 
 # Calculate week ranges
 sheet = workbook.active
@@ -22,7 +22,10 @@ daterange = sheet['C']
 date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
 import datetime
 week1start = min(date_list)
+print( week1start)
+print(datetime.timedelta(days = 6))
 week1end = week1start + datetime.timedelta(days = 6)
+print(week1end)
 week2start = week1end + datetime.timedelta(days = 1)
 week2end = max(date_list)
 
@@ -127,6 +130,7 @@ for i in range(2, Nrow + 1):
             list16 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list17 = [None, None, 0, 0, 0, 0, 0, None, 0]
             list18 = [None, None, 0, 0, 0, 0, 0, None, 0]
+
             for j in range(rowmid - 1, rowmin - 1, -1): # minus one offset in loop because we're counting backwards
                 valPos     = sheet.cell(row = j, column = colPos).value
                 valDate    = sheet.cell(row = j, column = colDate).value
@@ -2075,7 +2079,7 @@ newsheet1.column_dimensions["B"].width = 8
 newsheet1.column_dimensions["C"].width = 8
 newsheet1.column_dimensions["D"].width = 8
 
-output_name = "OT_calculation/OT_calculation_details.xlsx"
+output_name = "output/OT_calculation_details.xlsx"
 newbook1.save(output_name)
 print("\n")
 print("====================================================")
