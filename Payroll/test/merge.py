@@ -194,7 +194,7 @@ for i in range(2, Nrow + 1):
         continue
     totHrs = totHrs + valHrs
     totPay = totPay + valPay
-print("\n\n -Final totals- ")
-print(" Hours worked: ", totHrs)
-print(" Gross pay: ", '${:,.2f}'.format(totPay), "\n\n")
-print("--Step 3 complete. OT calculation finished.--\n\n")
+print("\n\nFinal totals: ")
+print("  Hours worked:  ", totHrs)
+print("  Gross pay:  ", '${:,.2f}'.format(totPay), "\n\n")
+print("--Step 3 complete. OT calculation finished.--\n\n\n")

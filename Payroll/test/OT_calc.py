@@ -22,10 +22,7 @@ daterange = sheet['C']
 date_list = [daterange[x].value for x in range(2, len(daterange) - 10)]
 import datetime
 week1start = min(date_list)
-print( week1start)
-print(datetime.timedelta(days = 6))
 week1end = week1start + datetime.timedelta(days = 6)
-print(week1end)
 week2start = week1end + datetime.timedelta(days = 1)
 week2end = max(date_list)
 
@@ -60,9 +57,9 @@ print("--- Week 1:", week1start.strftime("%Y-%m-%d"), "to", week1end.strftime("%
 print("--- Week 2:", week2start.strftime("%Y-%m-%d"), "to", week2end.strftime("%Y-%m-%d"), "---")
 print("\n")
 print("Global statistics:")
-print("  Total number of employees:", GrandNames)
-print("  Total number of shifts:   ", Nrow - 1)
-print("  Total hours for all positions:  ", f'{GrandHrs:.9}')
+print("  Total number of employees: ", GrandNames)
+print("  Total number of shifts: ", Nrow - 1)
+print("  Total hours for all positions: ", f'{GrandHrs:.9}')
 
 # Setup output file and spreadsheet
 newbook1 = openpyxl.Workbook()
@@ -71,6 +68,7 @@ printCnt = 8 # Needed for printing out hours
 printCntInit = 8
 rowCnt = 1
 warnShift = "\nEMPLOYEE HAS WORKED TOO MANY SHIFTS IN ONE WEEK!!!  GIVE THEM SOME TIME OFF!!!\n"
+warn1mgr = False
 flagMultShiftTot = False
 
 # Main event loop
@@ -186,6 +184,7 @@ for i in range(2, Nrow + 1):
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if regHrs < 0: regHrs = 0
                 if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if valName.__contains__("EXPRESS 1MGR"): warn1mgr = True
                 if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
@@ -261,6 +260,7 @@ for i in range(2, Nrow + 1):
                     regHrs = valHrs
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if valName.__contains__("EXPRESS 1MGR"): warn1mgr = True
                 if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
                 elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, otHrs, 0, valRate, valENum, 0]
@@ -349,6 +349,7 @@ for i in range(2, Nrow + 1):
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if z > 0 and z < 0.01: z = 0
                 if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if valName.__contains__("EXPRESS 1MGR"): warn1mgr = True
                 if j == rowmid - 1:   list1   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmid - 2: list2   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmid - 3: list3   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
@@ -437,6 +438,7 @@ for i in range(2, Nrow + 1):
                 if regHrs > 0 and regHrs < 0.01: regHrs = 0
                 if z > 0 and z < 0.01: z = 0
                 if otHrs > 0 and otHrs < 0.01: otHrs = 0
+                if valName.__contains__("EXPRESS 1MGR"): warn1mgr = True
                 if j == rowmax:       list1   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmax - 1: list2   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
                 elif j == rowmax - 2: list3   = [valName, valPos, valHrs, regHrs, z, otHrs, valRate, valENum, 0]
@@ -2082,9 +2084,10 @@ newsheet1.column_dimensions["D"].width = 8
 output_name = "output/OT_calculation_details.xlsx"
 newbook1.save(output_name)
 print("\n")
-print("====================================================")
-print("---WARNING! Sum up EXPRESS 1MGR hours by hand!---")
-print("====================================================\n")
+if warn1mgr is True:
+    print("====================================================")
+    print("---WARNING! Sum up EXPRESS 1MGR hours by hand!---")
+    print("====================================================\n")
 if flagMultShiftTot is True: print("====================================================")
 if flagMultShiftTot is True: print("---WARNING! Hand-check days with multiple shifts!---")
 if flagMultShiftTot is True: print("====================================================\n")
