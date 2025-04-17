@@ -70,7 +70,6 @@ for i in range(8, Nrow + 1):
                     elif pos.__contains__("Admin Work"): cat = "Admin"
                     elif pos.__contains__("ARMED") or pos.__contains__("Armed"): cat = "Armed"
                     elif pos.__contains__("Sick"): cat = "Sick"
-                    elif pos.__contains__("Covid") or pos.__contains__("COVID"): cat = "Covid"
                     if reg != 0 and ot == 0:
                         c0 = newsheet1.cell(row = i + 1 + cnt, column = 6)
                         c0.value = reg
@@ -181,8 +180,21 @@ for i in range(8, Nrow + 1):
     if c0 is None:
         newsheet.delete_rows(i)
 
-output_name = "output/OT_calculation_final.xlsx"
+output_name = "output/payroll_with_OT.xlsx"
 newbook1.save(output_name)
 print("\nSpreadsheet informarion merged.\n")
 print("File output written to", output_name, "\n")
+# Sum column totals for comparison
+totHrs = 0
+totPay = 0
+for i in range(2, Nrow + 1):
+    valHrs = newsheet1.cell(row = i, column = 6).value
+    valPay = newsheet1.cell(row = i, column = 8).value
+    if valHrs is None:
+        continue
+    totHrs = totHrs + valHrs
+    totPay = totPay + valPay
+print("\n\n -Final totals- ")
+print(" Hours worked: ", totHrs)
+print(" Gross pay: ", '${:,.2f}'.format(totPay), "\n\n")
 print("--Step 3 complete. OT calculation finished.--\n\n")
